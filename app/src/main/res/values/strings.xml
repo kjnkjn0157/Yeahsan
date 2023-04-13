@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Yeahsan</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="appbar_scrolling_view_behavior" translatable="false">com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior</string>
+    <string name="title_my_quest">나의 퀘스트</string>
+    <string name="outside_mission">(실외)내포보부상촌</string>
+    <string name="inside_mission">(실내)예산보부상박물관</string>
+
+</resources>
