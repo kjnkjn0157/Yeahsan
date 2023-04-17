@@ -148,7 +148,6 @@ class QrScannerActivity : AppCompatActivity() {
                     finish()
                 } else {
                     checkPermission() // 권한 없는 채로 다시 qr activity에 진입할 때 권한 묻기
-                    Toast.makeText(this@QrScannerActivity, "권한 거부", Toast.LENGTH_SHORT).show()
                     finish()
                 }
             }
