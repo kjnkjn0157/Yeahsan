@@ -3,6 +3,7 @@ plugins {
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-parcelize'
     id 'kotlin-kapt'
+    id 'com.google.gms.google-services'
 }
 
 android {
@@ -89,4 +90,8 @@ dependencies {
 
     // qr scanner
     implementation 'com.dlazaro66.qrcodereaderview:qrcodereaderview:2.0.3'
+
+    //firebase
+    implementation 'com.google.firebase:firebase-messaging:23.0.8'
+    implementation 'com.google.firebase:firebase-analytics:21.1.1'
 }

@@ -12,6 +12,4 @@ object AppConstants {
 
     internal const val STRING_TYPE = "type"
 
-
-
 }

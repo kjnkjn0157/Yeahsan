@@ -1,11 +1,14 @@
 package com.example.yeahsan.ui
 
+import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.webkit.WebViewClient
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout.LOCK_MODE_LOCKED_CLOSED
 import com.example.yeahsan.AppConstants
@@ -18,10 +21,13 @@ import com.example.yeahsan.ui.questionprogress.QuestionActivity
 import com.example.yeahsan.ui.vr.VrActivity
 import com.example.yeahsan.util.OnSingleClickListener
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.gun0912.tedpermission.PermissionListener
+import com.gun0912.tedpermission.normal.TedPermission
+
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var binding : ActivityMainBinding
+    private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,13 +42,15 @@ class MainActivity : AppCompatActivity() {
 
         setMoveActivity()
 
+        checkPermission()
+
     }
 
     private fun initView() {
 
         binding.drawerLayout.setDrawerLockMode(LOCK_MODE_LOCKED_CLOSED)
 
-        binding.mainContent.btnNav.setOnClickListener(object : OnSingleClickListener(){
+        binding.mainContent.btnNav.setOnClickListener(object : OnSingleClickListener() {
             override fun onSingleClick(v: View?) {
                 if (binding.drawerLayout.isDrawerOpen(GravityCompat.END)) {
                     binding.drawerLayout.closeDrawer(GravityCompat.END)
@@ -52,6 +60,8 @@ class MainActivity : AppCompatActivity() {
             }
 
         })
+
+        setNavMenuEvent()
     }
 
     @SuppressLint("SetJavaScriptEnabled")
@@ -66,7 +76,7 @@ class MainActivity : AppCompatActivity() {
 
         binding.mainContent.mainBottomSheet.bottomWebView.loadUrl("https://www.naver.com/")
 
-        bottomBehavior.addBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback(){
+        bottomBehavior.addBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
             override fun onStateChanged(bottomSheet: View, newState: Int) {
                 if (newState == BottomSheetBehavior.STATE_EXPANDED) {
 
@@ -80,12 +90,14 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
-        binding.mainContent.mainBottomSheet.bottomSheet.setOnClickListener(object : OnSingleClickListener(){
+        binding.mainContent.mainBottomSheet.bottomSheet.setOnClickListener(object :
+            OnSingleClickListener() {
             override fun onSingleClick(v: View?) {
-                bottomBehavior.state = if (bottomBehavior.state == BottomSheetBehavior.STATE_COLLAPSED){
-                    BottomSheetBehavior.STATE_EXPANDED
-                } else
-                    BottomSheetBehavior.STATE_COLLAPSED
+                bottomBehavior.state =
+                    if (bottomBehavior.state == BottomSheetBehavior.STATE_COLLAPSED) {
+                        BottomSheetBehavior.STATE_EXPANDED
+                    } else
+                        BottomSheetBehavior.STATE_COLLAPSED
             }
         })
     }
@@ -104,8 +116,8 @@ class MainActivity : AppCompatActivity() {
 
     private val mainBtnClickEvent = object : OnSingleClickListener() {
         override fun onSingleClick(v: View?) {
-            var intent : Intent? = null
-            when(v?.id) {
+            var intent: Intent? = null
+            when (v?.id) {
                 R.id.btn_ground_bottle -> {
                     intent = Intent(this@MainActivity, ArtifactActivity::class.java)
                 }
@@ -117,11 +129,11 @@ class MainActivity : AppCompatActivity() {
                 }
                 R.id.btn_main_diary -> {
                     intent = Intent(this@MainActivity, QuestMapActivity::class.java)
-                    intent.putExtra(AppConstants.STRING_TYPE ,AppConstants.IN_DOOR_TYPE)
+                    intent.putExtra(AppConstants.STRING_TYPE, AppConstants.IN_DOOR_TYPE)
                 }
                 R.id.btn_main_grab_bag -> {
                     intent = Intent(this@MainActivity, QuestMapActivity::class.java)
-                    intent.putExtra(AppConstants.STRING_TYPE ,AppConstants.OUT_DOOR_TYPE)
+                    intent.putExtra(AppConstants.STRING_TYPE, AppConstants.OUT_DOOR_TYPE)
                 }
                 R.id.btn_main_qr -> {
                     intent = Intent(this@MainActivity, QrScannerActivity::class.java)
@@ -130,4 +142,40 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
     }
+
+    private fun setNavMenuEvent() {
+
+        var intent: Intent? = null
+
+        binding.navigationMenu.btnSetting.setOnClickListener(object : OnSingleClickListener() {
+            override fun onSingleClick(v: View?) {
+                intent = Intent(this@MainActivity, SettingActivity::class.java)
+                startActivity(intent)
+            }
+        })
+
+    }
+
+    private fun checkPermission() {
+
+        TedPermission.create()
+            .setPermissionListener(permissionListener)
+            .setPermissions(
+                Manifest.permission.ACCESS_COARSE_LOCATION,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            )
+            .check()
+    }
+
+    private val permissionListener: PermissionListener = object : PermissionListener {
+        override fun onPermissionGranted() {
+            Log.e("permission","::: permissionGranted")
+        }
+
+        override fun onPermissionDenied(deniedPermissions: List<String>) {
+            Log.e("permission","::: permissionDenied")
+            Toast.makeText(this@MainActivity,"서비스가 제한될 수 있습니다.", Toast.LENGTH_SHORT).show()
+        }
+    }
+
 }
