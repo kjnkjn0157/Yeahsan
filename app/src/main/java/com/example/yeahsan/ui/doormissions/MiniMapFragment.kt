@@ -74,7 +74,6 @@ class MiniMapFragment : Fragment() {
         activity?.let {
             //api data
             AppDataManager(it.application).getSampleData { list ->
-
                 if(type == AppConstants.OUT_DOOR_TYPE) {
                     markerList = list?.body?.outdoorList
                     pathList = list?.body?.outdoorPathList
@@ -82,16 +81,12 @@ class MiniMapFragment : Fragment() {
                 } else if (type == AppConstants.IN_DOOR_TYPE) {
                     markerList = list?.body?.indoorList
                     pathList = list?.body?.indoorPathList
-
                 }
             }
-            //pref data
-            val missionClearList = AppDataManager(it.application).getMissionClearItems()
-            Log.e("TAG","minimap _mission clear list ::: $missionClearList")
         }
-
         initView()
     }
+
 
     private fun initView() {
 
@@ -113,17 +108,55 @@ class MiniMapFragment : Fragment() {
 
     private fun setMarker(_mapView: MapView, markerList: ArrayList<DoorListVO>) {
 
-        for (i in markerList.indices) {
-            val marker = MapMarker(context)
-            marker.isClickable =true
-            marker.tag = markerList[i].toString()
-            marker.isTitleVisible = true
-            marker.setPoint(markerList[i].mapX.toFloat(), markerList[i].mapY.toFloat(), false)
-            marker.setMarker(R.mipmap.ico_question_pre)
-            _mapView.addMarker(marker)
+        activity?.let {
+            val missionClearList = AppDataManager(it.application).getMissionClearItems()
 
+            missionClearList?.let {
+                //클리어한 미션이 하나라도 있을 경우
+                if (missionClearList.size > 0) {
+                    checkMissionProgress(it ,markerList ,_mapView)
+                }
+                // 클리어한 미션이 하나도 없을 경우
+                else {
+                    for (i in markerList.indices) {
+                        val marker = MapMarker(context)
+                        marker.isClickable =true
+                        marker.tag = markerList[i].toString()
+                        marker.isTitleVisible = true
+                        marker.setPoint(markerList[i].mapX.toFloat(), markerList[i].mapY.toFloat(), false)
+                        marker.setMarker(R.mipmap.ico_question_pre)
+                        _mapView.addMarker(marker)
+                    }
+                }
+            }
         }
     }
+
+    private fun checkMissionProgress(clearList : ArrayList<DoorListVO> ,markerList : ArrayList<DoorListVO>? ,_mapView: MapView) {
+
+        val allSeq : ArrayList<Int> = arrayListOf()
+
+        clearList.forEach {
+            allSeq.add(it.seq)
+        }
+
+        markerList?.let {
+            for (i in 0 until it.size) {
+                val marker = MapMarker(context)
+                if (allSeq.contains(it[i].seq)) {
+                    marker.setMarker(R.mipmap.ico_clear_marker)
+                } else {
+                    marker.setMarker(R.mipmap.ico_question_pre)
+                }
+                marker.isClickable =true
+                marker.tag = markerList[i].toString()
+                marker.isTitleVisible = true
+                marker.setPoint(markerList[i].mapX.toFloat(), markerList[i].mapY.toFloat(), false)
+                _mapView.addMarker(marker)
+            }
+        }
+    }
+
 
     private fun setPath(_mapView: MapView, pathList : ArrayList<DoorPathListVO>? ) {
 
@@ -131,7 +164,7 @@ class MiniMapFragment : Fragment() {
 
             pathList.forEachIndexed { index, path ->
 
-                val mapPath = MapPath(activity, false) // MapPath(activity,boolean) --> boolean 값 위도 경도 값 사용할건지 안할건지...기본이 true, 그림 위에서 그려져서 사용 안하므로 false 넣어줘야함
+                val mapPath = MapPath(activity, false)
 
                 mapPath.setStrokeWidth(10)
                 mapPath.lineColor = Color.parseColor(path.pathColor)
@@ -246,11 +279,9 @@ class MiniMapFragment : Fragment() {
 
     private val messageReceiver : BroadcastReceiver = object :BroadcastReceiver() {
         override fun onReceive(p0: Context?, p1: Intent?) {
-            type?.let {
-                getData(it)
-            }
-        }
 
+            initView()
+        }
     }
 
     override fun onResume() {
