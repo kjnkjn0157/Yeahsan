@@ -130,7 +130,7 @@ class QrScannerActivity : AppCompatActivity() {
     }
 
     //  Launcher는 전역으로 설정 - LifecycleOwners must call register before they are STARTED
-    val permissionLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
+    private val permissionLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
             if (isGranted) {
                 Toast.makeText(this@QrScannerActivity, "권한 허가", Toast.LENGTH_SHORT).show()
                 //  액티비티 재실행으로 권한 획득 이후 카메라가 정상적으로 표시되지 않는 오류 수정

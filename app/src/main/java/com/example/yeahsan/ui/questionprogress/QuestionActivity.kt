@@ -3,8 +3,7 @@ package com.example.yeahsan.ui.questionprogress
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
-import com.example.yeahsan.R
-import com.example.yeahsan.adapter.pager.MissionProgressFragmentPagerAdapter
+import com.example.yeahsan.adapter.page.MissionProgressFragmentPagerAdapter
 import com.example.yeahsan.databinding.ActivityQuestionBinding
 import com.google.android.material.tabs.TabLayoutMediator
 

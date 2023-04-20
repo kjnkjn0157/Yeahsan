@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.SettingActivity">
+    tools:context=".ui.setting.SettingActivity">
     
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
@@ -124,6 +124,7 @@
             android:layout_marginRight="16dp"/>
 
         <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_app_version"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Ver 1.0.1"

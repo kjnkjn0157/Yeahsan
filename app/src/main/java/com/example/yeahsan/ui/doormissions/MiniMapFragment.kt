@@ -1,14 +1,17 @@
 package com.example.yeahsan.ui.doormissions
 
+import android.content.BroadcastReceiver
 import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.graphics.Color
 import android.os.Bundle
-import android.os.Vibrator
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.example.yeahsan.AppConstants
 import com.example.yeahsan.R
 import com.example.yeahsan.data.AppDataManager
@@ -16,6 +19,7 @@ import com.example.yeahsan.data.api.model.DoorListVO
 import com.example.yeahsan.data.api.model.DoorPathListVO
 
 import com.example.yeahsan.databinding.FragmentMiniMapBinding
+import com.example.yeahsan.ui.PopupActivity
 import com.witches.mapview.MapView
 import com.witches.mapview.`object`.MapMarker
 import com.witches.mapview.`object`.MapPath
@@ -44,6 +48,12 @@ class MiniMapFragment : Fragment() {
             type = it.getString(AppConstants.STRING_TYPE)
         }
 
+        context?.let {
+            LocalBroadcastManager.getInstance(it.applicationContext).registerReceiver(messageReceiver,
+                IntentFilter(AppConstants.INTENT_FILTER_MISSION_ONE_CLEAR)
+            )
+        }
+
         binding = FragmentMiniMapBinding.inflate(inflater, container, false)
 
         return binding.root
@@ -56,14 +66,13 @@ class MiniMapFragment : Fragment() {
             getData(it)
         }
 
-        initView()
-
         setQuestProgressbar()
     }
 
     private fun getData(type : String) {
 
         activity?.let {
+            //api data
             AppDataManager(it.application).getSampleData { list ->
 
                 if(type == AppConstants.OUT_DOOR_TYPE) {
@@ -76,13 +85,18 @@ class MiniMapFragment : Fragment() {
 
                 }
             }
+            //pref data
+            val missionClearList = AppDataManager(it.application).getMissionClearItems()
+            Log.e("TAG","minimap _mission clear list ::: $missionClearList")
         }
+
+        initView()
     }
 
     private fun initView() {
 
         //보여지는 이미지 map 셋팅
-        binding.miniMap.setMap(R.mipmap.img_map_outdoor)
+        binding.miniMap.setMap(R.drawable.img_map_outdoor)
 
         //내 위치 사용
         binding.miniMap.enableMyLocationCompass()
@@ -92,6 +106,8 @@ class MiniMapFragment : Fragment() {
 
         binding.miniMap.onMapLoadedListener = onMapLoadedListener
 
+        binding.miniMap.onMarkerClickListener = markerClickListener
+
         setClickEvent()
     }
 
@@ -99,12 +115,13 @@ class MiniMapFragment : Fragment() {
 
         for (i in markerList.indices) {
             val marker = MapMarker(context)
+            marker.isClickable =true
             marker.tag = markerList[i].toString()
-            marker.title = "Test"
             marker.isTitleVisible = true
             marker.setPoint(markerList[i].mapX.toFloat(), markerList[i].mapY.toFloat(), false)
             marker.setMarker(R.mipmap.ico_question_pre)
             _mapView.addMarker(marker)
+
         }
     }
 
@@ -158,34 +175,34 @@ class MiniMapFragment : Fragment() {
 
         binding.seekBar.isEnabled = false
 
-        binding.seekBar.onProgressChangedListener =
-            object : BubbleSeekBar.OnProgressChangedListener {
-                override fun onProgressChanged(
-                    bubbleSeekBar: BubbleSeekBar?,
-                    progress: Int,
-                    progressFloat: Float,
-                    fromUser: Boolean
-                ) {
-
-                }
-
-                override fun getProgressOnActionUp(
-                    bubbleSeekBar: BubbleSeekBar?,
-                    progress: Int,
-                    progressFloat: Float
-                ) {
-
-                }
-
-                override fun getProgressOnFinally(
-                    bubbleSeekBar: BubbleSeekBar?,
-                    progress: Int,
-                    progressFloat: Float,
-                    fromUser: Boolean
-                ) {
-
-                }
-            }
+//        binding.seekBar.onProgressChangedListener =
+//            object : BubbleSeekBar.OnProgressChangedListener {
+//                override fun onProgressChanged(
+//                    bubbleSeekBar: BubbleSeekBar?,
+//                    progress: Int,
+//                    progressFloat: Float,
+//                    fromUser: Boolean
+//                ) {
+//
+//                }
+//
+//                override fun getProgressOnActionUp(
+//                    bubbleSeekBar: BubbleSeekBar?,
+//                    progress: Int,
+//                    progressFloat: Float
+//                ) {
+//
+//                }
+//
+//                override fun getProgressOnFinally(
+//                    bubbleSeekBar: BubbleSeekBar?,
+//                    progress: Int,
+//                    progressFloat: Float,
+//                    fromUser: Boolean
+//                ) {
+//
+//                }
+//            }
     }
 
 
@@ -207,10 +224,34 @@ class MiniMapFragment : Fragment() {
     private fun getQuestScore(result: String) {
 
         if (result == "Y" && binding.seekBar.progress < 100) {
-            binding.seekBar.setProgress(binding.seekBar.progress + 10.0f)
+
+            binding.seekBar.setProgress(binding.seekBar.progress + 12.5f)
         }
     }
 
+
+    private val markerClickListener = object :MapView.OnMarkerClickListener {
+        override fun onMarkerClick(marker: MapMarker?) {
+            Log.e("TAG","onMarkerCLick:::")
+            //todo 필요 데이터 intent 에 담아 같이 보내기
+            val intent = Intent(context ,PopupActivity::class.java)
+            startActivity(intent)
+        }
+
+        override fun onMarkersClick(marker: java.util.ArrayList<MapMarker>?) {
+            Log.e("TAG","onMarkersClick:::")
+        }
+
+    }
+
+    private val messageReceiver : BroadcastReceiver = object :BroadcastReceiver() {
+        override fun onReceive(p0: Context?, p1: Intent?) {
+            type?.let {
+                getData(it)
+            }
+        }
+
+    }
 
     override fun onResume() {
         super.onResume()
@@ -228,5 +269,9 @@ class MiniMapFragment : Fragment() {
         super.onDestroy()
 
         binding.miniMap.onDestroy()
+        context?.let {
+            LocalBroadcastManager.getInstance(it.applicationContext)
+                .unregisterReceiver(messageReceiver)
+        }
     }
 }

@@ -3,11 +3,15 @@ package com.example.yeahsan.ui
 import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.webkit.WebViewClient
 import android.widget.Toast
+import androidx.activity.result.ActivityResultCallback
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout.LOCK_MODE_LOCKED_CLOSED
@@ -18,6 +22,7 @@ import com.example.yeahsan.ui.artifact.ArtifactActivity
 import com.example.yeahsan.ui.doormissions.QuestMapActivity
 import com.example.yeahsan.ui.qr.QrScannerActivity
 import com.example.yeahsan.ui.questionprogress.QuestionActivity
+import com.example.yeahsan.ui.setting.SettingActivity
 import com.example.yeahsan.ui.vr.VrActivity
 import com.example.yeahsan.util.OnSingleClickListener
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -156,13 +161,20 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+
+
+
+    @RequiresApi(Build.VERSION_CODES.S)
     private fun checkPermission() {
 
         TedPermission.create()
             .setPermissionListener(permissionListener)
             .setPermissions(
                 Manifest.permission.ACCESS_COARSE_LOCATION,
-                Manifest.permission.ACCESS_FINE_LOCATION
+                Manifest.permission.ACCESS_FINE_LOCATION,
+//                Manifest.permission.BLUETOOTH_SCAN,
+//                Manifest.permission.BLUETOOTH_ADMIN,
+//                Manifest.permission.BLUETOOTH_CONNECT
             )
             .check()
     }

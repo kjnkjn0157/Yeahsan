@@ -12,4 +12,6 @@ object AppConstants {
 
     internal const val STRING_TYPE = "type"
 
+    internal const val INTENT_FILTER_MISSION_ONE_CLEAR = "oneClear"
+
 }
