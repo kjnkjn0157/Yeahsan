@@ -12,6 +12,13 @@ import com.google.android.gms.maps.model.LatLng
 
 class AppApplication : Application() {
 
+    override fun onCreate() {
+        super.onCreate()
+    }
+
+    override fun onTerminate() {
+        super.onTerminate()
+    }
 
     //위치서비스
     fun getLocation(): LatLng {

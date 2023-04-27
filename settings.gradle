@@ -3,7 +3,6 @@ pluginManagement {
         google()
         mavenCentral()
         gradlePluginPortal()
-
         flatDir {
             dirs 'libs'
         }
@@ -15,7 +14,6 @@ dependencyResolutionManagement {
         google()
         jcenter()
         mavenCentral()
-
         flatDir {
             dirs 'libs'
         }

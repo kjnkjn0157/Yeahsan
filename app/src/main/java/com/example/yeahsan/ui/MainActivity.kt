@@ -2,6 +2,7 @@ package com.example.yeahsan.ui
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.annotation.TargetApi
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
@@ -17,6 +18,7 @@ import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout.LOCK_MODE_LOCKED_CLOSED
 import com.example.yeahsan.AppConstants
 import com.example.yeahsan.R
+import com.example.yeahsan.RangingActivity
 import com.example.yeahsan.databinding.ActivityMainBinding
 import com.example.yeahsan.ui.artifact.ArtifactActivity
 import com.example.yeahsan.ui.doormissions.QuestMapActivity
@@ -159,23 +161,45 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
+        binding.navigationMenu.btnProgress.setOnClickListener(object : OnSingleClickListener(){
+            override fun onSingleClick(v: View?) {
+                intent = Intent(this@MainActivity ,RangingActivity::class.java)
+                startActivity(intent)
+            }
+
+        })
+
     }
 
 
 
 
-    @RequiresApi(Build.VERSION_CODES.S)
+//    @RequiresApi(Build.VERSION_CODES.S)
+//    @TargetApi(Build.VERSION_CODES.M)
     private fun checkPermission() {
+        var permissions: Array<String> = arrayOf(
+            //  android 12
+            Manifest.permission.ACCESS_FINE_LOCATION
+            , Manifest.permission.ACCESS_COARSE_LOCATION
+            , Manifest.permission.BLUETOOTH
+            , Manifest.permission.BLUETOOTH_ADMIN
+        )
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            permissions += Manifest.permission.BLUETOOTH_SCAN
+            permissions += Manifest.permission.BLUETOOTH_ADVERTISE
+            permissions += Manifest.permission.BLUETOOTH_CONNECT
+        }
 
         TedPermission.create()
             .setPermissionListener(permissionListener)
-            .setPermissions(
-                Manifest.permission.ACCESS_COARSE_LOCATION,
-                Manifest.permission.ACCESS_FINE_LOCATION,
+            .setPermissions(*permissions)
+//            .setPermissions(
+//                Manifest.permission.ACCESS_COARSE_LOCATION,
+//                Manifest.permission.ACCESS_FINE_LOCATION,
 //                Manifest.permission.BLUETOOTH_SCAN,
 //                Manifest.permission.BLUETOOTH_ADMIN,
 //                Manifest.permission.BLUETOOTH_CONNECT
-            )
+//            )
             .check()
     }
 

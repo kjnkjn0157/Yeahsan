@@ -29,9 +29,10 @@ class MiniMapFragment : Fragment() {
 
     private lateinit var binding: FragmentMiniMapBinding
     private lateinit var mContext: Context
-    private var markerList : ArrayList<DoorListVO>? = arrayListOf()
-    private var pathList : ArrayList<DoorPathListVO>? = arrayListOf()
-    private var type : String? = null
+    private var markerList: ArrayList<DoorListVO>? = arrayListOf()
+    private var pathList: ArrayList<DoorPathListVO>? = arrayListOf()
+    private var type: String? = null
+    private var clearList: ArrayList<DoorListVO>? = arrayListOf()
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -49,7 +50,8 @@ class MiniMapFragment : Fragment() {
         }
 
         context?.let {
-            LocalBroadcastManager.getInstance(it.applicationContext).registerReceiver(messageReceiver,
+            LocalBroadcastManager.getInstance(it.applicationContext).registerReceiver(
+                messageReceiver,
                 IntentFilter(AppConstants.INTENT_FILTER_MISSION_ONE_CLEAR)
             )
         }
@@ -66,15 +68,14 @@ class MiniMapFragment : Fragment() {
             getData(it)
         }
 
-        setQuestProgressbar()
     }
 
-    private fun getData(type : String) {
+    private fun getData(type: String) {
 
         activity?.let {
             //api data
             AppDataManager(it.application).getSampleData { list ->
-                if(type == AppConstants.OUT_DOOR_TYPE) {
+                if (type == AppConstants.OUT_DOOR_TYPE) {
                     markerList = list?.body?.outdoorList
                     pathList = list?.body?.outdoorPathList
 
@@ -83,6 +84,7 @@ class MiniMapFragment : Fragment() {
                     pathList = list?.body?.indoorPathList
                 }
             }
+            clearList = AppDataManager(it.application).getMissionClearItems()
         }
         initView()
     }
@@ -104,37 +106,45 @@ class MiniMapFragment : Fragment() {
         binding.miniMap.onMarkerClickListener = markerClickListener
 
         setClickEvent()
+
+        setQuestProgressbar()
     }
+
 
     private fun setMarker(_mapView: MapView, markerList: ArrayList<DoorListVO>) {
 
-        activity?.let {
-            val missionClearList = AppDataManager(it.application).getMissionClearItems()
-
-            missionClearList?.let {
-                //클리어한 미션이 하나라도 있을 경우
-                if (missionClearList.size > 0) {
-                    checkMissionProgress(it ,markerList ,_mapView)
-                }
-                // 클리어한 미션이 하나도 없을 경우
-                else {
-                    for (i in markerList.indices) {
-                        val marker = MapMarker(context)
-                        marker.isClickable =true
-                        marker.tag = markerList[i].toString()
-                        marker.isTitleVisible = true
-                        marker.setPoint(markerList[i].mapX.toFloat(), markerList[i].mapY.toFloat(), false)
-                        marker.setMarker(R.mipmap.ico_question_pre)
-                        _mapView.addMarker(marker)
-                    }
+        clearList?.let {
+            //클리어한 미션이 하나라도 있을 경우
+            if (it.size > 0) {
+                checkMissionProgress(it, markerList, _mapView)
+            }
+            // 클리어한 미션이 하나도 없을 경우
+            else {
+                for (i in markerList.indices) {
+                    val marker = MapMarker(context)
+                    marker.isClickable = true
+                    marker.tag = markerList[i].toString()
+                    marker.isTitleVisible = true
+                    marker.setPoint (
+                        markerList[i].mapX.toFloat(),
+                        markerList[i].mapY.toFloat(),
+                        false
+                    )
+                    marker.setMarker(R.mipmap.ico_question_pre)
+                    _mapView.addMarker(marker)
                 }
             }
         }
     }
 
-    private fun checkMissionProgress(clearList : ArrayList<DoorListVO> ,markerList : ArrayList<DoorListVO>? ,_mapView: MapView) {
 
-        val allSeq : ArrayList<Int> = arrayListOf()
+    private fun checkMissionProgress(
+        clearList: ArrayList<DoorListVO>,
+        markerList: ArrayList<DoorListVO>?,
+        _mapView: MapView
+    ) {
+
+        val allSeq: ArrayList<Int> = arrayListOf()
 
         clearList.forEach {
             allSeq.add(it.seq)
@@ -148,7 +158,7 @@ class MiniMapFragment : Fragment() {
                 } else {
                     marker.setMarker(R.mipmap.ico_question_pre)
                 }
-                marker.isClickable =true
+                marker.isClickable = true
                 marker.tag = markerList[i].toString()
                 marker.isTitleVisible = true
                 marker.setPoint(markerList[i].mapX.toFloat(), markerList[i].mapY.toFloat(), false)
@@ -158,7 +168,7 @@ class MiniMapFragment : Fragment() {
     }
 
 
-    private fun setPath(_mapView: MapView, pathList : ArrayList<DoorPathListVO>? ) {
+    private fun setPath(_mapView: MapView, pathList: ArrayList<DoorPathListVO>?) {
 
         if (activity != null && pathList != null) {
 
@@ -185,11 +195,11 @@ class MiniMapFragment : Fragment() {
         override fun onMapReady(_mapView: MapView) {
 
             markerList?.let {
-                setMarker(_mapView,it)
+                setMarker(_mapView, it)
             }
 
             pathList?.let {
-                setPath(_mapView,it)
+                setPath(_mapView, it)
             }
         }
 
@@ -202,9 +212,17 @@ class MiniMapFragment : Fragment() {
         }
     }
 
+
     private fun setQuestProgressbar() {
 
-        binding.seekBar.setProgress(0.0f) //퀘스트 성공 할 때마다 변경된 값 가져와 셋팅 && prefs 에 데이터 저장돼 있는 값이 있는지 선행조건으로
+        clearList?.let {
+            if (it.size > 0) {
+                getQuestScore(it.size)
+            } else {
+                binding.seekBar.setProgress(0.0f)
+            }
+        }
+         //퀘스트 성공 할 때마다 변경된 값 가져와 셋팅 && prefs 에 데이터 저장돼 있는 값이 있는지 선행조건으로
 
         binding.seekBar.isEnabled = false
 
@@ -242,7 +260,7 @@ class MiniMapFragment : Fragment() {
     private fun setClickEvent() {
 
         binding.btnMapQuest.setOnClickListener {
-            getQuestScore("Y")
+            getQuestScore(0)
         }
 
         binding.btnHome.setOnClickListener {
@@ -254,35 +272,35 @@ class MiniMapFragment : Fragment() {
         }
     }
 
-    private fun getQuestScore(result: String) {
 
-        if (result == "Y" && binding.seekBar.progress < 100) {
+    private fun getQuestScore(clearCount: Int) {
 
             binding.seekBar.setProgress(binding.seekBar.progress + 12.5f)
-        }
     }
 
 
-    private val markerClickListener = object :MapView.OnMarkerClickListener {
+    private val markerClickListener = object : MapView.OnMarkerClickListener {
         override fun onMarkerClick(marker: MapMarker?) {
-            Log.e("TAG","onMarkerCLick:::")
+            Log.e("TAG", "onMarkerCLick:::")
             //todo 필요 데이터 intent 에 담아 같이 보내기
-            val intent = Intent(context ,PopupActivity::class.java)
+            val intent = Intent(context, PopupActivity::class.java)
             startActivity(intent)
         }
 
         override fun onMarkersClick(marker: java.util.ArrayList<MapMarker>?) {
-            Log.e("TAG","onMarkersClick:::")
+            Log.e("TAG", "onMarkersClick:::")
         }
 
     }
 
-    private val messageReceiver : BroadcastReceiver = object :BroadcastReceiver() {
+
+    private val messageReceiver: BroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(p0: Context?, p1: Intent?) {
 
             initView()
         }
     }
+
 
     override fun onResume() {
         super.onResume()
@@ -290,11 +308,13 @@ class MiniMapFragment : Fragment() {
         binding.miniMap.onResume()
     }
 
+
     override fun onPause() {
         super.onPause()
 
         binding.miniMap.onPause()
     }
+
 
     override fun onDestroy() {
         super.onDestroy()

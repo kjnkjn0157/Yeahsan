@@ -20,12 +20,14 @@ class PrefsManager(private val context: Context) : PrefsHelper {
     private val prefDenyCameraPermission: String = "$preferencesName.DENY_CAMERA"
     private val prefFcmNotice: String = "$preferencesName.FCM_NOTICE"
     private val missionSuccess: String = "$preferencesName.MISSION_SUCCESS"
+    private val outdoorIntroResult : String = "$preferencesName.OUTDOOR_INTRO"
+    private val indoorIntroResult : String = "$preferencesName.INDOOR_INTRO"
+
     private val scope: CoroutineScope = CoroutineScope(context = Dispatchers.Main)
     inline fun <reified T> genericType() = object : TypeToken<T>() {}.type
 
     //  기본 환경 변수
-    private val pref: SharedPreferences =
-        context.getSharedPreferences(preferencesName, Context.MODE_PRIVATE)
+    private val pref: SharedPreferences = context.getSharedPreferences(preferencesName, Context.MODE_PRIVATE)
 
     override fun setDenyCameraPermission(result: Boolean) {
 
@@ -33,6 +35,7 @@ class PrefsManager(private val context: Context) : PrefsHelper {
     }
 
     override fun isDenyCameraPermission(): Boolean {
+
         return pref.getBoolean(prefDenyCameraPermission, false)
     }
 
@@ -42,16 +45,19 @@ class PrefsManager(private val context: Context) : PrefsHelper {
     }
 
     override fun getSettingFCM(): Boolean {
+
         return pref.getBoolean(prefFcmNotice, false)
     }
 
     override fun setMissionClearItems(items: ArrayList<DoorListVO>) {
+
         val gson = GsonBuilder().enableComplexMapKeySerialization().create()
         val string = gson.toJson(items)
         pref.edit().putString(missionSuccess, string).apply()
     }
 
     override fun getMissionClearItems(): ArrayList<DoorListVO>? {
+
         val gson = GsonBuilder().enableComplexMapKeySerialization().create()
         val string = pref.getString(missionSuccess, "")
         if (string == "") {
@@ -61,6 +67,7 @@ class PrefsManager(private val context: Context) : PrefsHelper {
     }
 
     override fun addMissionClearItem(item: DoorListVO) {
+
         scope.launch {
             withContext(Dispatchers.IO) {
                 val list = getMissionClearItems()
@@ -87,6 +94,26 @@ class PrefsManager(private val context: Context) : PrefsHelper {
                 LocalBroadcastManager.getInstance(context.applicationContext).sendBroadcast(Intent(AppConstants.INTENT_FILTER_MISSION_ONE_CLEAR))
             }
         }
+    }
+
+    override fun setOutDoorIntroInvisible(result: Boolean) {
+
+        pref.edit().putBoolean(outdoorIntroResult, result).apply()
+    }
+
+    override fun getOutDoorIntroInvisible(): Boolean {
+
+        return pref.getBoolean(outdoorIntroResult, false)
+    }
+
+    override fun setInDoorIntroInvisible(result: Boolean) {
+
+        pref.edit().putBoolean(indoorIntroResult, result).apply()
+    }
+
+    override fun getInDoorIntroInvisible(): Boolean {
+
+        return pref.getBoolean(indoorIntroResult, false)
     }
 
 

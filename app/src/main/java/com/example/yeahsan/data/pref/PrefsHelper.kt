@@ -21,4 +21,13 @@ interface PrefsHelper {
 
     fun addMissionClearItem(item : DoorListVO)
 
+    //미션 미니맵 들어가기 전 다시보지않기 여부 확인 값
+    fun setOutDoorIntroInvisible(result: Boolean)
+
+    fun getOutDoorIntroInvisible() : Boolean
+
+    fun setInDoorIntroInvisible(result: Boolean)
+
+    fun getInDoorIntroInvisible() : Boolean
+
 }

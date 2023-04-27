@@ -12,15 +12,17 @@ android {
 
     defaultConfig {
         applicationId "com.example.yeahsan"
-        minSdk 24
+        minSdk 23
         targetSdk 33
         versionCode 1
         versionName "1.0"
-
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
+        debug {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
@@ -68,11 +70,11 @@ dependencies {
     implementation 'io.github.ParkSangGwon:tedpermission-normal:3.3.0'
 
     //Room
-    implementation("androidx.room:room-runtime:2.4.3")
+    implementation("androidx.room:room-runtime:2.5.1")
     implementation 'androidx.navigation:navigation-fragment-ktx:2.5.3'
     implementation 'androidx.navigation:navigation-ui-ktx:2.5.3'
-    kapt 'androidx.room:room-compiler:2.4.3'
-    implementation 'androidx.room:room-ktx:2.4.3'
+    kapt 'androidx.room:room-compiler:2.5.1'
+    implementation 'androidx.room:room-ktx:2.5.1'
 
     //imageCrop
     implementation 'com.theartofdev.edmodo:android-image-cropper:2.8.0'
@@ -92,6 +94,16 @@ dependencies {
     implementation 'com.dlazaro66.qrcodereaderview:qrcodereaderview:2.0.3'
 
     //firebase
-    implementation 'com.google.firebase:firebase-messaging:23.0.8'
-    implementation 'com.google.firebase:firebase-analytics:21.1.1'
+    implementation 'com.google.firebase:firebase-messaging:23.1.2'
+    implementation 'com.google.firebase:firebase-messaging-ktx:23.1.2'
+    implementation 'com.google.firebase:firebase-analytics:21.2.2'
+
+    //exoPlayer
+    implementation 'com.google.android.exoplayer:exoplayer:2.15.0'
+    implementation "com.google.android.exoplayer:exoplayer-core:2.15.0"
+    implementation "com.google.android.exoplayer:exoplayer-ui:2.15.0"
+
+    //beacon
+    implementation 'org.altbeacon:android-beacon-library:2.+'
+
 }

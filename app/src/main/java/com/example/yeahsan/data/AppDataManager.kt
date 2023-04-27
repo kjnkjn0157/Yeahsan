@@ -53,4 +53,26 @@ class AppDataManager(val application: Application) : AppDataHelper {
         prefsManager?.addMissionClearItem(item)
     }
 
+    override fun setOutDoorIntroInvisible(result: Boolean) {
+        prefsManager?.setOutDoorIntroInvisible(result)
+    }
+
+    override fun getOutDoorIntroInvisible(): Boolean {
+        prefsManager?.let {
+            return it.getOutDoorIntroInvisible()
+        }
+        return false
+    }
+
+    override fun setInDoorIntroInvisible(result: Boolean) {
+       prefsManager?.setInDoorIntroInvisible(result)
+    }
+
+    override fun getInDoorIntroInvisible(): Boolean {
+        prefsManager?.let {
+           return it.getInDoorIntroInvisible()
+        }
+        return false
+    }
+
 }
