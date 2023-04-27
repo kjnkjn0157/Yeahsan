@@ -12,7 +12,7 @@ import androidx.core.app.ActivityCompat
 import org.altbeacon.beacon.*
 
 
-class RangingActivity : AppCompatActivity(), BeaconConsumer {
+class RangingActivity : AppCompatActivity(), InternalBeaconConsumer {
 
     private lateinit var beaconManager: BeaconManager
 
@@ -21,8 +21,7 @@ class RangingActivity : AppCompatActivity(), BeaconConsumer {
         setContentView(R.layout.activity_ranging)
 
 
-        if (ActivityCompat.checkSelfPermission(
-                this,
+        if (ActivityCompat.checkSelfPermission(this,
                 Manifest.permission.ACCESS_FINE_LOCATION
             ) != PackageManager.PERMISSION_GRANTED
             && ActivityCompat.checkSelfPermission(
@@ -30,12 +29,12 @@ class RangingActivity : AppCompatActivity(), BeaconConsumer {
                 Manifest.permission.ACCESS_COARSE_LOCATION
             ) != PackageManager.PERMISSION_GRANTED
         ) {
-
+            //권한요청
         } else {
             Log.e("TAG", "RangeActivity ::: ")
             beaconManager = BeaconManager.getInstanceForApplication(this)
             beaconManager.beaconParsers.add(BeaconParser().setBeaconLayout("m:2-3=0215,i:4-19,i:20-21,i:22-23,p:24-24"))
-            beaconManager.bind(this)
+            beaconManager.bindInternal(this)
         }
     }
 
@@ -54,16 +53,16 @@ class RangingActivity : AppCompatActivity(), BeaconConsumer {
 
             override fun didDetermineStateForRegion(state: Int, region: Region?) {
                 if (state == 0) {
-                    Log.e("TAG", "비콘이 보이는 상태 ::: state ::: $state")
+                    Log.e("TAG", "비콘이 보이지 않는 상태 ::: state ::: $state")
                 } else {
-                    Log.e("TAG", "비콘이 보이지 않는 상태 ::: state :::$state")
+                    Log.e("TAG", "비콘이 보이는 상태 ::: state :::$state")
                 }
             }
 
         })
 
         try {
-            beaconManager.startMonitoringBeaconsInRegion(
+            beaconManager.startMonitoring(
                 Region(
                     "2ACA4240-13EE-11E4-9416-0002A5D5C51B",
                     null,
@@ -74,12 +73,11 @@ class RangingActivity : AppCompatActivity(), BeaconConsumer {
         } catch (ignored: RemoteException) {
 
         }
-
     }
 
     override fun onDestroy() {
         super.onDestroy()
 
-        beaconManager.unbind(this)
+        beaconManager.unbindInternal(this)
     }
 }
