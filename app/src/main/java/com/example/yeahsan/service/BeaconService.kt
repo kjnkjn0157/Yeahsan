@@ -20,15 +20,12 @@ class BeaconService : Service() {
 
     override fun onCreate() {
         super.onCreate()
-        Log.e("TAG", "beacon servicr ::: ")
+        Log.e("TAG", "beacon service ::: ")
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
 
-        Log.e("TAG", "onStartCommand   ::: ")
-
         if (intent != null) {
-            Log.e("TAG", "startBeaconService intent not null  ::: ")
             val action = intent.action.toString()
             if (action == "startBeacon") {
                 startBeaconService()
@@ -42,7 +39,6 @@ class BeaconService : Service() {
 
     private fun startBeaconService() {
 
-        Log.e("TAG", "startBeaconService  ::: ")
         val notification = createNotification()
 
         if (ActivityCompat.checkSelfPermission(
@@ -63,8 +59,7 @@ class BeaconService : Service() {
 
     private fun stopBeaconService() {
         Log.e("TAG", "stopService ::: ")
-        stopForeground(true);
-        stopSelf();
+        stopSelf()
     }
 
     @SuppressLint("UnspecifiedImmutableFlag")
@@ -102,7 +97,6 @@ class BeaconService : Service() {
 
         nm.createNotificationChannel(nc)
     }
-
 
     override fun onBind(intent: Intent?): IBinder? {
         return null

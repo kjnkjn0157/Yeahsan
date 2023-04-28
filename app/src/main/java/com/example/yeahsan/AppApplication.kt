@@ -1,10 +1,12 @@
 package com.example.yeahsan
 
 import android.Manifest
+import android.app.ActivityManager
 import android.app.Application
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.LocationListener
 import android.location.LocationManager
@@ -23,6 +25,8 @@ class AppApplication : Application() {
     override fun onTerminate() {
         super.onTerminate()
     }
+
+
 
     //위치서비스
     fun getLocation(): LatLng {

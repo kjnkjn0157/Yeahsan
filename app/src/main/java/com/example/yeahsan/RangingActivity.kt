@@ -39,46 +39,18 @@ class RangingActivity : AppCompatActivity() {
         } else {
             Log.e("TAG", "RangeActivity ::: ")
 
-            startBeaconService()
+           // startBeaconService()
 
             //beconservice.onBeaconServiceConnect()
 
         }
 
         binding.btnStop.setOnClickListener {
-            stopBeaconService()
+           // stopBeaconService()
         }
 
     }
 
-    private fun isBeaconServiceRunning(): Boolean {
-        val activityManager = getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
-        for (service in activityManager.getRunningServices(Int.MAX_VALUE)) {
-            if (BeaconService::class.java.name == service.service.className) {
-                if (service.foreground) {
-                    return true
-                }
-            }
-        }
-        return false
-    }
 
-    private fun startBeaconService() {
-        if (!isBeaconServiceRunning()) {
-            val intent = Intent(applicationContext, BeaconService::class.java)
-            intent.action = "startBeacon"
-            startService(intent)
-            Toast.makeText(this.applicationContext, "Beacon service started", Toast.LENGTH_SHORT)
-                .show()
-        }
-    }
 
-    private fun stopBeaconService() {
-        if (isBeaconServiceRunning()) {
-            val intent = Intent(applicationContext, BeaconService::class.java)
-            intent.action = "stopBeacon"
-            startService(intent)
-            Toast.makeText(this, "Beacon service stopped", Toast.LENGTH_SHORT).show()
-        }
-    }
 }

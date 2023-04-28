@@ -3,6 +3,8 @@ package com.example.yeahsan.ui
 import android.Manifest
 import android.annotation.SuppressLint
 import android.annotation.TargetApi
+import android.app.ActivityManager
+import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
@@ -16,10 +18,12 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout.LOCK_MODE_LOCKED_CLOSED
+import com.example.yeahsan.AppApplication
 import com.example.yeahsan.AppConstants
 import com.example.yeahsan.R
 import com.example.yeahsan.RangingActivity
 import com.example.yeahsan.databinding.ActivityMainBinding
+import com.example.yeahsan.service.BeaconService
 import com.example.yeahsan.ui.artifact.ArtifactActivity
 import com.example.yeahsan.ui.doormissions.QuestMapActivity
 import com.example.yeahsan.ui.qr.QrScannerActivity
@@ -35,11 +39,13 @@ import com.gun0912.tedpermission.normal.TedPermission
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
+    private lateinit var appApplication: AppApplication
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
+        appApplication = AppApplication()
 
         setContentView(binding.root)
 
@@ -91,7 +97,6 @@ class MainActivity : AppCompatActivity() {
 
                 }
             }
-
             override fun onSlide(bottomSheet: View, slideOffset: Float) {
 
             }
@@ -172,8 +177,6 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-
-
 //    @RequiresApi(Build.VERSION_CODES.S)
 //    @TargetApi(Build.VERSION_CODES.M)
     private fun checkPermission() {
@@ -206,6 +209,7 @@ class MainActivity : AppCompatActivity() {
     private val permissionListener: PermissionListener = object : PermissionListener {
         override fun onPermissionGranted() {
             Log.e("permission","::: permissionGranted")
+            startBeaconService()
         }
 
         override fun onPermissionDenied(deniedPermissions: List<String>) {
@@ -214,4 +218,39 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    fun isBeaconServiceRunning(): Boolean {
+        val activityManager = getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
+        for (service in activityManager.getRunningServices(Int.MAX_VALUE)) {
+            if (BeaconService::class.java.name == service.service.className) {
+                if (service.foreground) {
+                    return true
+                }
+            }
+        }
+        return false
+    }
+
+    fun startBeaconService() {
+        if (!isBeaconServiceRunning()) {
+            val intent = Intent(applicationContext, BeaconService::class.java)
+            intent.action = "startBeacon"
+            startService(intent)
+            Toast.makeText(this.applicationContext, "Beacon service started", Toast.LENGTH_SHORT)
+                .show()
+        }
+    }
+
+    fun stopBeaconService() {
+        if (isBeaconServiceRunning()) {
+            val intent = Intent(applicationContext, BeaconService::class.java)
+            intent.action = "stopBeacon"
+            startService(intent)
+            Toast.makeText(this, "Beacon service stopped", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        stopBeaconService()
+    }
 }

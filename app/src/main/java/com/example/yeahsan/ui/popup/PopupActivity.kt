@@ -1,4 +1,4 @@
-package com.example.yeahsan.ui
+package com.example.yeahsan.ui.popup
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle

@@ -19,11 +19,10 @@ import com.example.yeahsan.data.api.model.DoorListVO
 import com.example.yeahsan.data.api.model.DoorPathListVO
 
 import com.example.yeahsan.databinding.FragmentMiniMapBinding
-import com.example.yeahsan.ui.PopupActivity
+import com.example.yeahsan.ui.popup.PopupActivity
 import com.witches.mapview.MapView
 import com.witches.mapview.`object`.MapMarker
 import com.witches.mapview.`object`.MapPath
-import com.xw.repo.BubbleSeekBar
 
 class MiniMapFragment : Fragment() {
 

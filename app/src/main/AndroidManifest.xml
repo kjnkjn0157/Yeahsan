@@ -76,7 +76,7 @@
             android:name=".ui.setting.SettingActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.PopupActivity"
+            android:name=".ui.popup.PopupActivity"
             android:exported="false"
             android:theme="@style/Transparent" />
         <activity
