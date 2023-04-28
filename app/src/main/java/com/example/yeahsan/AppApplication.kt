@@ -26,8 +26,6 @@ class AppApplication : Application() {
         super.onTerminate()
     }
 
-
-
     //위치서비스
     fun getLocation(): LatLng {
 

@@ -2,7 +2,6 @@ package com.example.yeahsan.ui
 
 import android.Manifest
 import android.annotation.SuppressLint
-import android.annotation.TargetApi
 import android.app.ActivityManager
 import android.content.Context
 import android.content.Intent
@@ -12,16 +11,12 @@ import android.util.Log
 import android.view.View
 import android.webkit.WebViewClient
 import android.widget.Toast
-import androidx.activity.result.ActivityResultCallback
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout.LOCK_MODE_LOCKED_CLOSED
 import com.example.yeahsan.AppApplication
 import com.example.yeahsan.AppConstants
 import com.example.yeahsan.R
-import com.example.yeahsan.RangingActivity
 import com.example.yeahsan.databinding.ActivityMainBinding
 import com.example.yeahsan.service.BeaconService
 import com.example.yeahsan.ui.artifact.ArtifactActivity
@@ -168,8 +163,7 @@ class MainActivity : AppCompatActivity() {
 
         binding.navigationMenu.btnProgress.setOnClickListener(object : OnSingleClickListener(){
             override fun onSingleClick(v: View?) {
-                intent = Intent(this@MainActivity ,RangingActivity::class.java)
-                startActivity(intent)
+
             }
 
         })
@@ -235,8 +229,7 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(applicationContext, BeaconService::class.java)
             intent.action = "startBeacon"
             startService(intent)
-            Toast.makeText(this.applicationContext, "Beacon service started", Toast.LENGTH_SHORT)
-                .show()
+            Toast.makeText(this.applicationContext, "Beacon service started", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -247,6 +240,12 @@ class MainActivity : AppCompatActivity() {
             startService(intent)
             Toast.makeText(this, "Beacon service stopped", Toast.LENGTH_SHORT).show()
         }
+    }
+
+    override fun onStop() {
+        super.onStop()
+        Log.e("TAG","onstop :::")
+        stopBeaconService()
     }
 
     override fun onDestroy() {
