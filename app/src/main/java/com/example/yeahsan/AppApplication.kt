@@ -26,7 +26,29 @@ class AppApplication : Application() {
         super.onTerminate()
     }
 
-    //위치서비스
+    /**
+     * Beacon Service */
+    fun startBeaconService(isBeaconServiceRunning : Boolean) {
+        if (!isBeaconServiceRunning) {
+            val intent = Intent(applicationContext, BeaconService::class.java)
+            intent.action = "startBeacon"
+            startService(intent)
+            Toast.makeText(this.applicationContext, "Beacon service started", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    fun stopBeaconService(isBeaconServiceRunning : Boolean) {
+        if (isBeaconServiceRunning) {
+            val intent = Intent(applicationContext, BeaconService::class.java)
+            intent.action = "stopBeacon"
+            startService(intent)
+            Toast.makeText(this, "Beacon service stopped", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+
+    /**
+     * location update*/
     fun getLocation(): LatLng {
 
         var latLng = LatLng(0.0,0.0)

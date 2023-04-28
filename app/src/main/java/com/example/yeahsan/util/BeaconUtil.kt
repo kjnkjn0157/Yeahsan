@@ -10,7 +10,6 @@ import org.altbeacon.beacon.*
 
 class BeaconUtil() : InternalBeaconConsumer {
     //main 에서 권한 검사 먼저 하고 있다면 서비스 가동
-
     companion object {
 
         @SuppressLint("StaticFieldLeak")

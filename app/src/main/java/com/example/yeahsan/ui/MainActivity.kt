@@ -34,13 +34,11 @@ import com.gun0912.tedpermission.normal.TedPermission
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-    private lateinit var appApplication: AppApplication
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
-        appApplication = AppApplication()
 
         setContentView(binding.root)
 
@@ -203,7 +201,7 @@ class MainActivity : AppCompatActivity() {
     private val permissionListener: PermissionListener = object : PermissionListener {
         override fun onPermissionGranted() {
             Log.e("permission","::: permissionGranted")
-            startBeaconService()
+            (application as AppApplication).startBeaconService(isBeaconServiceRunning())
         }
 
         override fun onPermissionDenied(deniedPermissions: List<String>) {
@@ -224,32 +222,10 @@ class MainActivity : AppCompatActivity() {
         return false
     }
 
-    fun startBeaconService() {
-        if (!isBeaconServiceRunning()) {
-            val intent = Intent(applicationContext, BeaconService::class.java)
-            intent.action = "startBeacon"
-            startService(intent)
-            Toast.makeText(this.applicationContext, "Beacon service started", Toast.LENGTH_SHORT).show()
-        }
-    }
-
-    fun stopBeaconService() {
-        if (isBeaconServiceRunning()) {
-            val intent = Intent(applicationContext, BeaconService::class.java)
-            intent.action = "stopBeacon"
-            startService(intent)
-            Toast.makeText(this, "Beacon service stopped", Toast.LENGTH_SHORT).show()
-        }
-    }
-
-    override fun onStop() {
-        super.onStop()
-        Log.e("TAG","onstop :::")
-        stopBeaconService()
-    }
 
     override fun onDestroy() {
         super.onDestroy()
-        stopBeaconService()
+        Log.e("TAG","onDestroy ::: ")
+        (application as AppApplication).stopBeaconService(isBeaconServiceRunning())
     }
 }
