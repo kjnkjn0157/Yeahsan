@@ -29,6 +29,9 @@ data class DoorListVO(
     var mapY : Int,
 
     @SerializedName("beaconList")
-    var beaconList : ArrayList<BeaconListVO>
+    var beaconList : ArrayList<BeaconListVO>,
+
+    @SerializedName("locationList")
+    var locationList : ArrayList<LocationListVO>
 
 ) : Parcelable

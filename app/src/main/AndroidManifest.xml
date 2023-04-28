@@ -12,6 +12,7 @@
     <uses-permission android:name="android.permission.BLUETOOTH_SCAN" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADVERTISE" />
     <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
     <application
         android:name=".AppApplication"
@@ -25,17 +26,6 @@
         android:theme="@style/Theme.Yeahsan"
         android:usesCleartextTraffic="true">
 
-<!--        <receiver android:name="org.altbeacon.beacon.startup.StartupBroadcastReceiver"-->
-<!--            android:exported="true">-->
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.ACTION_EXTERNAL_APPLICATIONS_AVAILABLE"/>-->
-<!--                <action android:name="android.intent.action.BOOT_COMPLETED"/>-->
-<!--                <action android:name="android.intent.action.QUICKBOOT_POWERON"/>-->
-<!--                <action android:name="android.intent.action.ACTION_POWER_CONNECTED"/>-->
-<!--                <action android:name="android.intent.action.ACTION_POWER_DISCONNECTED"/>-->
-<!--            </intent-filter>-->
-<!--        </receiver>-->
-
         <service
             android:name=".firebase.MessagingService"
             android:exported="false">
@@ -43,6 +33,11 @@
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
+
+        <service
+            android:name=".service.BeaconService"
+            android:enabled="true"
+            android:exported="false" />
 
         <activity
             android:name=".ui.MainActivity"
@@ -54,6 +49,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".ui.insidemission.InsideQuestActivity"
             android:exported="false"

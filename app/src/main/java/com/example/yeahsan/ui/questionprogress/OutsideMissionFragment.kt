@@ -78,7 +78,8 @@ class OutsideMissionFragment : Fragment() {
                         list[position].image,
                         list[position].mapX,
                         list[position].mapY,
-                        list[position].beaconList
+                        list[position].beaconList,
+                        list[position].locationList
                     )
                    activity?.let {activity ->
                        AppDataManager(activity.application).addMissionClearItem(clearItem)

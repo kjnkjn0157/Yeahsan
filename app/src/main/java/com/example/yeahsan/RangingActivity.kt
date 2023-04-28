@@ -1,27 +1,33 @@
 package com.example.yeahsan
 
 import android.Manifest
-import android.app.PendingIntent
+import android.app.ActivityManager
+import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
-import android.os.Build
 import android.os.Bundle
-import android.os.RemoteException
 import android.util.Log
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
-import org.altbeacon.beacon.*
+import com.example.yeahsan.databinding.ActivityRangingBinding
+import com.example.yeahsan.service.BeaconService
 
 
-class RangingActivity : AppCompatActivity(), InternalBeaconConsumer {
+class RangingActivity : AppCompatActivity() {
 
-    private lateinit var beaconManager: BeaconManager
+    private lateinit var binding: ActivityRangingBinding
 
+    //val beconservice = BeaconServiceUtil.getInstance(this)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_ranging)
+
+        binding = ActivityRangingBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
 
-        if (ActivityCompat.checkSelfPermission(this,
+        if (ActivityCompat.checkSelfPermission(
+                this,
                 Manifest.permission.ACCESS_FINE_LOCATION
             ) != PackageManager.PERMISSION_GRANTED
             && ActivityCompat.checkSelfPermission(
@@ -32,52 +38,47 @@ class RangingActivity : AppCompatActivity(), InternalBeaconConsumer {
             //권한요청
         } else {
             Log.e("TAG", "RangeActivity ::: ")
-            beaconManager = BeaconManager.getInstanceForApplication(this)
-            beaconManager.beaconParsers.add(BeaconParser().setBeaconLayout("m:2-3=0215,i:4-19,i:20-21,i:22-23,p:24-24"))
-            beaconManager.bindInternal(this)
+
+            startBeaconService()
+
+            //beconservice.onBeaconServiceConnect()
+
         }
+
+        binding.btnStop.setOnClickListener {
+            stopBeaconService()
+        }
+
     }
 
-    override fun onBeaconServiceConnect() {
-
-        beaconManager.removeAllRangeNotifiers()
-
-        beaconManager.addMonitorNotifier(object : MonitorNotifier {
-            override fun didEnterRegion(region: Region?) {
-                Log.e("TAG", "::: 최소 하나의 비콘 발견 ::: ")
-            }
-
-            override fun didExitRegion(region: Region?) {
-                Log.e("TAG", "::: 더이상 비콘을 찾을 수 없음:::")
-            }
-
-            override fun didDetermineStateForRegion(state: Int, region: Region?) {
-                if (state == 0) {
-                    Log.e("TAG", "비콘이 보이지 않는 상태 ::: state ::: $state")
-                } else {
-                    Log.e("TAG", "비콘이 보이는 상태 ::: state :::$state")
+    private fun isBeaconServiceRunning(): Boolean {
+        val activityManager = getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
+        for (service in activityManager.getRunningServices(Int.MAX_VALUE)) {
+            if (BeaconService::class.java.name == service.service.className) {
+                if (service.foreground) {
+                    return true
                 }
             }
+        }
+        return false
+    }
 
-        })
-
-        try {
-            beaconManager.startMonitoring(
-                Region(
-                    "2ACA4240-13EE-11E4-9416-0002A5D5C51B",
-                    null,
-                    null,
-                    null
-                )
-            )
-        } catch (ignored: RemoteException) {
-
+    private fun startBeaconService() {
+        if (!isBeaconServiceRunning()) {
+            val intent = Intent(applicationContext, BeaconService::class.java)
+            intent.action = "startBeacon"
+            startService(intent)
+            Toast.makeText(this.applicationContext, "Beacon service started", Toast.LENGTH_SHORT)
+                .show()
         }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-
-        beaconManager.unbindInternal(this)
+    private fun stopBeaconService() {
+        if (isBeaconServiceRunning()) {
+            val intent = Intent(applicationContext, BeaconService::class.java)
+            intent.action = "stopBeacon"
+            startService(intent)
+            Toast.makeText(this, "Beacon service stopped", Toast.LENGTH_SHORT).show()
+        }
     }
 }

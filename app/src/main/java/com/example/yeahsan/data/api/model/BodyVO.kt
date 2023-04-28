@@ -43,6 +43,12 @@ data class BodyVO(
     @SerializedName("outdoorMap")
     var outdoorMap : String,
 
+    @SerializedName("indoorIntro")
+    var indoorIntro : String,
+
+    @SerializedName("outdoorIntro")
+    var outdoorIntro : String,
+
     @SerializedName("indoorList")
     var indoorList : ArrayList<DoorListVO>,
 
