@@ -17,18 +17,16 @@ class MissionProgressFragmentPagerAdapter(fragmentManager:FragmentManager,lifecy
 
     enum class QuestProgressFragment { OUTSIDE, INSIDE }
 
-    val outsideMissionFragment = OutsideMissionFragment()
+    private val outsideMissionFragment = OutsideMissionFragment()
 
     override fun createFragment(position: Int): Fragment {
 
         when (position) {
             QuestProgressFragment.OUTSIDE.ordinal -> {
-                val outsideMissionFragment = OutsideMissionFragment()
-                return outsideMissionFragment
+                return OutsideMissionFragment()
             }
             QuestProgressFragment.INSIDE.ordinal -> {
-                val insideMissionFragment = InsideMissionFragment()
-                return insideMissionFragment
+                return InsideMissionFragment()
             }
 
         }

@@ -9,8 +9,11 @@ import android.webkit.WebChromeClient
 import android.webkit.WebView
 import com.example.yeahsan.BuildConfig
 import com.example.yeahsan.R
+import com.example.yeahsan.adapter.page.ArtifactFragmentAdapter
+import com.example.yeahsan.adapter.page.MissionProgressFragmentPagerAdapter
 import com.example.yeahsan.data.AppDataManager
 import com.example.yeahsan.databinding.ActivityArtifactBinding
+import com.google.android.material.tabs.TabLayoutMediator
 
 class ArtifactActivity : AppCompatActivity() {
 
@@ -22,51 +25,29 @@ class ArtifactActivity : AppCompatActivity() {
 
         setContentView(binding.root)
 
-        getData()
 
         initView()
-    }
-
-    private fun getData() {
-
-        AppDataManager(application).getSampleData {
-            initWebView(it?.body?.introduce)
-        }
-    }
-
-    private fun initWebView(webUrl : String?) {
-
-        val webSetting = binding.webView.settings
-
-        binding.webView.setLayerType(View.LAYER_TYPE_HARDWARE, null)
-
-        //  크롬에서 디버깅
-        if (BuildConfig.DEBUG) {
-            WebView.setWebContentsDebuggingEnabled(true)
-        }
-
-        webSetting.javaScriptEnabled = true
-
-        webSetting.useWideViewPort = true
-
-        webSetting.setSupportMultipleWindows(true)
-
-        webSetting.allowFileAccess = true
-
-        webSetting.javaScriptCanOpenWindowsAutomatically = true
-
-        webUrl?.let {
-            binding.webView.loadUrl(it)
-        }
-
-        binding.webView.webChromeClient = WebChromeClient()
     }
 
     private fun initView() {
 
         supportActionBar?.title = "유물"
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+        val pagerAdapter = ArtifactFragmentAdapter(supportFragmentManager,lifecycle,2)
+
+        binding.viewPager2.adapter = pagerAdapter
+        binding.viewPager2.isUserInputEnabled
+
+        TabLayoutMediator(binding.tabs,binding.viewPager2) {tab,position ->
+            val title = arrayOf("3D소장품","E-book소장품")
+            tab.text = title[position]
+        }.attach()
     }
+
+
+
+
 
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

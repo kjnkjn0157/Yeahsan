@@ -16,6 +16,24 @@ data class BodyVO(
     @SerializedName("introduce")
     var introduce : String,
 
+    @SerializedName("promotion")
+    var promotion : String,
+
+    @SerializedName("naepoStory")
+    var naepoStory : String,
+
+    @SerializedName("bobusangStory")
+    var bobusangStory : String,
+
+    @SerializedName("cultureExperience")
+    var cultureExperience : String,
+
+    @SerializedName("theater")
+    var theater : String,
+
+    @SerializedName("specialExhibition")
+    var specialExhibition : String,
+
     @SerializedName("filePath")
     var filePath : String,
 

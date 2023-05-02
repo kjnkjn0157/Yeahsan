@@ -163,9 +163,7 @@ class MainActivity : AppCompatActivity() {
             override fun onSingleClick(v: View?) {
 
             }
-
         })
-
     }
 
 
@@ -221,7 +219,6 @@ class MainActivity : AppCompatActivity() {
         }
         return false
     }
-
 
     override fun onDestroy() {
         super.onDestroy()

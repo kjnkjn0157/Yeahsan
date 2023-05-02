@@ -2,9 +2,11 @@ package com.example.yeahsan
 
 object AppConstants {
 
-    const val BASE_SAMPLE_URL = "2022/Yesan/Api/tourList.json"
+    const val BASE_TOUR_LIST = "2022/Yesan/Api/tourList.json"
 
-    const val BASE_URL_TEST = "https://appdata2.rendev.kr/"
+    const val BASE_URL = "https://appdata2.rendev.kr/"
+
+    const val COLLECTION_LIST = "2022/Yesan/Api/collectionList.json"
 
     const val OUT_DOOR_TYPE = "outdoor"
 

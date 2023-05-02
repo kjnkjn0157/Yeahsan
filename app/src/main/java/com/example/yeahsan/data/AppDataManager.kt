@@ -2,6 +2,7 @@ package com.example.yeahsan.data
 
 import android.app.Application
 import com.example.yeahsan.data.api.ApiManager
+import com.example.yeahsan.data.api.model.CollectionListVO
 import com.example.yeahsan.data.api.model.DoorListVO
 import com.example.yeahsan.data.api.model.SampleDataVO
 import com.example.yeahsan.data.pref.PrefsManager
@@ -13,6 +14,10 @@ class AppDataManager(val application: Application) : AppDataHelper {
 
     override fun getSampleData(callback: (SampleDataVO?) -> Unit) {
         return apiManager.getSampleData(callback)
+    }
+
+    override fun getCollectionListData(callback: (CollectionListVO?) -> Unit) {
+        return apiManager.getCollectionListData { callback }
     }
 
     /*pref*/

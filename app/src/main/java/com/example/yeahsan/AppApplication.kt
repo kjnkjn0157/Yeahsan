@@ -18,6 +18,7 @@ import com.google.android.exoplayer2.util.NotificationUtil.createNotificationCha
 import com.google.android.gms.maps.model.LatLng
 
 class AppApplication : Application() {
+
     override fun onCreate() {
         super.onCreate()
     }
