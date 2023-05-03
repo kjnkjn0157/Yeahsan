@@ -1,4 +1,4 @@
-package com.example.yeahsan.service
+package com.example.yeahsan.service.beacon
 
 import android.Manifest
 import android.annotation.SuppressLint

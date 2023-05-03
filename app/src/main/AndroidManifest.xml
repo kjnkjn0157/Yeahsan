@@ -35,7 +35,12 @@
         </service>
 
         <service
-            android:name=".service.BeaconService"
+            android:name=".service.beacon.BeaconService"
+            android:enabled="true"
+            android:exported="false" />
+
+        <service
+            android:name=".service.location.LocationService"
             android:enabled="true"
             android:exported="false" />
 

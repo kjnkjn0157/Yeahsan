@@ -10,6 +10,7 @@ import android.util.Log
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import com.example.yeahsan.AppApplication
 import com.example.yeahsan.BuildConfig
 import com.example.yeahsan.databinding.ActivitySettingBinding
 import com.google.firebase.messaging.FirebaseMessaging
@@ -53,6 +54,10 @@ class SettingActivity : AppCompatActivity() {
     private fun setStateButton() {
 
         binding.btnAccessGps.isChecked = resultStateGps()
+        Log.e("TAG","state check ::: ${binding.btnAccessGps.isChecked}")
+//        if (!binding.btnAccessGps.isChecked) {
+//            (application as AppApplication).stopBeaconService(true)
+//        }
     }
 
     private fun resultStateGps(): Boolean {

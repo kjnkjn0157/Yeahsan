@@ -1,20 +1,16 @@
 package com.example.yeahsan
 
 import android.Manifest
-import android.app.ActivityManager
 import android.app.Application
-import android.app.NotificationChannel
-import android.app.NotificationManager
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.LocationListener
 import android.location.LocationManager
-import android.os.Build
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
-import com.example.yeahsan.service.BeaconService
-import com.google.android.exoplayer2.util.NotificationUtil.createNotificationChannel
+import com.example.yeahsan.service.beacon.BeaconService
+import com.example.yeahsan.service.location.LocationService
 import com.google.android.gms.maps.model.LatLng
 
 class AppApplication : Application() {
@@ -47,52 +43,23 @@ class AppApplication : Application() {
         }
     }
 
-
     /**
-     * location update*/
-    fun getLocation(): LatLng {
+     * location service */
 
-        var latLng = LatLng(0.0,0.0)
-        val lm: LocationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
+    fun startLocationService() {
 
-        var location = if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
-            && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            Toast.makeText(this, "서비스가 제한될 수 있습니다.", Toast.LENGTH_SHORT).show()
-
-        } else {
-            val location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER)
-
-            val lat = location?.latitude
-            val long = location?.longitude
-
-            lm.requestLocationUpdates(
-                LocationManager.GPS_PROVIDER,
-                1000L,
-                1f,
-                gpsLocationListener
-            )
-
-            lm.requestLocationUpdates(
-                LocationManager.NETWORK_PROVIDER,
-                1000L,
-                1f,
-                gpsLocationListener
-            )
-
-            lat?.let {
-                long?.let {
-                    latLng = LatLng(lat, long)
-                }
-            }
-
-        }
-        return latLng
+        val intent = Intent(applicationContext, LocationService::class.java)
+        intent.action = "startLocation"
+        startService(intent)
+        Toast.makeText(this.applicationContext, "Location service started", Toast.LENGTH_SHORT).show()
     }
 
-    private val gpsLocationListener: LocationListener = LocationListener {
-
-        var lon = it.longitude
-        var lat = it.latitude
+    fun stopLocationService() {
+        val intent = Intent(applicationContext, BeaconService::class.java)
+        intent.action = "stopLocation"
+        startService(intent)
+        Toast.makeText(this, "Location service stopped", Toast.LENGTH_SHORT).show()
     }
+
 
 }

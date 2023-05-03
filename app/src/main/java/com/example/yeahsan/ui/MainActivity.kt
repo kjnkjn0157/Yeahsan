@@ -11,6 +11,8 @@ import android.util.Log
 import android.view.View
 import android.webkit.WebViewClient
 import android.widget.Toast
+import androidx.activity.result.ActivityResultCallback
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout.LOCK_MODE_LOCKED_CLOSED
@@ -18,7 +20,7 @@ import com.example.yeahsan.AppApplication
 import com.example.yeahsan.AppConstants
 import com.example.yeahsan.R
 import com.example.yeahsan.databinding.ActivityMainBinding
-import com.example.yeahsan.service.BeaconService
+import com.example.yeahsan.service.beacon.BeaconService
 import com.example.yeahsan.ui.artifact.ArtifactActivity
 import com.example.yeahsan.ui.doormissions.QuestMapActivity
 import com.example.yeahsan.ui.qr.QrScannerActivity
@@ -90,6 +92,7 @@ class MainActivity : AppCompatActivity() {
 
                 }
             }
+
             override fun onSlide(bottomSheet: View, slideOffset: Float) {
 
             }
@@ -159,23 +162,22 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
-        binding.navigationMenu.btnProgress.setOnClickListener(object : OnSingleClickListener(){
+        binding.navigationMenu.btnProgress.setOnClickListener(object : OnSingleClickListener() {
             override fun onSingleClick(v: View?) {
 
             }
         })
     }
 
-
-//    @RequiresApi(Build.VERSION_CODES.S)
+    //    @RequiresApi(Build.VERSION_CODES.S)
 //    @TargetApi(Build.VERSION_CODES.M)
     private fun checkPermission() {
         var permissions: Array<String> = arrayOf(
             //  android 12
-            Manifest.permission.ACCESS_FINE_LOCATION
-            , Manifest.permission.ACCESS_COARSE_LOCATION
-            , Manifest.permission.BLUETOOTH
-            , Manifest.permission.BLUETOOTH_ADMIN
+            Manifest.permission.ACCESS_FINE_LOCATION,
+            Manifest.permission.ACCESS_COARSE_LOCATION,
+            Manifest.permission.BLUETOOTH,
+            Manifest.permission.BLUETOOTH_ADMIN
         )
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             permissions += Manifest.permission.BLUETOOTH_SCAN
@@ -186,25 +188,19 @@ class MainActivity : AppCompatActivity() {
         TedPermission.create()
             .setPermissionListener(permissionListener)
             .setPermissions(*permissions)
-//            .setPermissions(
-//                Manifest.permission.ACCESS_COARSE_LOCATION,
-//                Manifest.permission.ACCESS_FINE_LOCATION,
-//                Manifest.permission.BLUETOOTH_SCAN,
-//                Manifest.permission.BLUETOOTH_ADMIN,
-//                Manifest.permission.BLUETOOTH_CONNECT
-//            )
             .check()
     }
 
     private val permissionListener: PermissionListener = object : PermissionListener {
         override fun onPermissionGranted() {
-            Log.e("permission","::: permissionGranted")
-            (application as AppApplication).startBeaconService(isBeaconServiceRunning())
+            Log.e("permission", "::: permissionGranted")
+            //(application as AppApplication).startBeaconService(isBeaconServiceRunning())
+            (application as AppApplication).startLocationService()
         }
 
         override fun onPermissionDenied(deniedPermissions: List<String>) {
-            Log.e("permission","::: permissionDenied")
-            Toast.makeText(this@MainActivity,"서비스가 제한될 수 있습니다.", Toast.LENGTH_SHORT).show()
+            Log.e("permission", "::: permissionDenied")
+            Toast.makeText(this@MainActivity, "서비스가 제한될 수 있습니다.", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -222,7 +218,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        Log.e("TAG","onDestroy ::: ")
+        Log.e("TAG", "onDestroy ::: ")
         (application as AppApplication).stopBeaconService(isBeaconServiceRunning())
     }
 }
