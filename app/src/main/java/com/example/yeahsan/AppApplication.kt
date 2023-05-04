@@ -103,7 +103,6 @@ class AppApplication : Application() {
         }
     }
 
-
     fun visibleState(view: View) :Int {
         val state = if (view.visibility == View.GONE) {
              View.VISIBLE
