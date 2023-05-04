@@ -16,6 +16,12 @@ data class CollectionVO(
     @SerializedName("url")
     var url : String,
 
+    @SerializedName("introduce")
+    var introduce : String?,
+
+    @SerializedName("thumbnail")
+    var thumbnail : String,
+
     @SerializedName("image")
     var image : String
 

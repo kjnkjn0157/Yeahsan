@@ -20,4 +20,6 @@ object AppConstants {
 
     const val TYPE_MINIMAP = "minimap"
 
+
+
 }

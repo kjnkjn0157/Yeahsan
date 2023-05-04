@@ -3,6 +3,7 @@ package com.example.yeahsan.ui
 import android.Manifest
 import android.annotation.SuppressLint
 import android.app.ActivityManager
+import android.app.Application
 import android.content.Context
 import android.content.Intent
 import android.os.Build
@@ -11,14 +12,13 @@ import android.util.Log
 import android.view.View
 import android.webkit.WebViewClient
 import android.widget.Toast
-import androidx.activity.result.ActivityResultCallback
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout.LOCK_MODE_LOCKED_CLOSED
 import com.example.yeahsan.AppApplication
 import com.example.yeahsan.AppConstants
 import com.example.yeahsan.R
+import com.example.yeahsan.data.AppDataManager
 import com.example.yeahsan.databinding.ActivityMainBinding
 import com.example.yeahsan.service.beacon.BeaconService
 import com.example.yeahsan.ui.artifact.ArtifactActivity
@@ -51,6 +51,9 @@ class MainActivity : AppCompatActivity() {
         setMoveActivity()
 
         checkPermission()
+
+        prepareData()
+
 
     }
 
@@ -162,11 +165,17 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
-        binding.navigationMenu.btnProgress.setOnClickListener(object : OnSingleClickListener() {
-            override fun onSingleClick(v: View?) {
+        binding.navigationMenu.btnMuseumIntro.setOnClickListener {
+           binding.navigationMenu.lyMuseum.visibility = (application as AppApplication).visibleState(binding.navigationMenu.lyMuseum)
+        }
 
-            }
-        })
+        binding.navigationMenu.btnExhibition.setOnClickListener {
+            binding.navigationMenu.lyExhibition.visibility = (application as AppApplication).visibleState(binding.navigationMenu.lyExhibition)
+        }
+
+        binding.navigationMenu.btnMuseumAr.setOnClickListener {
+            binding.navigationMenu.lyActivityContent.visibility =  (application as AppApplication).visibleState(binding.navigationMenu.lyActivityContent)
+        }
     }
 
     //    @RequiresApi(Build.VERSION_CODES.S)
@@ -194,7 +203,7 @@ class MainActivity : AppCompatActivity() {
     private val permissionListener: PermissionListener = object : PermissionListener {
         override fun onPermissionGranted() {
             Log.e("permission", "::: permissionGranted")
-            //(application as AppApplication).startBeaconService(isBeaconServiceRunning())
+            (application as AppApplication).startBeaconService(isBeaconServiceRunning())
             (application as AppApplication).startLocationService()
         }
 
@@ -204,7 +213,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun isBeaconServiceRunning(): Boolean {
+    private fun isBeaconServiceRunning(): Boolean {
         val activityManager = getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
         for (service in activityManager.getRunningServices(Int.MAX_VALUE)) {
             if (BeaconService::class.java.name == service.service.className) {
@@ -214,6 +223,15 @@ class MainActivity : AppCompatActivity() {
             }
         }
         return false
+    }
+
+    private fun prepareData() { //todo splash class 로 빼기
+
+        AppDataManager(application as AppApplication).getSampleData {
+            it?.body?.filePath?.let { filePath ->
+                AppDataManager(application as AppApplication).setFilePath(filePath)
+            }
+        }
     }
 
     override fun onDestroy() {

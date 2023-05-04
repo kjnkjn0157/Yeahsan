@@ -5,7 +5,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.example.yeahsan.ui.artifact.CollectionFragment
-import com.example.yeahsan.ui.artifact.E_BookFragment
+import com.example.yeahsan.ui.artifact.EBookFragment
 
 class ArtifactFragmentAdapter(fragmentManager: FragmentManager, lifecycle: Lifecycle, pagerCount : Int ) : FragmentStateAdapter(fragmentManager,lifecycle){
 
@@ -26,7 +26,7 @@ class ArtifactFragmentAdapter(fragmentManager: FragmentManager, lifecycle: Lifec
                 return CollectionFragment()
             }
             ArtifactFragmentAdapter.ArtifactPage.E_BOOK.ordinal -> {
-                return E_BookFragment()
+                return EBookFragment()
             }
 
         }

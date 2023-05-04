@@ -14,10 +14,187 @@
         app:layout_constraintTop_toTopOf="parent" >
 
         <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/btn_home"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="홈"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:layout_margin="16dp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/silver" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/btn_museum_intro"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="박물관 소개"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:drawableRight="@mipmap/ico_arrow"
+            android:layout_margin="16dp" />
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/ly_museum"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:orientation="vertical" >
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/btn_introduce"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="소개의 글"
+                android:layout_margin="16dp"
+                android:textColor="@color/black" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/btn_guide"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="관람 안내"
+                android:layout_margin="16dp"
+                android:textColor="@color/black" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/btn_search_road"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="찾아오시는 길"
+                android:layout_margin="16dp"
+                android:textColor="@color/black" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/silver" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/btn_exhibition"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="전시안내"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:drawableRight="@mipmap/ico_arrow"
+            android:layout_margin="16dp" />
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/ly_exhibition"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="상설전시"
+                android:textColor="@color/black"
+                android:layout_margin="16dp" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/silver" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/btn_museum_ar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="예산보부상박물관 AR모험"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:drawableRight="@mipmap/ico_arrow"
+            android:layout_margin="16dp" />
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/ly_activity_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/btn_indoor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="보부상 박물관의 신비한 비밀수첩"
+                android:textColor="@color/black"
+                android:layout_margin="16dp" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/btn_outdoor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="환생, 보부상으로 인생역전!"
+                android:textColor="@color/black"
+                android:layout_margin="16dp" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/btn_quest"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="나의 퀘스트"
+                android:textColor="@color/black"
+                android:layout_margin="16dp" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/silver" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/btn_museum_vr"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="VR 전시관람"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:layout_margin="16dp" />
+
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/silver" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/btn_artifact"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="유물 더 알아보기"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:layout_margin="16dp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/silver" />
+
+
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/btn_setting"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="setting"
+            android:text="환경설정"
             android:textSize="16sp"
             android:textStyle="bold"
             android:textColor="@color/black"
@@ -27,50 +204,6 @@
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
             android:background="@color/silver" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="outside"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:textColor="@color/black"
-            android:layout_margin="16dp" />
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:background="@color/silver" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="inside"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:textColor="@color/black"
-            android:layout_margin="16dp" />
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:background="@color/silver" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/btn_progress"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="progress"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:textColor="@color/black"
-            android:layout_margin="16dp" />
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:background="@color/silver" />
-
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 

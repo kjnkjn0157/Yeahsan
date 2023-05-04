@@ -22,6 +22,7 @@ class PrefsManager(private val context: Context) : PrefsHelper {
     private val missionSuccess: String = "$preferencesName.MISSION_SUCCESS"
     private val outdoorIntroResult : String = "$preferencesName.OUTDOOR_INTRO"
     private val indoorIntroResult : String = "$preferencesName.INDOOR_INTRO"
+    private val filePath : String = "$preferencesName.FILE_PATH"
 
     private val scope: CoroutineScope = CoroutineScope(context = Dispatchers.Main)
     inline fun <reified T> genericType() = object : TypeToken<T>() {}.type
@@ -114,6 +115,14 @@ class PrefsManager(private val context: Context) : PrefsHelper {
     override fun getInDoorIntroInvisible(): Boolean {
 
         return pref.getBoolean(indoorIntroResult, false)
+    }
+
+    override fun setFilePath(path: String?) {
+        pref.edit().putString(filePath,path).apply()
+    }
+
+    override fun getFilePath(): String? {
+        return pref.getString(filePath,"")
     }
 
 

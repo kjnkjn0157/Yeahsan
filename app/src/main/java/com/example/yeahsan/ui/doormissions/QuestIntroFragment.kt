@@ -1,5 +1,6 @@
 package com.example.yeahsan.ui.doormissions
 
+import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
@@ -11,7 +12,9 @@ import com.example.yeahsan.AppConstants
 import com.example.yeahsan.data.AppDataManager
 import com.example.yeahsan.databinding.FragmentQuestIntroBinding
 import com.example.yeahsan.util.OnSingleClickListener
+import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.MediaItem
+import com.google.android.exoplayer2.Player
 import com.google.android.exoplayer2.SimpleExoPlayer
 
 
@@ -71,15 +74,30 @@ class QuestIntroFragment : Fragment() {
                         binding.videoView.player = exoPlayer
                     }
 
-                val videoUrl = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+                val videoUrl = "https://appdata2.rendev.kr/2022/Yesan/Video/Outdoor/video_intro_outdoor.mp4"
                 val mediaItem = MediaItem.fromUri(Uri.parse(videoUrl))
                 simpleExoPlayer.setMediaItem(mediaItem)
-
+                simpleExoPlayer.addListener(playbackStateListener())
                 simpleExoPlayer.prepare()
                 simpleExoPlayer.play()
             }
         }
     }
+
+    private fun playbackStateListener() = object : Player.EventListener {
+        override fun onPlaybackStateChanged(playbackState: Int) {
+            val stateString: String = when (playbackState) {
+                ExoPlayer.STATE_ENDED -> "ExoPlayer.STATE_ENDED"
+                else -> "UNKNOWN_STATE"
+            }
+
+            if (stateString == "ExoPlayer.STATE_ENDED") {
+                val questMapActivity = activity as QuestMapActivity?
+                questMapActivity?.onFragmentChange(AppConstants.TYPE_MINIMAP)
+            }
+        }
+    }
+
 
     private fun clickEvent() {
 

@@ -12,15 +12,19 @@ class AppDataManager(val application: Application) : AppDataHelper {
     private val apiManager  = ApiManager(application)
     private val prefsManager: PrefsManager? = PrefsManager(application)
 
+    /**
+     * api*/
     override fun getSampleData(callback: (SampleDataVO?) -> Unit) {
         return apiManager.getSampleData(callback)
     }
 
     override fun getCollectionListData(callback: (CollectionListVO?) -> Unit) {
-        return apiManager.getCollectionListData { callback }
+        return apiManager.getCollectionListData(callback)
     }
 
-    /*pref*/
+
+    /**
+     * pref*/
     override fun setDenyCameraPermission(result: Boolean) {
         prefsManager?.setDenyCameraPermission(result)
     }
@@ -78,6 +82,17 @@ class AppDataManager(val application: Application) : AppDataHelper {
            return it.getInDoorIntroInvisible()
         }
         return false
+    }
+
+    override fun setFilePath(path: String?) {
+       prefsManager?.setFilePath(path)
+    }
+
+    override fun getFilePath(): String? {
+        prefsManager?.let{
+           return it.getFilePath()
+        }
+        return null
     }
 
 }

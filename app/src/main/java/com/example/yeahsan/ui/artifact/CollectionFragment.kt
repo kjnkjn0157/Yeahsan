@@ -7,39 +7,46 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.yeahsan.R
+import com.example.yeahsan.adapter.ArtifactListAdapter
 import com.example.yeahsan.data.AppDataManager
 import com.example.yeahsan.databinding.FragmentCollectionBinding
 
 class CollectionFragment : Fragment() {
 
-    private lateinit var binding : FragmentCollectionBinding
+    private lateinit var binding: FragmentCollectionBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
 
-        binding = FragmentCollectionBinding.inflate(inflater,container,false)
+        binding = FragmentCollectionBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        initView()
-
         getData()
     }
 
-    private fun initView() {
-
-    }
 
     private fun getData() {
 
         activity?.let {
+            val filePath = AppDataManager(it.application).getFilePath().toString()
             AppDataManager(it.application).getCollectionListData {
-                Log.e("TAG","fragment in collection data ::: ${it?.headerVO}")
+                it?.collectionBodyVO?.collectionList.let { list ->
+                    context?.let { context ->
+                        binding.rvArtifact.adapter =
+                            list?.let { array ->
+                                Log.e("TAG", "fragment in list ::: $list")
+                                ArtifactListAdapter(context, array, filePath) {
+
+                                }
+                            }
+                    }
+                }
             }
         }
     }

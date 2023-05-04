@@ -8,12 +8,11 @@ import android.view.ViewGroup
 import android.webkit.WebChromeClient
 import android.webkit.WebView
 import com.example.yeahsan.BuildConfig
-import com.example.yeahsan.R
 import com.example.yeahsan.data.AppDataManager
 import com.example.yeahsan.databinding.FragmentEBookBinding
 
 
-class E_BookFragment : Fragment() {
+class EBookFragment : Fragment() {
 
     private lateinit var binding : FragmentEBookBinding
 

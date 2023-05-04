@@ -1,24 +1,15 @@
-package com.example.yeahsan.util
+package com.example.yeahsan.service.beacon
 
 import android.annotation.SuppressLint
-import android.app.Application
 import android.content.Context
 import android.content.Intent
 import android.content.ServiceConnection
-import android.os.RemoteException
 import android.util.Log
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.Observer
 import com.example.yeahsan.AppApplication
 import com.example.yeahsan.data.AppDataManager
-import com.example.yeahsan.data.api.model.BeaconListVO
 import com.example.yeahsan.data.api.model.BeaconMapVO
 import com.example.yeahsan.data.api.model.DoorListVO
-import com.example.yeahsan.service.ContentEvent
-import com.example.yeahsan.service.beacon.BeaconConstant
-import com.example.yeahsan.service.beacon.BeaconScanResult
-import com.witches.utils.lsh.Hash
+import com.example.yeahsan.service.`interface`.ContentResult
 import org.altbeacon.beacon.*
 
 /**
@@ -41,6 +32,7 @@ class BeaconUtil() : InternalBeaconConsumer {
     private val outdoorBeaconList: HashMap<BeaconMapVO, Int> = hashMapOf()
     private val scannedBeaconList: HashSet<BeaconMapVO> = hashSetOf()
 
+
     companion object {
 
         @SuppressLint("StaticFieldLeak")
@@ -49,11 +41,14 @@ class BeaconUtil() : InternalBeaconConsumer {
         @SuppressLint("StaticFieldLeak")
         private lateinit var context: Context
 
-        fun getInstance(_context: Context): BeaconUtil {
+        private lateinit var application : AppApplication
+
+        fun getInstance(_context: Context, appApplication: AppApplication): BeaconUtil {
             return instance ?: synchronized(this) {
                 instance ?: BeaconUtil().also {
                     context = _context
                     instance = it
+                    application = appApplication
                 }
             }
         }
@@ -125,12 +120,19 @@ class BeaconUtil() : InternalBeaconConsumer {
                                     val delay = currentTime - recentTime
                                     if (delay > BeaconConstant.DURATION_BEACON_SCAN) {
                                         scannedBeaconList.add(BeaconMapVO(Integer.parseInt(beacon.id2.toString()),Integer.parseInt(beacon.id3.toString())))
-                                        checkBeaconData(scannedBeaconList,object : BeaconScanResult{
-                                            override fun onBeaconScanned(item : DoorListVO) {
-                                                //다른 class(위치,비콘 result 처리할 곳 ) 로 보내서 처리
-                                                ContentEvent.getInstance(applicationContext).setContent(item)
-                                            }
-                                        })
+                                        checkBeaconData(scannedBeaconList, application.contentResult)
+                                    }
+                                }
+                            }
+                            outdoorBeaconList[key]?.let {
+                                if (beacon.rssi > it) {
+                                    //1분에 한번씩 허용
+                                    val recentTime = beacon.firstCycleDetectionTimestamp
+                                    val currentTime = System.currentTimeMillis()
+                                    val delay = currentTime - recentTime
+                                    if (delay > BeaconConstant.DURATION_BEACON_SCAN) {
+                                        scannedBeaconList.add(BeaconMapVO(Integer.parseInt(beacon.id2.toString()),Integer.parseInt(beacon.id3.toString())))
+                                        checkBeaconData(scannedBeaconList, application.contentResult)
                                     }
                                 }
                             }
@@ -141,14 +143,18 @@ class BeaconUtil() : InternalBeaconConsumer {
         }
     }
 
-    private fun checkBeaconData(list : HashSet<BeaconMapVO> , result : BeaconScanResult) {
+    private fun checkBeaconData(list : HashSet<BeaconMapVO> , result : ContentResult) {
+
+        val indoorResultArray = ArrayList<DoorListVO>()
+        val outdoorResultArray = ArrayList<DoorListVO>()
 
         indoorList?.let {
             for (i in 0 until it.size) {
                 for (j in 0 until it[i].beaconList.size) {
                     val temp = BeaconMapVO(it[i].beaconList[j].major,it[i].beaconList[j].minor)
                     if (list.contains(temp)) {
-                       result.onBeaconScanned(it[i])
+                        result.onContentReceived(it[i])
+                   //     indoorResultArray.add(it[i])
                     }
                 }
             }
@@ -159,7 +165,8 @@ class BeaconUtil() : InternalBeaconConsumer {
                 for (j in 0 until it[i].beaconList.size) {
                     val temp = BeaconMapVO(it[i].beaconList[j].major,it[i].beaconList[j].minor)
                     if (list.contains(temp)) {
-                        result.onBeaconScanned(it[i])
+                        result.onContentReceived(it[i])
+                     //   outdoorResultArray.add(it[i])
                     }
                 }
             }

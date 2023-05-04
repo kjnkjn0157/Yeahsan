@@ -30,4 +30,9 @@ interface PrefsHelper {
 
     fun getInDoorIntroInvisible() : Boolean
 
+    //기본 file path
+    fun setFilePath(path : String?)
+
+    fun getFilePath() : String?
+
 }

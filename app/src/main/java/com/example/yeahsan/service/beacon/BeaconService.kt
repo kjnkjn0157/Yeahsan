@@ -11,8 +11,8 @@ import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
+import com.example.yeahsan.AppApplication
 import com.example.yeahsan.R
-import com.example.yeahsan.util.BeaconUtil
 
 class BeaconService : Service() {
 
@@ -52,7 +52,7 @@ class BeaconService : Service() {
             Log.e("TAG", "permission null ::: ")
             return
         }
-        BeaconUtil.getInstance(this).onBeaconServiceConnect()
+        BeaconUtil.getInstance(this,(application as AppApplication)).onBeaconServiceConnect()
         Log.e("TAG", "permission not null ::: ")
         startForeground(2, notification)
     }
