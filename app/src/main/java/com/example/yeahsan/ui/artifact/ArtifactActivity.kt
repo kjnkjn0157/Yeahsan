@@ -25,7 +25,6 @@ class ArtifactActivity : AppCompatActivity() {
 
         setContentView(binding.root)
 
-
         initView()
     }
 
@@ -44,9 +43,6 @@ class ArtifactActivity : AppCompatActivity() {
             tab.text = title[position]
         }.attach()
     }
-
-
-
 
 
 

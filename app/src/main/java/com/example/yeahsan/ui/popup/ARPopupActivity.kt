@@ -2,16 +2,17 @@ package com.example.yeahsan.ui.popup
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.example.yeahsan.databinding.ActivityPopupBinding
+import com.example.yeahsan.databinding.ActivityArPopupBinding
 
-class PopupActivity : AppCompatActivity() {
 
-    private lateinit var binding : ActivityPopupBinding
+class ARPopupActivity : AppCompatActivity() {
+
+    private lateinit var binding : ActivityArPopupBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        binding = ActivityPopupBinding.inflate(layoutInflater)
+        binding = ActivityArPopupBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         getData()

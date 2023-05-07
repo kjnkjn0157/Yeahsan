@@ -19,7 +19,7 @@ import com.example.yeahsan.data.api.model.DoorListVO
 import com.example.yeahsan.data.api.model.DoorPathListVO
 
 import com.example.yeahsan.databinding.FragmentMiniMapBinding
-import com.example.yeahsan.ui.popup.PopupActivity
+import com.example.yeahsan.ui.popup.ARPopupActivity
 import com.witches.mapview.MapView
 import com.witches.mapview.`object`.MapMarker
 import com.witches.mapview.`object`.MapPath
@@ -282,7 +282,7 @@ class MiniMapFragment : Fragment() {
         override fun onMarkerClick(marker: MapMarker?) {
             Log.e("TAG", "onMarkerCLick:::")
             //todo 필요 데이터 intent 에 담아 같이 보내기
-            val intent = Intent(context, PopupActivity::class.java)
+            val intent = Intent(context, ARPopupActivity::class.java)
             startActivity(intent)
         }
 

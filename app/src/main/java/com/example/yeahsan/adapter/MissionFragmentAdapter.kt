@@ -1,5 +1,6 @@
 package com.example.yeahsan.adapter
 
+import android.annotation.SuppressLint
 import android.content.Context
 
 import android.view.LayoutInflater
@@ -24,8 +25,10 @@ class MissionFragmentAdapter(private var context : Context, private var list : A
         return Holder(view)
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: MissionFragmentAdapter.Holder, position: Int) {
 
+        holder.count.text = (position + 1).toString()
         holder.title.text = list[position].name
         holder.btnClear.setTag(R.id.TAG_POSITION,position)
         holder.btnClear.setTag(R.id.TAG_IV,holder.image)
@@ -43,5 +46,6 @@ class MissionFragmentAdapter(private var context : Context, private var list : A
         val title : TextView = itemView.findViewById(R.id.tv_quest_title)
         val image : ImageView = itemView.findViewById(R.id.iv_item)
         val btnClear : TextView = itemView.findViewById(R.id.tv_quest_clear)
+        val count : TextView = itemView.findViewById(R.id.tv_count)
     }
 }

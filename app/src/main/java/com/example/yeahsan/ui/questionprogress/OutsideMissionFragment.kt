@@ -22,6 +22,7 @@ class OutsideMissionFragment : Fragment() {
 
     private lateinit var binding: FragmentOutsideMissionProgressBinding
     private var outdoorList: ArrayList<DoorListVO>? = null
+    private var clearList: ArrayList<DoorListVO>? = arrayListOf()
 
 
     override fun onCreateView(
@@ -54,38 +55,45 @@ class OutsideMissionFragment : Fragment() {
             AppDataManager(it.application).getSampleData { list ->
                 outdoorList = list?.body?.outdoorList
             }
+              clearList = AppDataManager(it.application).getMissionClearItems()
         }
 
     }
 
     private fun initView() {
 
-        outdoorList?.let { list->
-            binding.rvQuestList.adapter = context?.let { context ->
-                MissionFragmentAdapter(context,list) {
-                    //test code--> click 시 미션 성공이라 가장하고 진행
-                    val position = it.getTag(R.id.TAG_POSITION) as Int
-                    val imageView = it.getTag(R.id.TAG_IV) as ImageView
-                    Glide.with(context)
-                        .load(R.mipmap.main_vr_phone)
-                        .into(imageView)
+       // clearList?.let {
+          //  if (it.size > 0) {
 
-                    val clearItem = DoorListVO(
-                        list[position].seq,
-                        list[position].code,
-                        list[position].name,
-                        list[position].hint,
-                        list[position].image,
-                        list[position].mapX,
-                        list[position].mapY,
-                        list[position].beaconList,
-                        list[position].locationList
-                    )
-                   activity?.let {activity ->
-                       AppDataManager(activity.application).addMissionClearItem(clearItem)
-                   }
-                }
-            }
+          //  } else {
+                outdoorList?.let { list->
+                    binding.rvQuestList.adapter = context?.let { context ->
+                        MissionFragmentAdapter(context,list) {
+                            //test code--> click 시 미션 성공이라 가장하고 진행
+                            val position = it.getTag(R.id.TAG_POSITION) as Int
+                            val imageView = it.getTag(R.id.TAG_IV) as ImageView
+                            Glide.with(context)
+                                .load(R.mipmap.main_vr_phone)
+                                .into(imageView)
+
+                            val clearItem = DoorListVO(
+                                list[position].seq,
+                                list[position].code,
+                                list[position].name,
+                                list[position].hint,
+                                list[position].image,
+                                list[position].mapX,
+                                list[position].mapY,
+                                list[position].beaconList,
+                                list[position].locationList
+                            )
+                            activity?.let {activity ->
+                                AppDataManager(activity.application).addMissionClearItem(clearItem)
+                            }
+                        }
+                    }
+               // }
+           // }
         }
     }
 
