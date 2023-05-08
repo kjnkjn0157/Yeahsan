@@ -8,21 +8,18 @@ import android.content.pm.PackageManager
 import android.os.Build
 import android.os.IBinder
 import android.os.Looper
-import android.util.Log
+
 import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import com.example.yeahsan.AppApplication
 import com.example.yeahsan.R
-import com.example.yeahsan.data.AppDataManager
-import com.example.yeahsan.data.api.model.DoorListVO
-import com.example.yeahsan.data.api.model.LocationListVO
+
 
 import com.google.android.gms.location.*
 
 class LocationService : Service() {
 
-    val SERVICE_STRING = "location Service"
 
     private lateinit var mLocationCallback : LocationCallback
 
@@ -38,9 +35,9 @@ class LocationService : Service() {
 
         if (intent != null) {
             val action = intent.action.toString()
-            if (action == "startLocation") {
+            if (action == LocationConstant.LOCATION_SERVICE_START) {
                 startLocationService()
-            } else if (action == "stopLocation") {
+            } else if (action == LocationConstant.LOCATION_SERVICE_STOP) {
                 stopLocationService()
             }
         }
@@ -51,8 +48,8 @@ class LocationService : Service() {
     @RequiresApi(Build.VERSION_CODES.O)
     private fun createNotificationChannel() {
         val nc = NotificationChannel(
-            SERVICE_STRING,
-            "Location Service Channel",
+            LocationConstant.LOCATION_SERVICE,
+            LocationConstant.LOCATION_CHANNEL,
             NotificationManager.IMPORTANCE_DEFAULT
         )
         val nm = getSystemService(NotificationManager::class.java)
@@ -74,13 +71,13 @@ class LocationService : Service() {
         )
 
         return NotificationCompat
-            .Builder(this, SERVICE_STRING)
+            .Builder(this, LocationConstant.LOCATION_SERVICE)
             .setContentTitle("myNotify__Location")
             .setDefaults(Notification.DEFAULT_ALL)
             .setContentText("my location service running ::: ")
             .setAutoCancel(false)
             .setContentIntent(pendingIntent)
-            .setSmallIcon(R.mipmap.ic_launcher_round)
+            .setSmallIcon(R.mipmap.app_icon)
             .build()
     }
 

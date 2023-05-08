@@ -112,7 +112,9 @@ class ApppApplication : Application() {
                     repeat(k) { action() }
                 }
             }
-            jobs.forEach { it.join() }
+            jobs.forEach {
+                it.join() // 이 작업이 완료 될 떄까지 코루틴 일시 중단
+            }
         }
         println(">>> time : $time ms")
     }

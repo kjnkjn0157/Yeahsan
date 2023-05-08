@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.example.yeahsan.AppApplication
 import com.example.yeahsan.AppConstants
 import com.example.yeahsan.data.AppDataManager
 import com.example.yeahsan.databinding.FragmentQuestIntroBinding
@@ -55,9 +56,9 @@ class QuestIntroFragment : Fragment() {
         activity?.let {activity ->
             type?.let { type ->
                 visibleResult = if (type == AppConstants.OUT_DOOR_TYPE) {
-                    AppDataManager(activity.application).getOutDoorIntroInvisible()
+                    AppDataManager.getInstance(activity.application as AppApplication).getOutDoorIntroInvisible()
                 } else {
-                    AppDataManager(activity.application).getInDoorIntroInvisible()
+                    AppDataManager.getInstance(activity.application as AppApplication).getInDoorIntroInvisible()
                 }
             }
 
@@ -115,12 +116,12 @@ class QuestIntroFragment : Fragment() {
                 activity?.let {activity ->
                     type?.let {
                         if (type == AppConstants.OUT_DOOR_TYPE) {
-                            AppDataManager(activity.application).setOutDoorIntroInvisible(true)
+                            AppDataManager.getInstance(activity.application as AppApplication).setOutDoorIntroInvisible(true)
                             val questMapActivity = activity as QuestMapActivity?
                             questMapActivity?.onFragmentChange(AppConstants.TYPE_MINIMAP)
 
                         } else {
-                            AppDataManager(activity.application).setInDoorIntroInvisible(true)
+                            AppDataManager.getInstance(activity.application as AppApplication).setInDoorIntroInvisible(true)
                             val questMapActivity = activity as QuestMapActivity?
                             questMapActivity?.onFragmentChange(AppConstants.TYPE_MINIMAP)
                         }

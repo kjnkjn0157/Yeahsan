@@ -8,11 +8,9 @@ import android.widget.Toast
 import com.example.yeahsan.data.api.model.DoorListVO
 import com.example.yeahsan.service.beacon.BeaconService
 import com.example.yeahsan.service.`interface`.ContentResult
+import com.example.yeahsan.service.location.LocationConstant
 import com.example.yeahsan.service.location.LocationService
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.newSingleThreadContext
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.*
 import kotlin.system.measureTimeMillis
 
 
@@ -48,16 +46,17 @@ class AppApplication : Application() {
 
     /**
      * Beacon Service */
-    fun startBeaconService(isBeaconServiceRunning : Boolean) {
+    fun startBeaconService(isBeaconServiceRunning: Boolean) {
         if (!isBeaconServiceRunning) {
             val intent = Intent(applicationContext, BeaconService::class.java)
             intent.action = "startBeacon"
             startService(intent)
-            Toast.makeText(this.applicationContext, "Beacon service started", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this.applicationContext, "Beacon service started", Toast.LENGTH_SHORT)
+                .show()
         }
     }
 
-    fun stopBeaconService(isBeaconServiceRunning : Boolean) {
+    fun stopBeaconService(isBeaconServiceRunning: Boolean) {
         if (isBeaconServiceRunning) {
             val intent = Intent(applicationContext, BeaconService::class.java)
             intent.action = "stopBeacon"
@@ -73,14 +72,15 @@ class AppApplication : Application() {
     fun startLocationService() {
 
         val intent = Intent(applicationContext, LocationService::class.java)
-        intent.action = "startLocation"
+        intent.action = LocationConstant.LOCATION_SERVICE_START
         startService(intent)
-        Toast.makeText(this.applicationContext, "Location service started", Toast.LENGTH_SHORT).show()
+        Toast.makeText(this.applicationContext, "Location service started", Toast.LENGTH_SHORT)
+            .show()
     }
 
     fun stopLocationService() {
         val intent = Intent(applicationContext, BeaconService::class.java)
-        intent.action = "stopLocation"
+        intent.action = LocationConstant.LOCATION_SERVICE_STOP
         startService(intent)
         Toast.makeText(this, "Location service stopped", Toast.LENGTH_SHORT).show()
     }
@@ -92,24 +92,33 @@ class AppApplication : Application() {
     val contentResult = object : ContentResult {
         override fun onContentReceived(content: DoorListVO) {
             //  단일 결과
-            Log.e("TAG","content data ::: $content")
+            doSingleThread(content)
+            Log.e("TAG", "content data ::: $content")
             //  -> Content Event
         }
 
         override fun onContentsReceived(contents: ArrayList<DoorListVO>) {
             //  다중 결과
-            Log.e("TAG","content result arr ::: $contents")
+            Log.e("TAG", "content result arr ::: $contents")
             //  -> Content Event
         }
     }
 
-    fun visibleState(view: View) :Int {
+    private fun doSingleThread(content:DoorListVO) {
+        runBlocking {
+            CoroutineScope(singleContext).launch {
+
+            }
+        }
+    }
+
+    fun visibleState(view: View): Int {
         val state = if (view.visibility == View.GONE) {
-             View.VISIBLE
+            View.VISIBLE
         } else {
             View.GONE
         }
-       return state
+        return state
     }
 
 }

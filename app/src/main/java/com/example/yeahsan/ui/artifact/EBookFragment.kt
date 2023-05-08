@@ -7,9 +7,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.webkit.WebChromeClient
 import android.webkit.WebView
-import com.example.yeahsan.BuildConfig
+import com.example.yeahsan.AppApplication
+
 import com.example.yeahsan.data.AppDataManager
 import com.example.yeahsan.databinding.FragmentEBookBinding
+import com.google.android.datatransport.BuildConfig
 
 
 class EBookFragment : Fragment() {
@@ -37,7 +39,7 @@ class EBookFragment : Fragment() {
 
     private fun getData() {
         activity?.let {
-            AppDataManager(it.application).getSampleData {
+            AppDataManager.getInstance(it.application as AppApplication).getSampleData {
                 initWebView(it?.body?.ebook)
             }
         }

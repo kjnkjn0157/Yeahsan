@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.example.yeahsan.AppApplication
 import com.example.yeahsan.R
 import com.example.yeahsan.adapter.ArtifactListAdapter
 import com.example.yeahsan.data.AppDataManager
@@ -34,8 +35,8 @@ class CollectionFragment : Fragment() {
     private fun getData() {
 
         activity?.let {
-            val filePath = AppDataManager(it.application).getFilePath().toString()
-            AppDataManager(it.application).getCollectionListData {
+            val filePath = AppDataManager.getInstance(it.application as AppApplication).getFilePath().toString()
+            AppDataManager.getInstance(it.application as AppApplication).getCollectionListData {
                 it?.collectionBodyVO?.collectionList.let { list ->
                     context?.let { context ->
                         binding.rvArtifact.adapter =

@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.content.ServiceConnection
+import android.os.RemoteException
 import android.util.Log
 import com.example.yeahsan.AppApplication
 import com.example.yeahsan.data.AppDataManager
@@ -115,6 +116,7 @@ class BeaconUtil() : InternalBeaconConsumer {
                             indoorBeaconList[key]?.let {
                                 if (beacon.rssi > it) {
                                     //1분에 한번씩 허용
+                                    Log.e("TAG","beacon indoor ::: $it")
                                     val recentTime = beacon.firstCycleDetectionTimestamp
                                     val currentTime = System.currentTimeMillis()
                                     val delay = currentTime - recentTime
@@ -127,6 +129,7 @@ class BeaconUtil() : InternalBeaconConsumer {
                             outdoorBeaconList[key]?.let {
                                 if (beacon.rssi > it) {
                                     //1분에 한번씩 허용
+                                    Log.e("TAG","beacon outdoor ::: $it")
                                     val recentTime = beacon.firstCycleDetectionTimestamp
                                     val currentTime = System.currentTimeMillis()
                                     val delay = currentTime - recentTime
@@ -143,10 +146,11 @@ class BeaconUtil() : InternalBeaconConsumer {
         }
     }
 
+//        val indoorResultArray = ArrayList<DoorListVO>()
+//        val outdoorResultArray = ArrayList<DoorListVO>()
+
     private fun checkBeaconData(list : HashSet<BeaconMapVO> , result : ContentResult) {
 
-        val indoorResultArray = ArrayList<DoorListVO>()
-        val outdoorResultArray = ArrayList<DoorListVO>()
 
         indoorList?.let {
             for (i in 0 until it.size) {
@@ -176,7 +180,7 @@ class BeaconUtil() : InternalBeaconConsumer {
 
     private fun getData() {
         // major,minor 가 키 , value 엔 어떤 content rssi 값보다 dbm 이 클 경우 팝업 띄우기 .....
-        AppDataManager(applicationContext as AppApplication).getSampleData {
+        AppDataManager.getInstance(application).getSampleData {
 
             indoorList = it?.body?.indoorList
             outdoorList = it?.body?.outdoorList

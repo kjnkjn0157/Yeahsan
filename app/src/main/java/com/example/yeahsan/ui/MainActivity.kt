@@ -52,7 +52,7 @@ class MainActivity : AppCompatActivity() {
 
         checkPermission()
 
-        prepareData()
+        //prepareData()
 
 
     }
@@ -227,9 +227,9 @@ class MainActivity : AppCompatActivity() {
 
     private fun prepareData() { //todo splash class 로 빼기
 
-        AppDataManager(application as AppApplication).getSampleData {
+        AppDataManager.getInstance(application as AppApplication).getSampleData {
             it?.body?.filePath?.let { filePath ->
-                AppDataManager(application as AppApplication).setFilePath(filePath)
+                AppDataManager.getInstance(application as AppApplication).setFilePath(filePath)
             }
         }
     }

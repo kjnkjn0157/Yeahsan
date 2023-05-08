@@ -7,6 +7,7 @@ import android.view.View
 import android.webkit.WebChromeClient
 import android.webkit.WebView
 import androidx.appcompat.app.AppCompatActivity
+import com.example.yeahsan.AppApplication
 import com.example.yeahsan.BuildConfig
 import com.example.yeahsan.data.AppDataManager
 import com.example.yeahsan.databinding.ActivityVrBinding
@@ -28,7 +29,7 @@ class VrActivity : AppCompatActivity() {
 
     private fun getData() {
 
-        AppDataManager(application).getSampleData {
+        AppDataManager.getInstance(application as AppApplication).getSampleData {
             val vrUrl = it?.body?.vr
 
             initWebView(vrUrl)

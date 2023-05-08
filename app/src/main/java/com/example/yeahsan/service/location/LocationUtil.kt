@@ -38,7 +38,7 @@ class LocationUtil {
 
     fun getData() {
 
-        AppDataManager(application).getSampleData {
+        AppDataManager.getInstance(application).getSampleData {
             it?.let {
                 for(i in 0 until it.body.indoorList.size) {
                     indoorLocationList.add(it.body.indoorList[i])

@@ -1,5 +1,6 @@
 package com.example.yeahsan.data.api
 
+import android.app.Application
 import android.content.Context
 import android.util.Log
 import com.example.yeahsan.AppConstants
@@ -10,7 +11,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class ApiManager(private val context : Context) : ApiHelper {
+class ApiManager(private val application : Application) : ApiHelper {
 
     private val apiClient = ApiClient.getRetrofitService(ApiClient.getInstance(AppConstants.BASE_URL))
 
@@ -37,6 +38,7 @@ class ApiManager(private val context : Context) : ApiHelper {
             })
         } else {
             callback(baseData)
+            Log.e("TAG","list callback :::")
         }
     }
 

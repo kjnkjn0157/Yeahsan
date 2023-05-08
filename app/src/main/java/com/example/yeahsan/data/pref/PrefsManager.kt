@@ -6,7 +6,10 @@ import android.content.SharedPreferences
 import android.util.Log
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.example.yeahsan.AppConstants
+import com.example.yeahsan.data.api.model.BodyVO
 import com.example.yeahsan.data.api.model.DoorListVO
+import com.example.yeahsan.data.api.model.HeaderVO
+import com.example.yeahsan.data.api.model.SampleDataVO
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import kotlinx.coroutines.CoroutineScope
@@ -22,13 +25,13 @@ class PrefsManager(private val context: Context) : PrefsHelper {
     private val missionSuccess: String = "$preferencesName.MISSION_SUCCESS"
     private val outdoorIntroResult : String = "$preferencesName.OUTDOOR_INTRO"
     private val indoorIntroResult : String = "$preferencesName.INDOOR_INTRO"
-    private val filePath : String = "$preferencesName.FILE_PATH"
 
     private val scope: CoroutineScope = CoroutineScope(context = Dispatchers.Main)
     inline fun <reified T> genericType() = object : TypeToken<T>() {}.type
 
     //  기본 환경 변수
     private val pref: SharedPreferences = context.getSharedPreferences(preferencesName, Context.MODE_PRIVATE)
+
 
     override fun setDenyCameraPermission(result: Boolean) {
 
@@ -117,13 +120,6 @@ class PrefsManager(private val context: Context) : PrefsHelper {
         return pref.getBoolean(indoorIntroResult, false)
     }
 
-    override fun setFilePath(path: String?) {
-        pref.edit().putString(filePath,path).apply()
-    }
-
-    override fun getFilePath(): String? {
-        return pref.getString(filePath,"")
-    }
 
 
 }

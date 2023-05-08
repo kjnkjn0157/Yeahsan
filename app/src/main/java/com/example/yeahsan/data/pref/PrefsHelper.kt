@@ -1,6 +1,7 @@
 package com.example.yeahsan.data.pref
 
 import com.example.yeahsan.data.api.model.DoorListVO
+import com.example.yeahsan.data.api.model.SampleDataVO
 
 interface PrefsHelper {
 
@@ -30,9 +31,6 @@ interface PrefsHelper {
 
     fun getInDoorIntroInvisible() : Boolean
 
-    //기본 file path
-    fun setFilePath(path : String?)
 
-    fun getFilePath() : String?
 
 }

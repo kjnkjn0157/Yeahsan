@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.ContentInfoCompat.Flags
 import com.dlazaro66.qrcodereaderview.QRCodeReaderView
+import com.example.yeahsan.AppApplication
 import com.example.yeahsan.data.AppDataManager
 import com.example.yeahsan.databinding.ActivityQrScannerBinding
 import com.gun0912.tedpermission.PermissionListener
@@ -142,8 +143,8 @@ class QrScannerActivity : AppCompatActivity() {
                 }
                 overridePendingTransition(0, 0)
             } else {
-                if(!AppDataManager(application).isDenyCameraPermission()) { // 최초 카메라 권한 거부 시 중복 묻기 방지
-                    AppDataManager(application).setDenyCameraPermission(true)
+                if(!AppDataManager.getInstance(application as AppApplication).isDenyCameraPermission()) { // 최초 카메라 권한 거부 시 중복 묻기 방지
+                    AppDataManager.getInstance(application as AppApplication).setDenyCameraPermission(true)
                     Toast.makeText(this@QrScannerActivity, "권한 거부", Toast.LENGTH_SHORT).show()
                     finish()
                 } else {

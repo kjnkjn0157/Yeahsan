@@ -82,7 +82,7 @@ class BeaconService : Service() {
             .setContentText("my beacon service running ::: ")
             .setAutoCancel(false)
             .setContentIntent(pendingIntent)
-            .setSmallIcon(R.mipmap.ic_launcher)
+            .setSmallIcon(R.mipmap.app_icon)
             .build()
     }
 

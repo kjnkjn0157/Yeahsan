@@ -12,6 +12,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
+import com.example.yeahsan.AppApplication
 import com.example.yeahsan.AppConstants
 import com.example.yeahsan.R
 import com.example.yeahsan.data.AppDataManager
@@ -73,7 +74,7 @@ class MiniMapFragment : Fragment() {
 
         activity?.let {
             //api data
-            AppDataManager(it.application).getSampleData { list ->
+            AppDataManager.getInstance(it.application as AppApplication).getSampleData { list ->
                 if (type == AppConstants.OUT_DOOR_TYPE) {
                     markerList = list?.body?.outdoorList
                     pathList = list?.body?.outdoorPathList
@@ -83,7 +84,7 @@ class MiniMapFragment : Fragment() {
                     pathList = list?.body?.indoorPathList
                 }
             }
-            clearList = AppDataManager(it.application).getMissionClearItems()
+            clearList = AppDataManager.getInstance(it.application as AppApplication).getMissionClearItems()
         }
         initView()
     }
