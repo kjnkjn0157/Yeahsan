@@ -30,11 +30,15 @@ class ArtifactListAdapter(
         holder.name.text = list[position].name
 
         val imageUrl = path + list[position].thumbnail
-        Log.e("TAG","imageurl ::: $imageUrl")
 
-//        Glide.with(context)
-//            .load(imageUrl)
-//            .into(holder.image)
+        Glide.with(context)
+            .load(imageUrl)
+            .placeholder(R.mipmap.img_holder)
+            .into(holder.image)
+
+        holder.image.tag = position
+        holder.image.setOnClickListener(onClickListener)
+
     }
 
     override fun getItemCount(): Int {

@@ -41,14 +41,16 @@
                     android:src="@mipmap/btn_map_home_mark" />
 
                 <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/btn_search_question"
+                    android:id="@+id/btn_map"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:visibility="gone"
                     android:src="@mipmap/btn_map_search_question" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 
             <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/iv_title"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -57,11 +59,11 @@
                 android:src="@mipmap/map_title" />
 
             <androidx.appcompat.widget.AppCompatImageView
-               android:id="@+id/btn_map_quest"
+               android:id="@+id/btn_search_quest"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
-                android:src="@mipmap/btn_map_question_mark"/>
+                android:src="@mipmap/btn_map_search_question"/>
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 

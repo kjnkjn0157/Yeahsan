@@ -3,13 +3,9 @@ package com.example.yeahsan.data.pref
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
-import android.util.Log
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.example.yeahsan.AppConstants
-import com.example.yeahsan.data.api.model.BodyVO
 import com.example.yeahsan.data.api.model.DoorListVO
-import com.example.yeahsan.data.api.model.HeaderVO
-import com.example.yeahsan.data.api.model.SampleDataVO
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import kotlinx.coroutines.CoroutineScope
@@ -22,7 +18,8 @@ class PrefsManager(private val context: Context) : PrefsHelper {
     private val preferencesName: String = context.packageName
     private val prefDenyCameraPermission: String = "$preferencesName.DENY_CAMERA"
     private val prefFcmNotice: String = "$preferencesName.FCM_NOTICE"
-    private val missionSuccess: String = "$preferencesName.MISSION_SUCCESS"
+    private val outdoorMissionSuccess: String = "$preferencesName.OUT_MISSION_SUCCESS"
+    private val indoorMissionSuccess: String = "$preferencesName.in_MISSION_SUCCESS"
     private val outdoorIntroResult : String = "$preferencesName.OUTDOOR_INTRO"
     private val indoorIntroResult : String = "$preferencesName.INDOOR_INTRO"
 
@@ -53,17 +50,32 @@ class PrefsManager(private val context: Context) : PrefsHelper {
         return pref.getBoolean(prefFcmNotice, false)
     }
 
-    override fun setMissionClearItems(items: ArrayList<DoorListVO>) {
+    override fun setOutdoorMissionClearItems(items: ArrayList<DoorListVO>) {
 
         val gson = GsonBuilder().enableComplexMapKeySerialization().create()
         val string = gson.toJson(items)
-        pref.edit().putString(missionSuccess, string).apply()
+        pref.edit().putString(outdoorMissionSuccess, string).apply()
     }
 
-    override fun getMissionClearItems(): ArrayList<DoorListVO>? {
+    override fun getOutdoorMissionClearItems(): ArrayList<DoorListVO>? {
 
         val gson = GsonBuilder().enableComplexMapKeySerialization().create()
-        val string = pref.getString(missionSuccess, "")
+        val string = pref.getString(outdoorMissionSuccess, "")
+        if (string == "") {
+            return arrayListOf()
+        }
+        return gson.fromJson(string, genericType<ArrayList<DoorListVO>>())
+    }
+
+    override fun setIndoorMissionClearItems(items: ArrayList<DoorListVO>) {
+        val gson = GsonBuilder().enableComplexMapKeySerialization().create()
+        val string = gson.toJson(items)
+        pref.edit().putString(indoorMissionSuccess, string).apply()
+    }
+
+    override fun getIndoorMissionClearItems(): ArrayList<DoorListVO>? {
+        val gson = GsonBuilder().enableComplexMapKeySerialization().create()
+        val string = pref.getString(indoorMissionSuccess, "")
         if (string == "") {
             return arrayListOf()
         }
@@ -74,7 +86,7 @@ class PrefsManager(private val context: Context) : PrefsHelper {
 
         scope.launch {
             withContext(Dispatchers.IO) {
-                val list = getMissionClearItems()
+                val list = getOutdoorMissionClearItems()
                 val allSeq : ArrayList<Int> = arrayListOf()
 
                 list?.let {
@@ -86,11 +98,11 @@ class PrefsManager(private val context: Context) : PrefsHelper {
 
                         } else {
                             it.add(item)
-                            setMissionClearItems(it)
+                            setOutdoorMissionClearItems(it)
                         }
                     } else {
                         it.add(item)
-                        setMissionClearItems(it)
+                        setOutdoorMissionClearItems(it)
                     }
                 }
             }

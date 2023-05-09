@@ -2,16 +2,19 @@ package com.example.yeahsan
 
 import android.app.Application
 import android.content.Intent
+import android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP
+import android.content.Intent.FLAG_ACTIVITY_NEW_TASK
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import com.example.yeahsan.data.AppDataManager
 import com.example.yeahsan.data.api.model.DoorListVO
 import com.example.yeahsan.service.beacon.BeaconService
 import com.example.yeahsan.service.`interface`.ContentResult
 import com.example.yeahsan.service.location.LocationConstant
 import com.example.yeahsan.service.location.LocationService
-import kotlinx.coroutines.*
-import kotlin.system.measureTimeMillis
+import com.example.yeahsan.ui.popup.GameZonePopupActivity
+import java.util.Collections.list
 
 
 /**
@@ -85,32 +88,26 @@ class AppApplication : Application() {
         Toast.makeText(this, "Location service stopped", Toast.LENGTH_SHORT).show()
     }
 
-    val singleContext = newSingleThreadContext("ContentContext")
-    var contents: ArrayList<DoorListVO> = arrayListOf()
-
 
     val contentResult = object : ContentResult {
+
         override fun onContentReceived(content: DoorListVO) {
-            //  단일 결과
-            doSingleThread(content)
-            Log.e("TAG", "content data ::: $content")
-            //  -> Content Event
-        }
-
-        override fun onContentsReceived(contents: ArrayList<DoorListVO>) {
-            //  다중 결과
-            Log.e("TAG", "content result arr ::: $contents")
-            //  -> Content Event
-        }
-    }
-
-    private fun doSingleThread(content:DoorListVO) {
-        runBlocking {
-            CoroutineScope(singleContext).launch {
+            Log.e("TAG","content ::: $content")
+            if(AppDataManager.getInstance(this@AppApplication).isGamePopupResult()) {
+                val scannedContents: ArrayList<DoorListVO> = arrayListOf()
+                scannedContents.add(content)
+                if (scannedContents.size > 0) {
+                    val intent = Intent(this@AppApplication,GameZonePopupActivity::class.java)
+                    intent.putExtra("item",scannedContents[0])
+                    startActivity(intent.addFlags(FLAG_ACTIVITY_NEW_TASK))
+                }
+            } else {
 
             }
         }
     }
+
+
 
     fun visibleState(view: View): Int {
         val state = if (view.visibility == View.GONE) {
@@ -122,3 +119,6 @@ class AppApplication : Application() {
     }
 
 }
+
+
+

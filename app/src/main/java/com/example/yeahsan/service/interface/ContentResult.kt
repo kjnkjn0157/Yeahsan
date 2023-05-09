@@ -11,5 +11,5 @@ interface ContentResult {
     /**
      * 다중 결과 처리
      */
-    fun onContentsReceived(contents: ArrayList<DoorListVO>)
+  //  fun onContentsReceived(contents: ArrayList<DoorListVO>)
 }

@@ -1,12 +1,11 @@
 package com.example.yeahsan.data.api
 
-import com.example.yeahsan.data.api.model.CollectionListVO
-import com.example.yeahsan.data.api.model.SampleDataVO
+import com.example.yeahsan.data.api.model.BasicDataVO
 
 interface ApiHelper {
 
-    fun getSampleData(callback: (SampleDataVO?) -> Unit)
+    fun getBaseData(callback: (BasicDataVO?) -> Unit)
 
-    fun getCollectionListData(callback: (CollectionListVO?) -> Unit)
+ //   fun getCollectionListData(callback: (CollectionListVO?) -> Unit)
 }
 

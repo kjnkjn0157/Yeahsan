@@ -39,7 +39,7 @@ class EBookFragment : Fragment() {
 
     private fun getData() {
         activity?.let {
-            AppDataManager.getInstance(it.application as AppApplication).getSampleData {
+            AppDataManager.getInstance(it.application as AppApplication).getBaseData {
                 initWebView(it?.body?.ebook)
             }
         }

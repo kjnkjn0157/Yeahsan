@@ -8,10 +8,10 @@ import kotlinx.android.parcel.Parcelize
 data class BeaconListVO(
 
     @SerializedName("major")
-    var major : Int,
+    var major : String,
 
     @SerializedName("minor")
-    var minor : Int,
+    var minor : String,
 
     @SerializedName("aRssi")
     var aRssi : Int,

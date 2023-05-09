@@ -20,7 +20,8 @@ import com.example.yeahsan.data.api.model.DoorListVO
 import com.example.yeahsan.data.api.model.DoorPathListVO
 
 import com.example.yeahsan.databinding.FragmentMiniMapBinding
-import com.example.yeahsan.ui.popup.ARPopupActivity
+import com.example.yeahsan.ui.popup.HintPopupActivity
+import com.example.yeahsan.ui.questionprogress.QuestionActivity
 import com.witches.mapview.MapView
 import com.witches.mapview.`object`.MapMarker
 import com.witches.mapview.`object`.MapPath
@@ -33,6 +34,7 @@ class MiniMapFragment : Fragment() {
     private var pathList: ArrayList<DoorPathListVO>? = arrayListOf()
     private var type: String? = null
     private var clearList: ArrayList<DoorListVO>? = arrayListOf()
+    private var mapUrl = ""
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -72,28 +74,32 @@ class MiniMapFragment : Fragment() {
 
     private fun getData(type: String) {
 
-        activity?.let {
+        activity?.let {activity ->
             //api data
-            AppDataManager.getInstance(it.application as AppApplication).getSampleData { list ->
+            AppDataManager.getInstance(activity.application as AppApplication).getBaseData { list ->
                 if (type == AppConstants.OUT_DOOR_TYPE) {
                     markerList = list?.body?.outdoorList
                     pathList = list?.body?.outdoorPathList
+                    mapUrl = AppDataManager.getInstance(activity.application as AppApplication).getFilePath().toString() + list?.body?.outdoorMap
+                    binding.miniMap.setMap(mapUrl)
+                    clearList = AppDataManager.getInstance(activity.application as AppApplication).getOutdoorMissionClearItems()
 
                 } else if (type == AppConstants.IN_DOOR_TYPE) {
+                    binding.ivTitle.setImageResource(R.mipmap.img_topmapmenu_logo_inside)
                     markerList = list?.body?.indoorList
                     pathList = list?.body?.indoorPathList
+                    mapUrl = AppDataManager.getInstance(activity.application as AppApplication).getFilePath().toString() + list?.body?.indoorMap
+                    binding.miniMap.setMap(mapUrl)
+                    clearList = AppDataManager.getInstance(activity.application as AppApplication).getIndoorMissionClearItems()
                 }
             }
-            clearList = AppDataManager.getInstance(it.application as AppApplication).getMissionClearItems()
+
         }
         initView()
     }
 
 
     private fun initView() {
-
-        //보여지는 이미지 map 셋팅
-        binding.miniMap.setMap(R.drawable.img_map_outdoor)
 
         //내 위치 사용
         binding.miniMap.enableMyLocationCompass()
@@ -123,7 +129,7 @@ class MiniMapFragment : Fragment() {
                 for (i in markerList.indices) {
                     val marker = MapMarker(context)
                     marker.isClickable = true
-                    marker.tag = markerList[i].toString()
+                    marker.tag = markerList[i].seq.toString()
                     marker.isTitleVisible = true
                     marker.setPoint (
                         markerList[i].mapX.toFloat(),
@@ -138,11 +144,7 @@ class MiniMapFragment : Fragment() {
     }
 
 
-    private fun checkMissionProgress(
-        clearList: ArrayList<DoorListVO>,
-        markerList: ArrayList<DoorListVO>?,
-        _mapView: MapView
-    ) {
+    private fun checkMissionProgress(clearList: ArrayList<DoorListVO>, markerList: ArrayList<DoorListVO>?, _mapView: MapView) {
 
         val allSeq: ArrayList<Int> = arrayListOf()
 
@@ -159,7 +161,7 @@ class MiniMapFragment : Fragment() {
                     marker.setMarker(R.mipmap.ico_question_pre)
                 }
                 marker.isClickable = true
-                marker.tag = markerList[i].toString()
+                marker.tag = markerList[i].seq.toString()
                 marker.isTitleVisible = true
                 marker.setPoint(markerList[i].mapX.toFloat(), markerList[i].mapY.toFloat(), false)
                 _mapView.addMarker(marker)
@@ -199,7 +201,7 @@ class MiniMapFragment : Fragment() {
             }
 
             pathList?.let {
-                setPath(_mapView, it)
+               // setPath(_mapView, it)
             }
         }
 
@@ -217,7 +219,7 @@ class MiniMapFragment : Fragment() {
 
         clearList?.let {
             if (it.size > 0) {
-                getQuestScore(it.size)
+                setQuestScore(it.size)
             } else {
                 binding.seekBar.setProgress(0.0f)
             }
@@ -259,31 +261,51 @@ class MiniMapFragment : Fragment() {
 
     private fun setClickEvent() {
 
-        binding.btnMapQuest.setOnClickListener {
-            getQuestScore(0)
-        }
-
         binding.btnHome.setOnClickListener {
             activity?.finish()
         }
 
-        binding.btnSearchQuestion.setOnClickListener {
-
+        binding.btnSearchQuest.setOnClickListener {
+            val intent = Intent(context,QuestionActivity::class.java)
+            startActivity(intent)
         }
     }
 
 
-    private fun getQuestScore(clearCount: Int) {
+    private fun setQuestScore(clearCount: Int) {
 
-            binding.seekBar.setProgress(binding.seekBar.progress + 12.5f)
+        val questCount = markerList?.size
+        questCount?.let {
+            var score = 100 / questCount.toFloat()
+            Log.e("TAG","score ::: $score")
+
+            binding.seekBar.setProgress(score*clearCount)
+        }
+
+
+
     }
 
 
     private val markerClickListener = object : MapView.OnMarkerClickListener {
         override fun onMarkerClick(marker: MapMarker?) {
-            Log.e("TAG", "onMarkerCLick:::")
-            //todo 필요 데이터 intent 에 담아 같이 보내기
-            val intent = Intent(context, ARPopupActivity::class.java)
+            val seq = marker?.tag
+            var hint = ""
+            var name = ""
+            var imageUrl = ""
+
+            markerList?.forEach {
+                if(it.seq.toString() == seq ) {
+                    hint = it.hint.toString()
+                    name = it.name
+                    imageUrl = it.image
+                }
+            }
+            val intent = Intent(context, HintPopupActivity::class.java)
+            intent.putExtra(AppConstants.HINT_STRING ,hint)
+            intent.putExtra(AppConstants.NAME_STRING ,name)
+            intent.putExtra(AppConstants.IMAGE_URL_STRING ,imageUrl)
+            Log.e("TAG","title ::: minimap $name")
             startActivity(intent)
         }
 

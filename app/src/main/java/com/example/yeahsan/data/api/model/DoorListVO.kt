@@ -22,11 +22,17 @@ data class DoorListVO(
     @SerializedName("image")
     var image : String,
 
+    @SerializedName("caption")
+    var caption : String,
+
+    @SerializedName("thumbnail")
+    var thumbnail : String,
+
     @SerializedName("mapX")
-    var mapX : Int,
+    var mapX : String,
 
     @SerializedName("mapY")
-    var mapY : Int,
+    var mapY : String,
 
     @SerializedName("beaconList")
     var beaconList : ArrayList<BeaconListVO>,

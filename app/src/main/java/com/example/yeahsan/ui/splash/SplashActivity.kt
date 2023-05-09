@@ -36,7 +36,7 @@ class SplashActivity : AppCompatActivity() {
 
     private fun getPreData() {
 
-        AppDataManager.getInstance(application as AppApplication).getSampleData {
+        AppDataManager.getInstance(application as AppApplication).getBaseData {
 
             it?.body?.filePath?.let { filePath ->
                 AppDataManager.getInstance(application as AppApplication).setFilePath(filePath)

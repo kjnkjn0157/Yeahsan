@@ -111,24 +111,24 @@ class QuestIntroFragment : Fragment() {
         })
 
         //더는 보지 않기
-        binding.btnIntroInvisible.setOnClickListener(object : OnSingleClickListener() {
-            override fun onSingleClick(v: View?) {
-                activity?.let {activity ->
-                    type?.let {
-                        if (type == AppConstants.OUT_DOOR_TYPE) {
-                            AppDataManager.getInstance(activity.application as AppApplication).setOutDoorIntroInvisible(true)
-                            val questMapActivity = activity as QuestMapActivity?
-                            questMapActivity?.onFragmentChange(AppConstants.TYPE_MINIMAP)
-
-                        } else {
-                            AppDataManager.getInstance(activity.application as AppApplication).setInDoorIntroInvisible(true)
-                            val questMapActivity = activity as QuestMapActivity?
-                            questMapActivity?.onFragmentChange(AppConstants.TYPE_MINIMAP)
-                        }
-                    }
-                }
-            }
-        })
+//        binding.btnIntroInvisible.setOnClickListener(object : OnSingleClickListener() {
+//            override fun onSingleClick(v: View?) {
+//                activity?.let {activity ->
+//                    type?.let {
+//                        if (type == AppConstants.OUT_DOOR_TYPE) {
+//                            AppDataManager.getInstance(activity.application as AppApplication).setOutDoorIntroInvisible(true)
+//                            val questMapActivity = activity as QuestMapActivity?
+//                            questMapActivity?.onFragmentChange(AppConstants.TYPE_MINIMAP)
+//
+//                        } else {
+//                            AppDataManager.getInstance(activity.application as AppApplication).setInDoorIntroInvisible(true)
+//                            val questMapActivity = activity as QuestMapActivity?
+//                            questMapActivity?.onFragmentChange(AppConstants.TYPE_MINIMAP)
+//                        }
+//                    }
+//                }
+//            }
+//        })
     }
 
     override fun onDestroyView() {

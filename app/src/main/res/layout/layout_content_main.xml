@@ -69,6 +69,7 @@
                     android:layout_width="112dp"
                     android:layout_height="112dp"
                     android:src="@mipmap/ground_bottle"
+                    android:visibility="invisible"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.3"
@@ -160,6 +161,7 @@
 
     <include
         android:id="@+id/main_bottom_sheet"
+        android:visibility="invisible"
         layout="@layout/bottom_sheet" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.content.ServiceConnection
-import android.os.RemoteException
 import android.util.Log
 import com.example.yeahsan.AppApplication
 import com.example.yeahsan.data.AppDataManager
@@ -26,8 +25,8 @@ import org.altbeacon.beacon.*
 
 class BeaconUtil() : InternalBeaconConsumer {
     //main 에서 권한 검사 먼저 하고 있다면 서비스 가동
-    private var indoorList : ArrayList<DoorListVO>? = null
-    private var outdoorList : ArrayList<DoorListVO>? = null
+    private var indoorList: ArrayList<DoorListVO>? = null
+    private var outdoorList: ArrayList<DoorListVO>? = null
 
     private val indoorBeaconList: HashMap<BeaconMapVO, Int> = hashMapOf()
     private val outdoorBeaconList: HashMap<BeaconMapVO, Int> = hashMapOf()
@@ -42,7 +41,7 @@ class BeaconUtil() : InternalBeaconConsumer {
         @SuppressLint("StaticFieldLeak")
         private lateinit var context: Context
 
-        private lateinit var application : AppApplication
+        private lateinit var application: AppApplication
 
         fun getInstance(_context: Context, appApplication: AppApplication): BeaconUtil {
             return instance ?: synchronized(this) {
@@ -109,56 +108,92 @@ class BeaconUtil() : InternalBeaconConsumer {
 
             beacons?.let {
                 if (it.isNotEmpty() && indoorBeaconList.size > 0 && outdoorBeaconList.size > 0) {
+                    var temp: Int? = null
+                    var tempBeacon: Beacon? = null
                     for (beacon: Beacon in beacons) {
-                        Log.e("TAG", "내가 찾은 비콘 ::: major ${beacon.id2} :::: minor ${beacon.id3}")
+                        //      Log.e("TAG", "내가 찾은 비콘 ::: major ${beacon.id2} :::: minor ${beacon.id3}")
                         val key = BeaconMapVO(Integer.parseInt(beacon.id2.toString()), Integer.parseInt(beacon.id3.toString()))
                         if (indoorBeaconList.containsKey(key) || outdoorBeaconList.containsKey(key)) {
-                            indoorBeaconList[key]?.let {
-                                if (beacon.rssi > it) {
-                                    //1분에 한번씩 허용
-                                    Log.e("TAG","beacon indoor ::: $it")
-                                    val recentTime = beacon.firstCycleDetectionTimestamp
-                                    val currentTime = System.currentTimeMillis()
-                                    val delay = currentTime - recentTime
-                                    if (delay > BeaconConstant.DURATION_BEACON_SCAN) {
-                                        scannedBeaconList.add(BeaconMapVO(Integer.parseInt(beacon.id2.toString()),Integer.parseInt(beacon.id3.toString())))
-                                        checkBeaconData(scannedBeaconList, application.contentResult)
+                            indoorBeaconList[key]?.let { rssi ->
+                                if (beacon.rssi > rssi) {
+                                    Log.e("TAG","111 :::")
+                                    if (temp != null) {
+                                        Log.e("TAG","222 :::")
+                                        if (temp!! < rssi) {
+                                            Log.e("TAG","333 :::")
+                                            temp = rssi
+                                            tempBeacon = beacon
+                                        } else {
+                                            Log.e("TAG","444 :::")
+                                            tempBeacon = beacon
+                                        }
+                                    } else {
+                                        Log.e("TAG","555 :::")
+                                        temp = rssi
                                     }
+                                    Log.e("TAG", "beacon indoor ::: $temp")
                                 }
                             }
-                            outdoorBeaconList[key]?.let {
-                                if (beacon.rssi > it) {
-                                    //1분에 한번씩 허용
-                                    Log.e("TAG","beacon outdoor ::: $it")
-                                    val recentTime = beacon.firstCycleDetectionTimestamp
-                                    val currentTime = System.currentTimeMillis()
-                                    val delay = currentTime - recentTime
-                                    if (delay > BeaconConstant.DURATION_BEACON_SCAN) {
-                                        scannedBeaconList.add(BeaconMapVO(Integer.parseInt(beacon.id2.toString()),Integer.parseInt(beacon.id3.toString())))
-                                        checkBeaconData(scannedBeaconList, application.contentResult)
+                            outdoorBeaconList[key]?.let { rssi ->
+                                if (beacon.rssi > rssi) {
+                                    Log.e("TAG","111 :::")
+                                    if (temp != null) {
+                                        Log.e("TAG","222 :::")
+                                        if (temp!! < rssi) {
+                                            Log.e("TAG","333 :::")
+                                            temp = rssi
+                                            tempBeacon = beacon
+                                            Log.e("TAG","temp beacon ::: $tempBeacon")
+                                        } else {
+                                            Log.e("TAG","444 :::")
+                                            tempBeacon = beacon
+                                            Log.e("TAG","temp beacon else ::: $tempBeacon")
+                                        }
+                                    } else {
+                                        Log.e("TAG","555 :::")
+                                        temp = rssi
+                                        tempBeacon = beacon
+                                        Log.e("TAG","temp beacon else ::: $tempBeacon")
                                     }
+
+                                    Log.e("TAG", "beacon outdoor ::: $temp")
                                 }
                             }
                         }
                     }
+                    // 1분에 한번씩 허용
+                    tempBeacon?.let { findBeacon ->
+//                        val currentTime = System.currentTimeMillis()
+//                        Log.e("TAG","current time ::: $currentTime")
+//                        var recentTime = findBeacon.firstCycleDetectionTimestamp
+//                        Log.e("TAG"," recentTime ::: $recentTime")
+//                        val delay = currentTime - recentTime
+//                        Log.e("TAG","delay ::: $delay")
+//                        if (delay > BeaconConstant.DURATION_BEACON_SCAN) {
+                            Log.e("TAG","여긴 아님:::")
+                            scannedBeaconList.add(BeaconMapVO(Integer.parseInt(findBeacon.id2.toString()), Integer.parseInt(findBeacon.id3.toString())))
+                            checkBeaconData(scannedBeaconList, application.contentResult)
+                     //   }
+                    }
+                    Log.e("TAG", "final beacon ::: $tempBeacon")
                 }
             }
         }
     }
 
-//        val indoorResultArray = ArrayList<DoorListVO>()
-//        val outdoorResultArray = ArrayList<DoorListVO>()
 
-    private fun checkBeaconData(list : HashSet<BeaconMapVO> , result : ContentResult) {
+    private fun checkBeaconData(list: HashSet<BeaconMapVO>, result: ContentResult) {
 
 
         indoorList?.let {
             for (i in 0 until it.size) {
                 for (j in 0 until it[i].beaconList.size) {
-                    val temp = BeaconMapVO(it[i].beaconList[j].major,it[i].beaconList[j].minor)
+                    val temp = BeaconMapVO(
+                        Integer.parseInt(it[i].beaconList[j].major),
+                        Integer.parseInt(it[i].beaconList[j].minor)
+                    )
                     if (list.contains(temp)) {
                         result.onContentReceived(it[i])
-                   //     indoorResultArray.add(it[i])
                     }
                 }
             }
@@ -167,10 +202,10 @@ class BeaconUtil() : InternalBeaconConsumer {
         outdoorList?.let {
             for (i in 0 until it.size) {
                 for (j in 0 until it[i].beaconList.size) {
-                    val temp = BeaconMapVO(it[i].beaconList[j].major,it[i].beaconList[j].minor)
+                    val temp = BeaconMapVO(Integer.parseInt(it[i].beaconList[j].major), Integer.parseInt(it[i].beaconList[j].minor))
                     if (list.contains(temp)) {
+                        Log.e("TAG"," 들어오나..?:::")
                         result.onContentReceived(it[i])
-                     //   outdoorResultArray.add(it[i])
                     }
                 }
             }
@@ -180,17 +215,23 @@ class BeaconUtil() : InternalBeaconConsumer {
 
     private fun getData() {
         // major,minor 가 키 , value 엔 어떤 content rssi 값보다 dbm 이 클 경우 팝업 띄우기 .....
-        AppDataManager.getInstance(application).getSampleData {
+        AppDataManager.getInstance(application).getBaseData {
 
             indoorList = it?.body?.indoorList
             outdoorList = it?.body?.outdoorList
 
             it?.body?.indoorList?.forEach { list ->
-                val beaconMap = BeaconMapVO(list.beaconList[0].major, list.beaconList[0].minor)
+                val beaconMap = BeaconMapVO(
+                    Integer.parseInt(list.beaconList[0].major),
+                    Integer.parseInt(list.beaconList[0].minor)
+                )
                 indoorBeaconList[beaconMap] = list.beaconList[0].aRssi
             }
             it?.body?.outdoorList?.forEach { list ->
-                val beaconMap = BeaconMapVO(list.beaconList[0].major, list.beaconList[0].minor)
+                val beaconMap = BeaconMapVO(
+                    Integer.parseInt(list.beaconList[0].major),
+                    Integer.parseInt(list.beaconList[0].minor)
+                )
                 outdoorBeaconList[beaconMap] = list.beaconList[0].aRssi
             }
         }

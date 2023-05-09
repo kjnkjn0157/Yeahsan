@@ -1,7 +1,6 @@
 package com.example.yeahsan.data.pref
 
 import com.example.yeahsan.data.api.model.DoorListVO
-import com.example.yeahsan.data.api.model.SampleDataVO
 
 interface PrefsHelper {
 
@@ -16,9 +15,13 @@ interface PrefsHelper {
     fun getSettingFCM() : Boolean
 
     //미션 클리어 아이템
-    fun setMissionClearItems(items : ArrayList<DoorListVO>)
+    fun setOutdoorMissionClearItems(items : ArrayList<DoorListVO>)
 
-    fun getMissionClearItems() : ArrayList<DoorListVO>?
+    fun getOutdoorMissionClearItems() : ArrayList<DoorListVO>?
+
+    fun setIndoorMissionClearItems(items : ArrayList<DoorListVO>)
+
+    fun getIndoorMissionClearItems() : ArrayList<DoorListVO>?
 
     fun addMissionClearItem(item : DoorListVO)
 

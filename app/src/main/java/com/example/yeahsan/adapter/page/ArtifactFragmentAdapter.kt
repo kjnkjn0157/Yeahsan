@@ -22,10 +22,10 @@ class ArtifactFragmentAdapter(fragmentManager: FragmentManager, lifecycle: Lifec
     override fun createFragment(position: Int): Fragment {
 
         when (position) {
-            ArtifactFragmentAdapter.ArtifactPage.COLLECTION.ordinal -> {
+            ArtifactPage.COLLECTION.ordinal -> {
                 return CollectionFragment()
             }
-            ArtifactFragmentAdapter.ArtifactPage.E_BOOK.ordinal -> {
+            ArtifactPage.E_BOOK.ordinal -> {
                 return EBookFragment()
             }
 

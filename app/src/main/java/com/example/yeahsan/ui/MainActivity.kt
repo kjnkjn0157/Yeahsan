@@ -3,7 +3,6 @@ package com.example.yeahsan.ui
 import android.Manifest
 import android.annotation.SuppressLint
 import android.app.ActivityManager
-import android.app.Application
 import android.content.Context
 import android.content.Intent
 import android.os.Build
@@ -18,7 +17,6 @@ import androidx.drawerlayout.widget.DrawerLayout.LOCK_MODE_LOCKED_CLOSED
 import com.example.yeahsan.AppApplication
 import com.example.yeahsan.AppConstants
 import com.example.yeahsan.R
-import com.example.yeahsan.data.AppDataManager
 import com.example.yeahsan.databinding.ActivityMainBinding
 import com.example.yeahsan.service.beacon.BeaconService
 import com.example.yeahsan.ui.artifact.ArtifactActivity
@@ -26,7 +24,7 @@ import com.example.yeahsan.ui.doormissions.QuestMapActivity
 import com.example.yeahsan.ui.qr.QrScannerActivity
 import com.example.yeahsan.ui.questionprogress.QuestionActivity
 import com.example.yeahsan.ui.setting.SettingActivity
-import com.example.yeahsan.ui.vr.VrActivity
+import com.example.yeahsan.ui.vr.WebViewActivity
 import com.example.yeahsan.util.OnSingleClickListener
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.gun0912.tedpermission.PermissionListener
@@ -51,9 +49,6 @@ class MainActivity : AppCompatActivity() {
         setMoveActivity()
 
         checkPermission()
-
-        //prepareData()
-
 
     }
 
@@ -136,7 +131,8 @@ class MainActivity : AppCompatActivity() {
                     intent = Intent(this@MainActivity, QuestionActivity::class.java)
                 }
                 R.id.btn_main_vr_phone -> {
-                    intent = Intent(this@MainActivity, VrActivity::class.java)
+                    intent = Intent(this@MainActivity, WebViewActivity::class.java)
+                    intent.putExtra(AppConstants.STRING_TYPE,AppConstants.VR_STRING)
                 }
                 R.id.btn_main_diary -> {
                     intent = Intent(this@MainActivity, QuestMapActivity::class.java)
@@ -225,14 +221,6 @@ class MainActivity : AppCompatActivity() {
         return false
     }
 
-    private fun prepareData() { //todo splash class 로 빼기
-
-        AppDataManager.getInstance(application as AppApplication).getSampleData {
-            it?.body?.filePath?.let { filePath ->
-                AppDataManager.getInstance(application as AppApplication).setFilePath(filePath)
-            }
-        }
-    }
 
     override fun onDestroy() {
         super.onDestroy()

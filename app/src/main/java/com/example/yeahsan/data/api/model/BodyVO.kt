@@ -13,8 +13,8 @@ data class BodyVO(
     @SerializedName("ebook")
     var ebook : String,
 
-    @SerializedName("introduce")
-    var introduce : String,
+    @SerializedName("notice")
+    var notice : String,
 
     @SerializedName("promotion")
     var promotion : String,
@@ -33,6 +33,18 @@ data class BodyVO(
 
     @SerializedName("specialExhibition")
     var specialExhibition : String,
+
+    @SerializedName("museumIntroduction")
+    var museumIntroduction : String,
+
+    @SerializedName("museumGuide")
+    var museumGuide : String,
+
+    @SerializedName("museumDirections")
+    var museumDirections : String,
+
+    @SerializedName("naepoBobusang")
+    var naepoBobusang : String,
 
     @SerializedName("filePath")
     var filePath : String,

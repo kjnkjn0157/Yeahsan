@@ -2,15 +2,16 @@ package com.example.yeahsan.data
 
 import android.annotation.SuppressLint
 import android.app.Application
-import android.content.Context
 import com.example.yeahsan.AppApplication
-import com.example.yeahsan.data.AppDataManager.Companion.prefsManager
 import com.example.yeahsan.data.api.ApiManager
 import com.example.yeahsan.data.api.model.*
 import com.example.yeahsan.data.pref.PrefsManager
-import com.example.yeahsan.service.location.LocationUtil
 
 class AppDataManager : AppDataHelper {
+
+    private var filePath : String? = null
+    private var baseData : BasicDataVO? = null
+    private var gamePopupResult  = false
 
     companion object {
         private lateinit var apiManager : ApiManager
@@ -23,7 +24,7 @@ class AppDataManager : AppDataHelper {
         @SuppressLint("StaticFieldLeak")
         private lateinit var application : Application
 
-        fun getInstance( appApplication: AppApplication): AppDataManager {
+        fun getInstance(appApplication: AppApplication): AppDataManager {
             return instance ?: synchronized(this) {
                 instance ?: AppDataManager().also {
                     instance = it
@@ -38,13 +39,13 @@ class AppDataManager : AppDataHelper {
 
     /**
      * api*/
-    override fun getSampleData(callback: (SampleDataVO?) -> Unit) {
-        return apiManager.getSampleData(callback)
+    override fun getBaseData(callback: (BasicDataVO?) -> Unit) {
+        return apiManager.getBaseData(callback)
     }
 
-    override fun getCollectionListData(callback: (CollectionListVO?) -> Unit) {
-        return apiManager.getCollectionListData(callback)
-    }
+//    override fun getCollectionListData(callback: (CollectionListVO?) -> Unit) {
+//        return apiManager.getCollectionListData(callback)
+//    }
 
     /**
      * pref*/
@@ -72,13 +73,24 @@ class AppDataManager : AppDataHelper {
         return true
     }
 
-    override fun setMissionClearItems(items: ArrayList<DoorListVO>) {
-        prefsManager?.setMissionClearItems(items)
+    override fun setOutdoorMissionClearItems(items: ArrayList<DoorListVO>) {
+        prefsManager?.setOutdoorMissionClearItems(items)
     }
 
-    override fun getMissionClearItems(): ArrayList<DoorListVO>? {
+    override fun getOutdoorMissionClearItems(): ArrayList<DoorListVO>? {
         prefsManager?.let {
-            return it.getMissionClearItems()
+            return it.getOutdoorMissionClearItems()
+        }
+        return null
+    }
+
+    override fun setIndoorMissionClearItems(items: ArrayList<DoorListVO>) {
+        prefsManager?.setIndoorMissionClearItems(items)
+    }
+
+    override fun getIndoorMissionClearItems(): ArrayList<DoorListVO>? {
+        prefsManager?.let {
+            return it.getIndoorMissionClearItems()
         }
         return null
     }
@@ -109,14 +121,13 @@ class AppDataManager : AppDataHelper {
         return false
     }
 
-    private var filePath : String? = null
-    private var baseData : SampleDataVO? = null
 
-    fun setBaseData(_baseData : SampleDataVO?) {
+
+    fun setBaseData(_baseData : BasicDataVO?) {
         this.baseData = _baseData
     }
 
-    fun getBaseData() : SampleDataVO? {
+    fun getBaseData() : BasicDataVO? {
         return baseData
     }
     fun setFilePath(path: String?) {
@@ -127,6 +138,12 @@ class AppDataManager : AppDataHelper {
         return filePath
     }
 
+    fun setGamePopupResult(result: Boolean) {
+        this.gamePopupResult = result
+    }
 
+    fun isGamePopupResult() : Boolean {
+        return gamePopupResult
+    }
 
 }

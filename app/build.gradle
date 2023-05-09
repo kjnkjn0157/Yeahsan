@@ -109,4 +109,8 @@ dependencies {
     //location
     implementation "com.google.android.gms:play-services-location:21.0.1"
 
+    implementation 'com.squareup.okhttp3:okhttp:4.9.2'
+    implementation 'com.squareup.picasso:picasso:2.5.2'
+    implementation 'com.jakewharton.picasso:picasso2-okhttp3-downloader:1.1.0'
+
 }

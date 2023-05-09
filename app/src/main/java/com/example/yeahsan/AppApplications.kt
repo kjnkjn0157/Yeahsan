@@ -2,22 +2,21 @@ package com.example.yeahsan
 
 import android.app.Application
 import android.content.Intent
+import android.util.Log
 import android.widget.Toast
 import com.example.yeahsan.data.api.model.DoorListVO
 import com.example.yeahsan.service.beacon.BeaconService
+import com.example.yeahsan.service.`interface`.ContentResult
 import com.example.yeahsan.service.location.LocationService
-import kotlinx.coroutines.CompletableDeferred
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.actor
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.newSingleThreadContext
-import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
+import java.util.concurrent.locks.ReentrantLock
+import kotlin.concurrent.thread
 import kotlin.system.measureTimeMillis
 
-class ApppApplication : Application() {
+class AppApplications : Application() {
 
     override fun onCreate() {
         super.onCreate()
@@ -132,13 +131,20 @@ class ApppApplication : Application() {
 
             //  #1-2. SingleContext
             CoroutineScope(singleContext).addContent {
-                val content = DoorListVO(1, "code", "name", "hint", "image", 127, 37, arrayListOf(), arrayListOf())
+                val content = DoorListVO(1, "code", "name", "hint", "image", "","","", "", arrayListOf(), arrayListOf())
                 contents.add(content)
             }
             println(">>> contents.size : ${contents.size}")
         }
     }
 
+    val contentResult = object : ContentResult {
+        override fun onContentReceived(content: DoorListVO) {
+            //  단일 결과
+            //addCount(content)
+            Log.e("TAG", "content data ::: $content")
+        }
+    }
     private fun doMutex() {
         runBlocking {
             println(">>> contents.size : 0")
@@ -154,10 +160,12 @@ class ApppApplication : Application() {
 //                }
 
                 mutex.withLock { //위 try finally와 같은 내용
-                    val content = DoorListVO(1, "code", "name", "hint", "image", 127, 37, arrayListOf(), arrayListOf())
+                    val content = DoorListVO(1, "code", "name", "hint", "image", "","","", "", arrayListOf(), arrayListOf())
                     contents.add(content)
                 }
             }
+
+            //synchronized , ReentrantLock
 
             println(">>> contents.size : ${contents.size}")
         }
@@ -168,7 +176,7 @@ class ApppApplication : Application() {
     class GetContent(val response: CompletableDeferred<DoorListVO>) : ContentMsg()
 
     fun CoroutineScope.contentActor() = actor<ContentMsg> {
-        val content = DoorListVO(1, "code", "name", "hint", "image", 127, 37, arrayListOf(), arrayListOf())
+        val content = DoorListVO(1, "code", "name", "hint", "image", "","","", "", arrayListOf(), arrayListOf())
         for (msg in channel) { // iterate over incoming messages
             when (msg) {
                 is AddContent -> contents.add(content)

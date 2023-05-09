@@ -6,7 +6,6 @@ import android.util.Log
 import com.example.yeahsan.AppApplication
 import com.example.yeahsan.data.AppDataManager
 import com.example.yeahsan.data.api.model.DoorListVO
-import com.example.yeahsan.service.`interface`.ContentResult
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationResult
 
@@ -38,7 +37,7 @@ class LocationUtil {
 
     fun getData() {
 
-        AppDataManager.getInstance(application).getSampleData {
+        AppDataManager.getInstance(application).getBaseData {
             it?.let {
                 for(i in 0 until it.body.indoorList.size) {
                     indoorLocationList.add(it.body.indoorList[i])
