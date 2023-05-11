@@ -6,7 +6,6 @@ import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.example.yeahsan.AppConstants
-import com.example.yeahsan.ui.questionprogress.InsideMissionFragment
 import com.example.yeahsan.ui.questionprogress.MissionListFragment
 
 class MissionProgressFragmentPagerAdapter(fragmentManager:FragmentManager,lifecycle:Lifecycle,pagerCount : Int ) :FragmentStateAdapter(fragmentManager,lifecycle){

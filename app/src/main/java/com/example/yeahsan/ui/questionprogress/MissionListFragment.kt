@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import com.bumptech.glide.Glide
 import com.example.yeahsan.AppApplication
+import com.example.yeahsan.AppApplications
 import com.example.yeahsan.AppConstants
 import com.example.yeahsan.R
 import com.example.yeahsan.adapter.MissionFragmentAdapter
@@ -23,9 +24,10 @@ import kotlinx.coroutines.*
 class MissionListFragment : Fragment() {
 
     private lateinit var binding: FragmentOutsideMissionProgressBinding
-    private var doorList: ArrayList<DoorListVO>? = null
+    private var doorList: ArrayList<DoorListVO> = arrayListOf()
     private var clearList: ArrayList<DoorListVO>? = arrayListOf()
-    private lateinit var adapter: MissionFragmentAdapter
+    private var type : String ? = null
+    //private lateinit var adapter: MissionFragmentAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -53,75 +55,136 @@ class MissionListFragment : Fragment() {
 
     private fun getData() {
 
-        arguments?.let {bundle ->
-            val type = bundle.getString(AppConstants.STRING_TYPE)
+        arguments?.let { bundle ->
+            type = bundle.getString(AppConstants.STRING_TYPE)
             activity?.let {
+
                 val baseData = AppDataManager.getInstance(it.application as AppApplication).getBaseData()
+
                 if (type == AppConstants.OUT_DOOR_TYPE) {
                     baseData.let {
-                        doorList = it?.body?.outdoorList
+                        it?.let {
+//                            for(i in 0 until (it.body.outdoorList.size.minus(1))) {
+//                                doorList.add((it.body.outdoorList[i]))
+//                            }
+                            doorList = it.body.outdoorList
+                        }
                     }
                     clearList = AppDataManager.getInstance(it.application as AppApplication).getOutdoorMissionClearItems()
-                } else if(type == AppConstants.IN_DOOR_TYPE) {
+                } else if (type == AppConstants.IN_DOOR_TYPE) {
                     baseData.let {
-                        doorList = it?.body?.indoorList
+                        it?.let {
+//                            for(i in 0 until (it.body.indoorList.size.minus(1))) {
+//                                doorList.add((it.body.indoorList[i]))
+//                            }
+                            doorList = it.body.indoorList
+                        }
                     }
                     clearList = AppDataManager.getInstance(it.application as AppApplication).getIndoorMissionClearItems()
                 }
+            }
+            Log.e("TAG","doorList ::: $doorList")
+        }
+    }
 
-                adapter = MissionFragmentAdapter(it, arrayListOf(), arrayListOf(), null)
+
+    @SuppressLint("CheckResult")
+    private fun initView() {
+
+        activity?.let {activity ->
+            clearList?.let { clearList ->
+                doorList?.let{doorList ->
+                    if(clearList.size > 0) {
+                        binding.rvQuestList.adapter = MissionFragmentAdapter(activity,doorList,clearList) {
+                            val position = it.getTag(R.id.TAG_POSITION) as Int
+                            val imageView = it.getTag(R.id.TAG_IV) as ImageView
+                            imageView.setImageResource(R.drawable.quest_progress_success_ico)
+                               val clearItem = DoorListVO(
+                                   doorList[position].seq,
+                                   doorList[position].code,
+                                   doorList[position].name,
+                                   doorList[position].hint,
+                                   doorList[position].image,
+                                   doorList[position].caption,
+                                   doorList[position].thumbnail,
+                                   doorList[position].mapX,
+                                   doorList[position].mapY,
+                                   doorList[position].beaconList,
+                                   doorList[position].locationList
+                               )
+                            type?.let { type ->
+                                AppDataManager.getInstance(activity.application as AppApplication).addMissionClearItem(clearItem , type)
+                            }
+
+                        }
+                    } else {
+                        binding.rvQuestList.adapter = MissionFragmentAdapter(activity,doorList,null) {
+                            val position = it.getTag(R.id.TAG_POSITION) as Int
+                            val imageView = it. getTag(R.id.TAG_IV) as ImageView
+                            imageView.setImageResource(R.drawable.quest_progress_success_ico)
+                            val clearItem = DoorListVO(
+                                doorList[position].seq,
+                                doorList[position].code,
+                                doorList[position].name,
+                                doorList[position].hint,
+                                doorList[position].image,
+                                doorList[position].caption,
+                                doorList[position].thumbnail,
+                                doorList[position].mapX,
+                                doorList[position].mapY,
+                                doorList[position].beaconList,
+                                doorList[position].locationList)
+
+                            type?.let { type ->
+                                AppDataManager.getInstance(activity.application as AppApplication).addMissionClearItem(clearItem , type)
+                                (activity.application as AppApplication).checkAllClear(type)
+                            }
+                        }
+                    }
+                }
             }
         }
 
 
-
-        binding.rvQuestList.adapter = adapter
-
-    }
-
-    @SuppressLint("NotifyDataSetChanged")
-    private fun initView() {
-
-//        clearList?.let { clearList ->
-//            if (clearList.size > 0) {
-//                outdoorList?.let { list ->
-//                    binding.rvQuestList.adapter =
-//                        context?.let { context ->
-//                            MissionFragmentAdapter(context, list, clearList) {
-//                                //test code--> click 시 미션 성공이라 가장하고 진행
-//                                val position = it.getTag(R.id.TAG_POSITION) as Int
-//                                val imageView = it.getTag(R.id.TAG_IV) as ImageView
-//                                Glide.with(context)
-//                                    .load(R.mipmap.main_vr_phone)
-//                                    .into(imageView)
-//
-//                                val clearItem = DoorListVO(
-//                                    list[position].seq,
-//                                    list[position].code,
-//                                    list[position].name,
-//                                    list[position].hint,
-//                                    list[position].image,
-//                                    list[position].mapX,
-//                                    list[position].mapY,
-//                                    list[position].beaconList,
-//                                    list[position].locationList
-//                                )
-//                                activity?.let { activity ->
-//                                    AppDataManager(activity.application).addMissionClearItem(
-//                                        clearItem
-//                                    )
-//                                }
-//                            }
-//                        }
-//                }
-//            } else {
-//                outdoorList?.let { list ->
-//                    binding.rvQuestList.adapter = context?.let { context ->
-//                        MissionFragmentAdapter(context, list, null) {
-//                            //test code--> click 시 미션 성공이라 가장하고 진행
+/** 리사이클 뷰에 어댑터 먼저 붙이고 데이터 갱신 시켜주는 방식 */
+//        activity?.let { activity ->
+//            clearList?.let { clearList ->
+//                if (clearList.size > 0) {
+//                    doorList?.let { list ->
+//                        adapter.setParams(activity, list, clearList) {
 //                            val position = it.getTag(R.id.TAG_POSITION) as Int
 //                            val imageView = it.getTag(R.id.TAG_IV) as ImageView
-//                            Glide.with(context)
+//                            Glide.with(activity)
+//                                .load(R.mipmap.main_vr_phone)
+//                                .into(imageView)
+//                            val clearItem = DoorListVO(
+//                                list[position].seq,
+//                                list[position].code,
+//                                list[position].name,
+//                                list[position].hint,
+//                                list[position].image,
+//                                list[position].caption,
+//                                list[position].thumbnail,
+//                                list[position].mapX,
+//                                list[position].mapY,
+//                                list[position].beaconList,
+//                                list[position].locationList
+//                            )
+//
+//                            AppDataManager.getInstance(activity.application as AppApplication).addMissionClearItem(
+//                                clearItem
+//                            )
+//
+//                            adapter.notifyDataSetChanged()
+//                        }
+//                    }
+//                } else {
+//                    doorList?.let { list ->
+//                        adapter.setParams(activity, list, null) {
+//                            val position = it.getTag(R.id.TAG_POSITION) as Int
+//                            val imageView = it.getTag(R.id.TAG_IV) as ImageView
+//
+//                            Glide.with(activity)
 //                                .load(R.mipmap.main_vr_phone)
 //                                .into(imageView)
 //
@@ -131,86 +194,22 @@ class MissionListFragment : Fragment() {
 //                                list[position].name,
 //                                list[position].hint,
 //                                list[position].image,
+//                                list[position].caption,
+//                                list[position].thumbnail,
 //                                list[position].mapX,
 //                                list[position].mapY,
 //                                list[position].beaconList,
 //                                list[position].locationList
 //                            )
-//                            activity?.let { activity ->
-//                                AppDataManager(activity.application).addMissionClearItem(
-//                                    clearItem
-//                                )
-//                            }
+//                            AppDataManager.getInstance(activity.application as AppApplication).addMissionClearItem(
+//                                clearItem
+//                            )
+//
+//                            adapter.notifyDataSetChanged()
 //                        }
 //                    }
 //                }
 //            }
 //        }
-
-        activity?.let { activity ->
-            clearList?.let { clearList ->
-                if (clearList.size > 0) {
-                    doorList?.let { list ->
-                        adapter.setParams(activity, list, clearList) {
-                            val position = it.getTag(R.id.TAG_POSITION) as Int
-                            val imageView = it.getTag(R.id.TAG_IV) as ImageView
-                            Glide.with(activity)
-                                .load(R.mipmap.main_vr_phone)
-                                .into(imageView)
-
-                            val clearItem = DoorListVO(
-                                list[position].seq,
-                                list[position].code,
-                                list[position].name,
-                                list[position].hint,
-                                list[position].image,
-                                list[position].caption,
-                                list[position].thumbnail,
-                                list[position].mapX,
-                                list[position].mapY,
-                                list[position].beaconList,
-                                list[position].locationList
-                            )
-
-                            AppDataManager.getInstance(activity.application as AppApplication).addMissionClearItem(
-                                clearItem
-                            )
-
-                            adapter.notifyDataSetChanged()
-                        }
-                    }
-                } else {
-                    doorList?.let { list ->
-                        adapter.setParams(activity, list, null) {
-                            val position = it.getTag(R.id.TAG_POSITION) as Int
-                            val imageView = it.getTag(R.id.TAG_IV) as ImageView
-
-                            Glide.with(activity)
-                                .load(R.mipmap.main_vr_phone)
-                                .into(imageView)
-
-                            val clearItem = DoorListVO(
-                                list[position].seq,
-                                list[position].code,
-                                list[position].name,
-                                list[position].hint,
-                                list[position].image,
-                                list[position].caption,
-                                list[position].thumbnail,
-                                list[position].mapX,
-                                list[position].mapY,
-                                list[position].beaconList,
-                                list[position].locationList
-                            )
-                            AppDataManager.getInstance(activity.application as AppApplication).addMissionClearItem(
-                                clearItem
-                            )
-
-                            adapter.notifyDataSetChanged()
-                        }
-                    }
-                }
-            }
-        }
     }
 }

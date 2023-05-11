@@ -36,6 +36,7 @@
             android:textSize="16sp"
             android:textStyle="bold"
             android:textColor="@color/black"
+            android:visibility="gone"
             android:drawableRight="@mipmap/ico_arrow"
             android:layout_margin="16dp" />
 
@@ -70,6 +71,14 @@
                 android:layout_margin="16dp"
                 android:textColor="@color/black" />
 
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/btn_sang_chon"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="찾아오시는 길"
+                android:layout_margin="16dp"
+                android:textColor="@color/black" />
+
         </androidx.appcompat.widget.LinearLayoutCompat>
 
         <View
@@ -96,9 +105,50 @@
             android:visibility="gone">
 
             <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/btn_marketing"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="상설전시"
+                android:text="예산홍보관"
+                android:textColor="@color/black"
+                android:layout_margin="16dp" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/btn_nae_pho_story"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="내포이야기"
+                android:textColor="@color/black"
+                android:layout_margin="16dp" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/btn_bobusang_story"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="보부상이야기"
+                android:textColor="@color/black"
+                android:layout_margin="16dp" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/btn_culture"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="유통문화체험관"
+                android:textColor="@color/black"
+                android:layout_margin="16dp" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/btn_theater"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="4D 영상관"
+                android:textColor="@color/black"
+                android:layout_margin="16dp" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/btn_special_exhibition"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="기획전시실"
                 android:textColor="@color/black"
                 android:layout_margin="16dp" />
 
@@ -181,6 +231,7 @@
             android:text="유물 더 알아보기"
             android:textSize="16sp"
             android:textStyle="bold"
+            android:visibility="gone"
             android:textColor="@color/black"
             android:layout_margin="16dp" />
 

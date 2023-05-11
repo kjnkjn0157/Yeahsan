@@ -53,6 +53,7 @@ class LocationUtil {
     var mLocationCallback = object : LocationCallback() {
         override fun onLocationResult(locationResult: LocationResult) {
             super.onLocationResult(locationResult)
+
             if (locationResult.lastLocation != null) {
                 val myLatitude = locationResult.lastLocation!!.latitude
                 val myLongitude = locationResult.lastLocation!!.longitude

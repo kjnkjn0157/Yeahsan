@@ -23,7 +23,7 @@ interface PrefsHelper {
 
     fun getIndoorMissionClearItems() : ArrayList<DoorListVO>?
 
-    fun addMissionClearItem(item : DoorListVO)
+    fun addMissionClearItem(item : DoorListVO , type : String)
 
     //미션 미니맵 들어가기 전 다시보지않기 여부 확인 값
     fun setOutDoorIntroInvisible(result: Boolean)
@@ -35,5 +35,23 @@ interface PrefsHelper {
     fun getInDoorIntroInvisible() : Boolean
 
 
+    //미션 all clear 성공 여부
+    fun setMissionAllClearIndoor(result : Boolean)
+
+    fun getMissionAllClearIndoor() : Boolean
+
+    fun setMissionAllClearOutdoor(result : Boolean)
+
+    fun getMissionAllClearOutdoor() : Boolean
+
+    //FCM 구독 여부 - 기본값 = 구독O
+    fun setFCMSubscript(subscript : Boolean)
+
+    fun getFCMSubscript() : Boolean
+
+    //도착 알림 팝업 - 기본값 = 사용O
+    fun setArrivePopupUse(using : Boolean)
+
+    fun getArrivePopupUse() : Boolean
 
 }

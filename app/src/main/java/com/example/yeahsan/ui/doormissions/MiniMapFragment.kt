@@ -35,6 +35,7 @@ class MiniMapFragment : Fragment() {
     private var type: String? = null
     private var clearList: ArrayList<DoorListVO>? = arrayListOf()
     private var mapUrl = ""
+    private var allClearMarkerClick  = false
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -126,6 +127,7 @@ class MiniMapFragment : Fragment() {
             }
             // 클리어한 미션이 하나도 없을 경우
             else {
+     //           markerList?.add(DoorListVO(100,"Outdoor_Ending","집으로","힌트","이미지","캡션","텁브","500","600", arrayListOf(), arrayListOf()))
                 for (i in markerList.indices) {
                     val marker = MapMarker(context)
                     marker.isClickable = true
@@ -136,7 +138,12 @@ class MiniMapFragment : Fragment() {
                         markerList[i].mapY.toFloat(),
                         false
                     )
-                    marker.setMarker(R.mipmap.ico_question_pre)
+                    // 마지막 아이템 엔딩 체크
+                    if (markerList[i].code.contains("_99")) {
+                        marker.setMarker(R.mipmap.ye_ic_marker_ending_uncheck)
+                    } else {
+                        marker.setMarker(R.mipmap.ico_question_pre)
+                    }
                     _mapView.addMarker(marker)
                 }
             }
@@ -152,19 +159,44 @@ class MiniMapFragment : Fragment() {
             allSeq.add(it.seq)
         }
 
-        markerList?.let {
-            for (i in 0 until it.size) {
-                val marker = MapMarker(context)
-                if (allSeq.contains(it[i].seq)) {
-                    marker.setMarker(R.mipmap.ico_clear_marker)
-                } else {
-                    marker.setMarker(R.mipmap.ico_question_pre)
+     //   markerList?.add(DoorListVO(100,"Outdoor_Ending","집으로","힌트","이미지","캡션","텁브","500","600", arrayListOf(), arrayListOf()))
+
+        activity?.let { activity ->
+            markerList?.let {
+                for (i in 0 until it.size) {
+                    val marker = MapMarker(context)
+                    //클리어 한 아이템이 있을 경우 마크 체인지
+                    if (allSeq.contains(it[i].seq)) {
+                        marker.setMarker(R.mipmap.ico_clear_marker)
+                    }
+                    // doorList 마지막 아이템 엔딩 마크 체크
+                    else if (it[i].code.contains("_99")) {
+                        marker.setMarker(R.mipmap.ye_ic_marker_ending_uncheck)
+                        if(type == AppConstants.OUT_DOOR_TYPE) {
+                            if (AppDataManager.getInstance(activity.application as AppApplication).getMissionAllClearOutdoor()) {
+                                marker.setMarker(R.mipmap.ye_ic_marker_ending_check)
+                            } else {
+                                marker.setMarker(R.mipmap.ye_ic_marker_ending_uncheck)
+                            }
+                        } else {
+                            if (AppDataManager.getInstance(activity.application as AppApplication).getMissionAllClearIndoor()) {
+                                allClearMarkerClick = true
+                                marker.setMarker(R.mipmap.ye_ic_marker_ending_check)
+                            } else {
+                                marker.setMarker(R.mipmap.ye_ic_marker_ending_uncheck)
+                            }
+                        }
+                    }
+                    //클리어 한 아이템도 아니고 엔딩 아이템도 아닐 경우
+                    else {
+                        marker.setMarker(R.mipmap.ico_question_pre)
+                    }
+                    marker.isClickable = true
+                    marker.tag = markerList[i].seq.toString()
+                    marker.isTitleVisible = true
+                    marker.setPoint(markerList[i].mapX.toFloat(), markerList[i].mapY.toFloat(), false)
+                    _mapView.addMarker(marker)
                 }
-                marker.isClickable = true
-                marker.tag = markerList[i].seq.toString()
-                marker.isTitleVisible = true
-                marker.setPoint(markerList[i].mapX.toFloat(), markerList[i].mapY.toFloat(), false)
-                _mapView.addMarker(marker)
             }
         }
     }
@@ -173,20 +205,21 @@ class MiniMapFragment : Fragment() {
     private fun setPath(_mapView: MapView, pathList: ArrayList<DoorPathListVO>?) {
 
         if (activity != null && pathList != null) {
-
             pathList.forEachIndexed { index, path ->
+                for (i in 0 until path.pointList.size) {
+                    val mapPath = MapPath(activity, false)
+                    for (j in 0 until path.pointList[i].size) {
+                        mapPath.setStrokeWidth(10)
+                        mapPath.lineColor = Color.parseColor(path.pathColor)
+                        mapPath.strokeColor = Color.parseColor(path.strokeColor)
 
-                val mapPath = MapPath(activity, false)
+                        val pointX = Integer.parseInt(path.pointList[i][j].pointX)
+                        val pointY = Integer.parseInt(path.pointList[i][j].pointY)
 
-                mapPath.setStrokeWidth(10)
-                mapPath.lineColor = Color.parseColor(path.pathColor)
-                mapPath.strokeColor = Color.parseColor(path.strokeColor)
-
-                path.pointList.forEach {
-                    mapPath.addPoint(it.pointX.toFloat(), it.pointY.toFloat())
+                        mapPath.addPoint(pointX.toFloat(), pointY.toFloat())
+                        _mapView.addPath(i, mapPath)
+                    }
                 }
-
-                _mapView.addPath(index, mapPath)
             }
         }
     }
@@ -201,7 +234,7 @@ class MiniMapFragment : Fragment() {
             }
 
             pathList?.let {
-               // setPath(_mapView, it)
+                setPath(_mapView, it)
             }
         }
 
@@ -224,38 +257,8 @@ class MiniMapFragment : Fragment() {
                 binding.seekBar.setProgress(0.0f)
             }
         }
-         //퀘스트 성공 할 때마다 변경된 값 가져와 셋팅 && prefs 에 데이터 저장돼 있는 값이 있는지 선행조건으로
-
         binding.seekBar.isEnabled = false
 
-//        binding.seekBar.onProgressChangedListener =
-//            object : BubbleSeekBar.OnProgressChangedListener {
-//                override fun onProgressChanged(
-//                    bubbleSeekBar: BubbleSeekBar?,
-//                    progress: Int,
-//                    progressFloat: Float,
-//                    fromUser: Boolean
-//                ) {
-//
-//                }
-//
-//                override fun getProgressOnActionUp(
-//                    bubbleSeekBar: BubbleSeekBar?,
-//                    progress: Int,
-//                    progressFloat: Float
-//                ) {
-//
-//                }
-//
-//                override fun getProgressOnFinally(
-//                    bubbleSeekBar: BubbleSeekBar?,
-//                    progress: Int,
-//                    progressFloat: Float,
-//                    fromUser: Boolean
-//                ) {
-//
-//                }
-//            }
     }
 
 
@@ -274,16 +277,13 @@ class MiniMapFragment : Fragment() {
 
     private fun setQuestScore(clearCount: Int) {
 
-        val questCount = markerList?.size
+        val questCount = markerList?.size?.minus(1)
         questCount?.let {
             var score = 100 / questCount.toFloat()
             Log.e("TAG","score ::: $score")
 
             binding.seekBar.setProgress(score*clearCount)
         }
-
-
-
     }
 
 
@@ -293,7 +293,6 @@ class MiniMapFragment : Fragment() {
             var hint = ""
             var name = ""
             var imageUrl = ""
-
             markerList?.forEach {
                 if(it.seq.toString() == seq ) {
                     hint = it.hint.toString()
@@ -301,12 +300,91 @@ class MiniMapFragment : Fragment() {
                     imageUrl = it.image
                 }
             }
+
             val intent = Intent(context, HintPopupActivity::class.java)
             intent.putExtra(AppConstants.HINT_STRING ,hint)
             intent.putExtra(AppConstants.NAME_STRING ,name)
             intent.putExtra(AppConstants.IMAGE_URL_STRING ,imageUrl)
-            Log.e("TAG","title ::: minimap $name")
             startActivity(intent)
+
+            /** all clear 후 이벤트 마크 실행 코드 */
+//            if (type == AppConstants.OUT_DOOR_TYPE) {
+//                if (AppDataManager.getInstance(activity?.application as AppApplication).getMissionAllClearOutdoor()) {
+//                    markerList?.forEach {
+//                        if(it.seq.toString() == seq ) {
+//                            hint = it.hint.toString()
+//                            name = it.name
+//                            imageUrl = it.image
+//                        }
+//                    }
+//
+//                    val intent = Intent(context, HintPopupActivity::class.java)
+//                    intent.putExtra(AppConstants.HINT_STRING ,hint)
+//                    intent.putExtra(AppConstants.NAME_STRING ,name)
+//                    intent.putExtra(AppConstants.IMAGE_URL_STRING ,imageUrl)
+//                    startActivity(intent)
+//                } else {
+//                    markerList?.let { markerList ->
+//                        val endingSeq = markerList[markerList.size -1].seq
+//
+//                        if(seq == endingSeq.toString()) {
+//                            Log.e("TAG","not endingSeq click:::")
+//                        } else {
+//                            Log.e("TAG","else endingSeq click:::")
+//                            markerList?.forEach {
+//                                if(it.seq.toString() == seq ) {
+//                                    hint = it.hint.toString()
+//                                    name = it.name
+//                                    imageUrl = it.image
+//                                }
+//                            }
+//                            val intent = Intent(context, HintPopupActivity::class.java)
+//                            intent.putExtra(AppConstants.HINT_STRING ,hint)
+//                            intent.putExtra(AppConstants.NAME_STRING ,name)
+//                            intent.putExtra(AppConstants.IMAGE_URL_STRING ,imageUrl)
+//                            startActivity(intent)
+//                        }
+//                    }
+//                }
+//            } else {
+//                if (AppDataManager.getInstance(activity?.application as AppApplication).getMissionAllClearIndoor()) {
+//                    markerList?.forEach {
+//                        if(it.seq.toString() == seq ) {
+//                            hint = it.hint.toString()
+//                            name = it.name
+//                            imageUrl = it.image
+//                        }
+//                    }
+//
+//                    val intent = Intent(context, HintPopupActivity::class.java)
+//                    intent.putExtra(AppConstants.HINT_STRING ,hint)
+//                    intent.putExtra(AppConstants.NAME_STRING ,name)
+//                    intent.putExtra(AppConstants.IMAGE_URL_STRING ,imageUrl)
+//                    startActivity(intent)
+//                } else {
+//                    markerList?.let { markerList ->
+//                        val endingSeq = markerList[markerList.size -1].seq
+//
+//                        if(seq == endingSeq.toString()) {
+//                            Log.e("TAG","not endingSeq click:::")
+//                        } else {
+//                            Log.e("TAG","else endingSeq click:::")
+//                            markerList?.forEach {
+//                                if(it.seq.toString() == seq ) {
+//                                    hint = it.hint.toString()
+//                                    name = it.name
+//                                    imageUrl = it.image
+//                                }
+//                            }
+//                            val intent = Intent(context, HintPopupActivity::class.java)
+//                            intent.putExtra(AppConstants.HINT_STRING ,hint)
+//                            intent.putExtra(AppConstants.NAME_STRING ,name)
+//                            intent.putExtra(AppConstants.IMAGE_URL_STRING ,imageUrl)
+//                            startActivity(intent)
+//                        }
+//                    }
+//                }
+//            }
         }
 
         override fun onMarkersClick(marker: java.util.ArrayList<MapMarker>?) {
@@ -320,6 +398,7 @@ class MiniMapFragment : Fragment() {
         override fun onReceive(p0: Context?, p1: Intent?) {
 
             initView()
+
         }
     }
 

@@ -7,18 +7,24 @@ import android.location.LocationManager
 import android.os.Bundle
 import android.provider.Settings
 import android.util.Log
+import android.view.MenuItem
+import android.view.View
+import android.view.View.OnClickListener
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.example.yeahsan.AppApplication
 import com.example.yeahsan.BuildConfig
+import com.example.yeahsan.data.AppDataManager
 import com.example.yeahsan.databinding.ActivitySettingBinding
+import com.example.yeahsan.firebase.MessagingService
 import com.google.firebase.messaging.FirebaseMessaging
 
 class SettingActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivitySettingBinding
     private lateinit var locationManager: LocationManager
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,40 +37,38 @@ class SettingActivity : AppCompatActivity() {
 
         clickChangeState()
 
-
-        //firebase 토큰 가져오는 부분 test
-        FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
-            if (task.isSuccessful) {
-                Log.e("TAG", "firebase token ::: " + task.result)
-            }
-        }
     }
 
 
     @SuppressLint("SetTextI18n")
     private fun initView() {
 
-        locationManager = getSystemService(LOCATION_SERVICE) as LocationManager
+        supportActionBar?.title = "환경설정"
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        binding.tvAppVersion.text = "Ver ${BuildConfig.VERSION_NAME}"
+        binding.tvAppVersion.text = AppDataManager.getInstance(application as AppApplication).getBaseData()?.body?.aVersion
 
-        setStateButton()
-    }
-
-    private fun setStateButton() {
+        binding.tvMail.text = AppDataManager.getInstance(application as AppApplication).getBaseData()?.body?.email
 
         binding.btnAccessGps.isChecked = resultStateGps()
-        Log.e("TAG","state check ::: ${binding.btnAccessGps.isChecked}")
-//        if (!binding.btnAccessGps.isChecked) {
-//            (application as AppApplication).stopBeaconService(true)
-//        }
+
+        binding.btnAccessPush.setOnClickListener(subscriptOnClickListener)
+
+        binding.btnAccessArrive.setOnClickListener(arrivePopupClickListener)
+
+        binding.btnAccessPush.isChecked = AppDataManager.getInstance(application as AppApplication).getFCMSubscript()
+
+        binding.btnAccessArrive.isChecked = AppDataManager.getInstance(application as AppApplication).getArrivePopupUse()
+
+
     }
+
 
     private fun resultStateGps(): Boolean {
 
-        var result = false
+        locationManager = getSystemService(LOCATION_SERVICE) as LocationManager
 
-        result = if (ContextCompat.checkSelfPermission(
+        val result: Boolean = if (ContextCompat.checkSelfPermission(
                 this@SettingActivity,
                 android.Manifest.permission.ACCESS_COARSE_LOCATION
             ) == PackageManager.PERMISSION_GRANTED
@@ -94,7 +98,33 @@ class SettingActivity : AppCompatActivity() {
     private fun clickChangeState() {
 
         binding.btnAccessGps.setOnClickListener { activityResultLocation.launch(Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)) }
+    }
 
-        setStateButton()
+    private val subscriptOnClickListener = OnClickListener {
+        if(!binding.btnAccessPush.isChecked) {
+            MessagingService().unSubscribeTopic("jina")
+            AppDataManager.getInstance(application as AppApplication).setFCMSubscript(false)
+        } else {
+            MessagingService().subscribeTopic("jina")
+            AppDataManager.getInstance(application as AppApplication).setFCMSubscript(true)
+        }
+    }
+
+    private val arrivePopupClickListener = OnClickListener {
+        if (!binding.btnAccessArrive.isChecked) {
+            AppDataManager.getInstance(application as AppApplication).setArrivePopupUse(false)
+        } else {
+            AppDataManager.getInstance(application as AppApplication).setArrivePopupUse(true)
+        }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            android.R.id.home -> {
+                finish()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 }

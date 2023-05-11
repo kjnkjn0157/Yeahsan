@@ -37,7 +37,7 @@ class SplashActivity : AppCompatActivity() {
     private fun getPreData() {
 
         AppDataManager.getInstance(application as AppApplication).getBaseData {
-
+            // 기본 filePath 메모리에 저장
             it?.body?.filePath?.let { filePath ->
                 AppDataManager.getInstance(application as AppApplication).setFilePath(filePath)
             }
@@ -46,5 +46,7 @@ class SplashActivity : AppCompatActivity() {
                 AppDataManager.getInstance(application as AppApplication).setBaseData(it)
             }
         }
+        // 거부된 비콘 아이템 정보 메모리 정리
+        AppDataManager.getInstance(application as AppApplication).clearCheckBeaconMap()
     }
 }

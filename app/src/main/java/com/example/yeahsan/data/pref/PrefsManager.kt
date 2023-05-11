@@ -1,8 +1,10 @@
 package com.example.yeahsan.data.pref
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.util.Log
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.example.yeahsan.AppConstants
 import com.example.yeahsan.data.api.model.DoorListVO
@@ -12,6 +14,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import okhttp3.internal.userAgent
 
 class PrefsManager(private val context: Context) : PrefsHelper {
 
@@ -22,6 +25,10 @@ class PrefsManager(private val context: Context) : PrefsHelper {
     private val indoorMissionSuccess: String = "$preferencesName.in_MISSION_SUCCESS"
     private val outdoorIntroResult : String = "$preferencesName.OUTDOOR_INTRO"
     private val indoorIntroResult : String = "$preferencesName.INDOOR_INTRO"
+    private val allClearMissionIndoorResult : String = "$preferencesName.ALL_CLEAR_IN"
+    private val allClearMissionOutdoorResult : String = "$preferencesName.ALL_CLEAR_OUT"
+    private val subscriptState : String = "$preferencesName.FCM"
+    private val arrivePopupUsing : String = "$preferencesName.ARRIVE_POPUP"
 
     private val scope: CoroutineScope = CoroutineScope(context = Dispatchers.Main)
     inline fun <reified T> genericType() = object : TypeToken<T>() {}.type
@@ -82,11 +89,17 @@ class PrefsManager(private val context: Context) : PrefsHelper {
         return gson.fromJson(string, genericType<ArrayList<DoorListVO>>())
     }
 
-    override fun addMissionClearItem(item: DoorListVO) {
+    override fun addMissionClearItem(item: DoorListVO , type : String) {
 
         scope.launch {
             withContext(Dispatchers.IO) {
-                val list = getOutdoorMissionClearItems()
+                var list : ArrayList<DoorListVO>? = null
+                list = if (type == AppConstants.OUT_DOOR_TYPE) {
+                    getOutdoorMissionClearItems()
+                } else {
+                    getIndoorMissionClearItems()
+                }
+
                 val allSeq : ArrayList<Int> = arrayListOf()
 
                 list?.let {
@@ -98,17 +111,23 @@ class PrefsManager(private val context: Context) : PrefsHelper {
 
                         } else {
                             it.add(item)
-                            setOutdoorMissionClearItems(it)
+                            if (type == AppConstants.OUT_DOOR_TYPE) {
+                                setOutdoorMissionClearItems(it)
+                            } else {
+                                setIndoorMissionClearItems(it)
+                            }
                         }
                     } else {
                         it.add(item)
-                        setOutdoorMissionClearItems(it)
+                        if (type == AppConstants.OUT_DOOR_TYPE) {
+                            setOutdoorMissionClearItems(it)
+                        } else {
+                            setIndoorMissionClearItems(it)
+                        }
                     }
                 }
             }
-            withContext(Dispatchers.Main) {
-                LocalBroadcastManager.getInstance(context.applicationContext).sendBroadcast(Intent(AppConstants.INTENT_FILTER_MISSION_ONE_CLEAR))
-            }
+            withContext(Dispatchers.Main) { LocalBroadcastManager.getInstance(context.applicationContext).sendBroadcast(Intent(AppConstants.INTENT_FILTER_MISSION_ONE_CLEAR)) }
         }
     }
 
@@ -132,6 +151,54 @@ class PrefsManager(private val context: Context) : PrefsHelper {
         return pref.getBoolean(indoorIntroResult, false)
     }
 
+    override fun setMissionAllClearIndoor(result: Boolean) {
+
+        if (result) {
+            scope.launch {
+                withContext(Dispatchers.Main) { LocalBroadcastManager.getInstance(context.applicationContext).sendBroadcast(Intent(AppConstants.INTENT_FILTER_MISSION_ONE_CLEAR)) }
+
+            }
+        }
+
+       pref.edit().putBoolean(allClearMissionIndoorResult,result).apply()
+    }
+
+    override fun getMissionAllClearIndoor(): Boolean {
+
+        return pref.getBoolean(allClearMissionIndoorResult ,false)
+    }
+
+    override fun setMissionAllClearOutdoor(result: Boolean) {
+
+        if (result) {
+            scope.launch {
+                withContext(Dispatchers.Main) { LocalBroadcastManager.getInstance(context.applicationContext).sendBroadcast(Intent(AppConstants.INTENT_FILTER_MISSION_ONE_CLEAR)) }
+
+            }
+        }
+        pref.edit().putBoolean(allClearMissionOutdoorResult,result).apply()
+    }
+
+    override fun getMissionAllClearOutdoor(): Boolean {
+        return pref.getBoolean(allClearMissionOutdoorResult ,false)
+    }
+
+
+    override fun setFCMSubscript(subscript: Boolean) {
+        pref.edit().putBoolean(subscriptState,subscript).apply()
+    }
+
+    override fun getFCMSubscript(): Boolean {
+        return pref.getBoolean(subscriptState,true)
+    }
+
+    override fun setArrivePopupUse(using: Boolean) {
+        pref.edit().putBoolean(arrivePopupUsing, using).apply()
+    }
+
+    override fun getArrivePopupUse(): Boolean {
+        return pref.getBoolean(arrivePopupUsing,true)
+    }
 
 
 }

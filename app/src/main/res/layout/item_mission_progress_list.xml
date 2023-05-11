@@ -12,37 +12,39 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent" >
 
-        <RelativeLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent">
 
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/iv_quest_count_back"
-                android:layout_width="wrap_content"
-                android:layout_height="50dp"
-                android:src="@mipmap/progress_count_back"
-                android:layout_margin="8dp" />
+            <View
+                android:layout_width="2dp"
+                android:layout_height="0dp"
+                android:background="#CDCDCD"
+                android:focusable="false"
+                app:layout_constraintStart_toStartOf="@id/tv_count"
+                app:layout_constraintEnd_toEndOf="@id/tv_count"
+                app:layout_constraintTop_toTopOf="@id/tv_count"
+                app:layout_constraintBottom_toBottomOf="parent"/>
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tv_count"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="1"
-                android:layout_alignBottom="@+id/iv_quest_count_back"
-                android:layout_alignStart="@+id/iv_quest_count_back"
-                android:layout_alignEnd="@+id/iv_quest_count_back"
-                android:layout_alignTop="@id/iv_quest_count_back"
-                android:layout_marginStart="14dp"
-                android:layout_marginTop="3dp" />
+                android:gravity="center"
+                android:background="@mipmap/progress_count_back"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginStart="14dp" />
 
-        </RelativeLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="0dp"
             android:layout_height="88dp"
             android:orientation="vertical"
             android:layout_weight="0.9"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="12dp"
             android:layout_marginEnd="16dp"
             android:background="@drawable/quest_progress_reatangle"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -92,7 +94,7 @@
                     android:layout_height="42dp"
                     android:layout_weight="0.2"
                     android:layout_gravity="center"
-                    android:src="@mipmap/progress_quest_before_ico" />
+                    android:src="@drawable/progress_quest_before_ico" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 

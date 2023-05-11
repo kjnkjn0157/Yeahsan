@@ -28,7 +28,6 @@ class WebViewActivity : AppCompatActivity() {
 
         getData()
 
-        initView()
     }
 
     private fun getData() {
@@ -37,14 +36,28 @@ class WebViewActivity : AppCompatActivity() {
             type = it.getString(AppConstants.STRING_TYPE).toString()
         }
 
-        type?.let {
-            if (type == AppConstants.ARTIFACT_STRING) {
-                url = intent.extras?.getString(AppConstants.URL_STRING)
-            } else if (type == AppConstants.VR_STRING) {
-                AppDataManager.getInstance(application as AppApplication).getBaseData {
-                    url = it?.body?.vr
+        type?.let { type ->
+            val baseData = AppDataManager.getInstance(application as AppApplication).getBaseData()
+            baseData?.let {
+                if (type == AppConstants.ARTIFACT_STRING) {
+                    url = intent.extras?.getString(AppConstants.URL_STRING)
+                } else if (type == AppConstants.VR_STRING) {
+                    url = baseData.body.vr
+                } else if (type == AppConstants.MARKETING_STRING) {
+                    url = baseData.body.promotion
+                } else if (type == AppConstants.NEAPHO_STORY_STRING) {
+                    url = baseData.body.naepoStory
+                } else if (type == AppConstants.BOBUSANG_STORY_STRING) {
+                    url = baseData.body.bobusangStory
+                } else if (type == AppConstants.CULTURE_STRING) {
+                    url = baseData.body.cultureExperience
+                } else if (type == AppConstants.THEATER_STRING) {
+                    url = baseData.body.theater
+                } else if (type == AppConstants.SPECIAL_EXHIBITION_STRING) {
+                    url = baseData.body.specialExhibition
                 }
             }
+
             Log.e("TAG", "url ::: $url")
             initWebView(url)
         }
@@ -78,12 +91,6 @@ class WebViewActivity : AppCompatActivity() {
 
         binding.webView.webChromeClient = WebChromeClient()
 
-    }
-
-    private fun initView() {
-
-        supportActionBar?.title = "Vr"
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

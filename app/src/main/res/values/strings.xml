@@ -7,5 +7,6 @@
     <string name="title_my_quest">나의 퀘스트</string>
     <string name="outside_mission">(실외)내포보부상촌</string>
     <string name="inside_mission">(실내)예산보부상박물관</string>
+    <string name="default_notification_channel_id">예산보부상박물관</string>
 
 </resources>

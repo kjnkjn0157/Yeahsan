@@ -7,17 +7,22 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.os.Process
+import android.os.SystemClock
 import android.util.Log
 import android.view.View
 import android.webkit.WebViewClient
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout.LOCK_MODE_LOCKED_CLOSED
 import com.example.yeahsan.AppApplication
 import com.example.yeahsan.AppConstants
 import com.example.yeahsan.R
+import com.example.yeahsan.data.AppDataManager
 import com.example.yeahsan.databinding.ActivityMainBinding
+import com.example.yeahsan.firebase.MessagingService
 import com.example.yeahsan.service.beacon.BeaconService
 import com.example.yeahsan.ui.artifact.ArtifactActivity
 import com.example.yeahsan.ui.doormissions.QuestMapActivity
@@ -34,9 +39,11 @@ import com.gun0912.tedpermission.normal.TedPermission
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
+    private var pressTime : Long = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+ //       this.onBackPressedDispatcher.addCallback(this,callBack)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
 
@@ -49,6 +56,8 @@ class MainActivity : AppCompatActivity() {
         setMoveActivity()
 
         checkPermission()
+
+        firebaseTopic()
 
     }
 
@@ -90,7 +99,6 @@ class MainActivity : AppCompatActivity() {
 
                 }
             }
-
             override fun onSlide(bottomSheet: View, slideOffset: Float) {
 
             }
@@ -152,7 +160,6 @@ class MainActivity : AppCompatActivity() {
 
     private fun setNavMenuEvent() {
 
-        var intent: Intent? = null
 
         binding.navigationMenu.btnSetting.setOnClickListener(object : OnSingleClickListener() {
             override fun onSingleClick(v: View?) {
@@ -172,7 +179,70 @@ class MainActivity : AppCompatActivity() {
         binding.navigationMenu.btnMuseumAr.setOnClickListener {
             binding.navigationMenu.lyActivityContent.visibility =  (application as AppApplication).visibleState(binding.navigationMenu.lyActivityContent)
         }
+
+        binding.navigationMenu.btnMarketing.setOnClickListener(navWebClickListener)
+        binding.navigationMenu.btnNaePhoStory.setOnClickListener(navWebClickListener)
+        binding.navigationMenu.btnBobusangStory.setOnClickListener(navWebClickListener)
+        binding.navigationMenu.btnCulture.setOnClickListener(navWebClickListener)
+        binding.navigationMenu.btnTheater.setOnClickListener(navWebClickListener)
+        binding.navigationMenu.btnSpecialExhibition.setOnClickListener(navWebClickListener)
+
+        binding.navigationMenu.btnIndoor.setOnClickListener(navContentClickListener)
+        binding.navigationMenu.btnOutdoor.setOnClickListener(navContentClickListener)
+        binding.navigationMenu.btnQuest.setOnClickListener(navContentClickListener)
+
     }
+
+    private val navWebClickListener = object:  OnSingleClickListener() {
+        override fun onSingleClick(v: View?) {
+            if (v != null) {
+                intent = Intent(this@MainActivity , WebViewActivity::class.java)
+                when(v.id) {
+                    R.id.btn_marketing -> {
+                        intent.putExtra(AppConstants.STRING_TYPE,AppConstants.MARKETING_STRING)
+                    }
+                    R.id.btn_nae_pho_story -> {
+                        intent.putExtra(AppConstants.STRING_TYPE,AppConstants.NEAPHO_STORY_STRING)
+                    }
+                    R.id.btn_bobusang_story -> {
+                        intent.putExtra(AppConstants.STRING_TYPE,AppConstants.BOBUSANG_STORY_STRING)
+                    }
+                    R.id.btn_culture -> {
+                        intent.putExtra(AppConstants.STRING_TYPE,AppConstants.CULTURE_STRING)
+                    }
+                    R.id.btn_theater -> {
+                        intent.putExtra(AppConstants.STRING_TYPE,AppConstants.THEATER_STRING)
+                    }
+                    R.id.btn_special_exhibition -> {
+                        intent.putExtra(AppConstants.STRING_TYPE,AppConstants.SPECIAL_EXHIBITION_STRING)
+                    }
+                }
+            }
+            startActivity(intent)
+        }
+    }
+
+    private val navContentClickListener = object : OnSingleClickListener() {
+        override fun onSingleClick(v: View?) {
+            if (v != null) {
+               when(v.id) {
+                   R.id.btn_indoor -> {
+                       intent = Intent(this@MainActivity,QuestMapActivity::class.java)
+                       intent.putExtra(AppConstants.STRING_TYPE,AppConstants.IN_DOOR_TYPE)
+                   }
+                   R.id.btn_outdoor -> {
+                       intent = Intent(this@MainActivity,QuestMapActivity::class.java)
+                       intent.putExtra(AppConstants.STRING_TYPE,AppConstants.OUT_DOOR_TYPE)
+                   }
+                   R.id.btn_quest -> {
+                       intent = Intent(this@MainActivity, QuestionActivity::class.java)
+                   }
+               }
+                startActivity(intent)
+            }
+        }
+    }
+
 
     //    @RequiresApi(Build.VERSION_CODES.S)
 //    @TargetApi(Build.VERSION_CODES.M)
@@ -222,9 +292,54 @@ class MainActivity : AppCompatActivity() {
     }
 
 
+    private fun firebaseTopic() {
+        if (AppDataManager.getInstance(application as AppApplication).getFCMSubscript()) {
+            MessagingService().subscribeTopic("jina")
+        }
+    }
+
     override fun onDestroy() {
         super.onDestroy()
-        Log.e("TAG", "onDestroy ::: ")
         (application as AppApplication).stopBeaconService(isBeaconServiceRunning())
+    }
+
+
+
+    @Deprecated("Deprecated in Java")
+    override fun onBackPressed() {
+        super.onBackPressed()
+
+        if (!navigationClose()) {
+            if (System.currentTimeMillis() - pressTime < 1500) {
+                finishAffinity()
+            } else {
+                pressTime = System.currentTimeMillis()
+                Toast.makeText(this@MainActivity, "한번 더 누르시면 앱이 종료됩니다.", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+    }
+
+//
+//    private val callBack = object : OnBackPressedCallback(true) {
+//        override fun handleOnBackPressed() {
+//            if (!navigationClose()) {
+//                if (System.currentTimeMillis() - pressTime < 1500) {
+//                    finishAffinity()
+//                } else {
+//                    pressTime = System.currentTimeMillis()
+//                    Toast.makeText(this@MainActivity, "한번 더 누르시면 앱이 종료됩니다.", Toast.LENGTH_SHORT).show()
+//                }
+//            }
+//        }
+//    }
+
+    private fun navigationClose() : Boolean {
+        var close = false
+        if (binding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            binding.drawerLayout.close()
+            close = true
+        }
+        return close
     }
 }

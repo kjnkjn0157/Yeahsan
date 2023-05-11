@@ -70,7 +70,8 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true">
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="0dp">
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/quest_progress_bar"
@@ -79,7 +80,7 @@
                 android:layout_alignParentBottom="true"
                 android:layout_marginBottom="3dp"
                 android:adjustViewBounds="true"
-                android:src="@mipmap/map_time_bar" />
+                android:src="@drawable/map_time_bar" />
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
@@ -97,8 +98,8 @@
                     android:id="@+id/seek_bar"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
-                    android:layout_weight="0.8"
                     android:layout_marginEnd="16dp"
+                    android:layout_weight="0.8"
                     app:bsb_bubble_color="@color/yellow"
                     app:bsb_bubble_text_color="@color/black"
                     app:bsb_max="100"

@@ -25,6 +25,4 @@
 
     </com.google.android.material.navigation.NavigationView>
 
-    <!--menu layout 안 쓸거면 include 로 layout custom해서 넣어주기-->
-
 </androidx.drawerlayout.widget.DrawerLayout>

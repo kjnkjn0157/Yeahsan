@@ -32,5 +32,15 @@ object AppConstants {
 
     const val IMAGE_URL_STRING = "imageUrl"
 
+    const val MARKETING_STRING = "marketing"
 
+    const val NEAPHO_STORY_STRING = "neaphoStory"
+
+    const val BOBUSANG_STORY_STRING = "bobusangStory"
+
+    const val CULTURE_STRING = "culture"
+
+    const val THEATER_STRING = "theater"
+
+    const val SPECIAL_EXHIBITION_STRING = "specialExhibition"
 }

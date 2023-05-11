@@ -33,7 +33,7 @@ class ArtifactListAdapter(
 
         Glide.with(context)
             .load(imageUrl)
-            .placeholder(R.mipmap.img_holder)
+            .placeholder(R.drawable.img_holder)
             .into(holder.image)
 
         holder.image.tag = position

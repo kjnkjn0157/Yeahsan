@@ -51,7 +51,7 @@ class HintPopupActivity : AppCompatActivity() {
 
         Glide.with(this@HintPopupActivity)
             .load(url)
-            .placeholder(R.mipmap.img_holder)
+            .placeholder(R.drawable.img_holder)
             .into(binding.ivPopupContent)
     }
 

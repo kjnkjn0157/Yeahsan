@@ -28,7 +28,7 @@ class QuestionActivity : AppCompatActivity() {
         val pagerAdapter = MissionProgressFragmentPagerAdapter(supportFragmentManager,lifecycle,2)
 
         binding.viewPager2.adapter = pagerAdapter
-        binding.viewPager2.isUserInputEnabled
+        binding.viewPager2.isUserInputEnabled = false
 
         TabLayoutMediator(binding.tabs,binding.viewPager2) {tab,position ->
             val title = arrayOf("(실외)내포보부상촌","(실내)예산보부상박물관")

@@ -32,7 +32,6 @@ class BeaconUtil() : InternalBeaconConsumer {
     private val outdoorBeaconList: HashMap<BeaconMapVO, Int> = hashMapOf()
     private val scannedBeaconList: HashSet<BeaconMapVO> = hashSetOf()
 
-
     companion object {
 
         @SuppressLint("StaticFieldLeak")
@@ -64,7 +63,6 @@ class BeaconUtil() : InternalBeaconConsumer {
 //        beaconManager.setEnableScheduledScanJobs(true) // 이 코드를 설정해야 블루투스 스캔을 중지하지않음
         beaconManager.beaconParsers.add(BeaconParser().setBeaconLayout(BeaconConstant.BEACON_PARSE))
         beaconManager.bindInternal(this)
-
         beaconManager.removeAllRangeNotifiers()
 
         //비콘 모니터링
@@ -102,98 +100,90 @@ class BeaconUtil() : InternalBeaconConsumer {
 
         //비콘 range 값 확인
         val region = Region(BeaconConstant.I_BEACON_UUID, null, null, null)
-
         beaconManager.startRangingBeacons(region)
         beaconManager.addRangeNotifier { beacons, region ->
 
             beacons?.let {
                 if (it.isNotEmpty() && indoorBeaconList.size > 0 && outdoorBeaconList.size > 0) {
-                    var temp: Int? = null
-                    var tempBeacon: Beacon? = null
+                    var findBeacon: Beacon? = null
+                    var comparison: Int? = null
+
                     for (beacon: Beacon in beacons) {
                         //      Log.e("TAG", "내가 찾은 비콘 ::: major ${beacon.id2} :::: minor ${beacon.id3}")
-                        val key = BeaconMapVO(Integer.parseInt(beacon.id2.toString()), Integer.parseInt(beacon.id3.toString()))
+                        Log.e("TAG", "comparison :::$comparison")
+                        val key = BeaconMapVO(
+                            Integer.parseInt(beacon.id2.toString()),
+                            Integer.parseInt(beacon.id3.toString())
+                        )
+
                         if (indoorBeaconList.containsKey(key) || outdoorBeaconList.containsKey(key)) {
-                            indoorBeaconList[key]?.let { rssi ->
-                                if (beacon.rssi > rssi) {
-                                    Log.e("TAG","111 :::")
-                                    if (temp != null) {
-                                        Log.e("TAG","222 :::")
-                                        if (temp!! < rssi) {
-                                            Log.e("TAG","333 :::")
-                                            temp = rssi
-                                            tempBeacon = beacon
-                                        } else {
-                                            Log.e("TAG","444 :::")
-                                            tempBeacon = beacon
-                                        }
-                                    } else {
-                                        Log.e("TAG","555 :::")
-                                        temp = rssi
-                                    }
-                                    Log.e("TAG", "beacon indoor ::: $temp")
-                                }
-                            }
                             outdoorBeaconList[key]?.let { rssi ->
                                 if (beacon.rssi > rssi) {
-                                    Log.e("TAG","111 :::")
-                                    if (temp != null) {
-                                        Log.e("TAG","222 :::")
-                                        if (temp!! < rssi) {
-                                            Log.e("TAG","333 :::")
-                                            temp = rssi
-                                            tempBeacon = beacon
-                                            Log.e("TAG","temp beacon ::: $tempBeacon")
-                                        } else {
-                                            Log.e("TAG","444 :::")
-                                            tempBeacon = beacon
-                                            Log.e("TAG","temp beacon else ::: $tempBeacon")
+                                    if (comparison != null) {
+                                        if (comparison!! < rssi) {
+                                            comparison = rssi
+                                            findBeacon = beacon
                                         }
                                     } else {
-                                        Log.e("TAG","555 :::")
-                                        temp = rssi
-                                        tempBeacon = beacon
-                                        Log.e("TAG","temp beacon else ::: $tempBeacon")
+                                        comparison = rssi
+                                        findBeacon = beacon
+
                                     }
 
-                                    Log.e("TAG", "beacon outdoor ::: $temp")
+                                }
+                            }
+                            indoorBeaconList[key]?.let { rssi ->
+                                if (beacon.rssi > rssi) {
+                                    if (comparison != null) {
+                                        if (comparison!! < rssi) {
+                                            comparison = rssi
+                                            findBeacon = beacon
+                                        }
+                                    } else {
+                                        comparison = rssi
+                                        findBeacon = beacon
+                                    }
                                 }
                             }
                         }
                     }
-                    // 1분에 한번씩 허용
-                    tempBeacon?.let { findBeacon ->
-//                        val currentTime = System.currentTimeMillis()
-//                        Log.e("TAG","current time ::: $currentTime")
-//                        var recentTime = findBeacon.firstCycleDetectionTimestamp
-//                        Log.e("TAG"," recentTime ::: $recentTime")
-//                        val delay = currentTime - recentTime
-//                        Log.e("TAG","delay ::: $delay")
-//                        if (delay > BeaconConstant.DURATION_BEACON_SCAN) {
-                            Log.e("TAG","여긴 아님:::")
-                            scannedBeaconList.add(BeaconMapVO(Integer.parseInt(findBeacon.id2.toString()), Integer.parseInt(findBeacon.id3.toString())))
-                            checkBeaconData(scannedBeaconList, application.contentResult)
-                     //   }
+
+                    findBeacon?.let { findBeacon ->
+                        scannedBeaconList.add(
+                            BeaconMapVO(
+                                Integer.parseInt(findBeacon.id2.toString()),
+                                Integer.parseInt(findBeacon.id3.toString())
+                            )
+                        )
+                        checkBeaconData(scannedBeaconList, application.contentResult)
                     }
-                    Log.e("TAG", "final beacon ::: $tempBeacon")
+                    Log.e("TAG", "final beacon ::: $findBeacon")
                 }
             }
         }
     }
 
+    private var findBeaconCheckMap: HashMap<String, String> = hashMapOf()
+
 
     private fun checkBeaconData(list: HashSet<BeaconMapVO>, result: ContentResult) {
 
+        findBeaconCheckMap = AppDataManager.getInstance(application).getCheckBeaconFindItem()
 
         indoorList?.let {
             for (i in 0 until it.size) {
                 for (j in 0 until it[i].beaconList.size) {
-                    val temp = BeaconMapVO(
-                        Integer.parseInt(it[i].beaconList[j].major),
-                        Integer.parseInt(it[i].beaconList[j].minor)
-                    )
-                    if (list.contains(temp)) {
-                        result.onContentReceived(it[i])
+                    // 사용자가 찾아낸 비콘 컨텐츠 한번이라도 보지 않았을 경우에만 허용
+                    if (!findBeaconCheckMap.containsKey(it[i].code)) {
+                        val temp = BeaconMapVO(
+                            Integer.parseInt(it[i].beaconList[j].major),
+                            Integer.parseInt(it[i].beaconList[j].minor)
+                        )
+                        if (list.contains(temp)) {
+                            AppDataManager.getInstance(application)
+                                .setCheckBeaconFindItem(it[i].code)
+                            result.onContentReceived(it[i])
+                        }
                     }
                 }
             }
@@ -202,10 +192,17 @@ class BeaconUtil() : InternalBeaconConsumer {
         outdoorList?.let {
             for (i in 0 until it.size) {
                 for (j in 0 until it[i].beaconList.size) {
-                    val temp = BeaconMapVO(Integer.parseInt(it[i].beaconList[j].major), Integer.parseInt(it[i].beaconList[j].minor))
-                    if (list.contains(temp)) {
-                        Log.e("TAG"," 들어오나..?:::")
-                        result.onContentReceived(it[i])
+                    // 사용자가 찾아낸 비콘 컨텐츠 한번이라도 보지 않았을 경우에만 허용
+                    if (!findBeaconCheckMap.containsKey(it[i].code)) {
+                        val temp = BeaconMapVO(
+                            Integer.parseInt(it[i].beaconList[j].major),
+                            Integer.parseInt(it[i].beaconList[j].minor)
+                        )
+                        if (list.contains(temp)) {
+                            AppDataManager.getInstance(application)
+                                .setCheckBeaconFindItem(it[i].code)
+                            result.onContentReceived(it[i])
+                        }
                     }
                 }
             }
@@ -214,7 +211,7 @@ class BeaconUtil() : InternalBeaconConsumer {
 
 
     private fun getData() {
-        // major,minor 가 키 , value 엔 어떤 content rssi 값보다 dbm 이 클 경우 팝업 띄우기 .....
+
         AppDataManager.getInstance(application).getBaseData {
 
             indoorList = it?.body?.indoorList
@@ -249,6 +246,4 @@ class BeaconUtil() : InternalBeaconConsumer {
     override fun bindService(intent: Intent?, connection: ServiceConnection?, mode: Int): Boolean {
         return false
     }
-
-
 }
