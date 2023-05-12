@@ -171,6 +171,7 @@ class AppDataManager : AppDataHelper {
         return filePath
     }
 
+    // 현재 게임존 팝업이 떠있는지 아닌지
     fun setGamePopupResult(result: Boolean) {
         this.gamePopupResult = result
     }
@@ -179,6 +180,7 @@ class AppDataManager : AppDataHelper {
         return gamePopupResult
     }
 
+    // 비콘에서 찾은 아이템 팝업창 사라질 때 끈 여부 메모리에 저장
     fun setCheckBeaconFindItem(code : String) {
         checkItemMap[code] = code
     }
@@ -187,6 +189,7 @@ class AppDataManager : AppDataHelper {
          return checkItemMap
     }
 
+    // 어플이 꺼졋을 떄 메모리가 바로 정리되지않기 떄문에 강제로 cheekItem clear
     fun clearCheckBeaconMap() {
         checkItemMap.clear()
     }

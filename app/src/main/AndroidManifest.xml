@@ -90,12 +90,12 @@
             android:exported="false" />
         <activity
             android:name=".ui.popup.GameZonePopupActivity"
-            android:exported="false"
             android:theme="@style/Transparent" />
         <activity
             android:name=".ui.popup.HintPopupActivity"
-            android:exported="false"
             android:theme="@style/Transparent"/>
+        <activity android:name=".ui.ar.ArActivity"
+            android:process=":yesanUnity"/>
     </application>
 
 </manifest>

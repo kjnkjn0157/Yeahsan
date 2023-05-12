@@ -20,6 +20,7 @@ import com.example.yeahsan.data.api.model.DoorListVO
 import com.example.yeahsan.data.api.model.DoorPathListVO
 
 import com.example.yeahsan.databinding.FragmentMiniMapBinding
+import com.example.yeahsan.ui.popup.GameZonePopupActivity
 import com.example.yeahsan.ui.popup.HintPopupActivity
 import com.example.yeahsan.ui.questionprogress.QuestionActivity
 import com.witches.mapview.MapView
@@ -53,9 +54,7 @@ class MiniMapFragment : Fragment() {
         }
 
         context?.let {
-            LocalBroadcastManager.getInstance(it.applicationContext).registerReceiver(
-                messageReceiver,
-                IntentFilter(AppConstants.INTENT_FILTER_MISSION_ONE_CLEAR)
+            LocalBroadcastManager.getInstance(it.applicationContext).registerReceiver(messageReceiver, IntentFilter(AppConstants.INTENT_FILTER_MISSION_ONE_CLEAR)
             )
         }
 
@@ -277,7 +276,8 @@ class MiniMapFragment : Fragment() {
 
     private fun setQuestScore(clearCount: Int) {
 
-        val questCount = markerList?.size?.minus(1)
+        //val questCount = markerList?.size?.minus(1)
+        val questCount = markerList?.size
         questCount?.let {
             var score = 100 / questCount.toFloat()
             Log.e("TAG","score ::: $score")
@@ -289,23 +289,35 @@ class MiniMapFragment : Fragment() {
 
     private val markerClickListener = object : MapView.OnMarkerClickListener {
         override fun onMarkerClick(marker: MapMarker?) {
+
             val seq = marker?.tag
             var hint = ""
             var name = ""
             var imageUrl = ""
+
+            //test로 게임존 팝업 열기
             markerList?.forEach {
                 if(it.seq.toString() == seq ) {
-                    hint = it.hint.toString()
-                    name = it.name
-                    imageUrl = it.image
+                    val intent = Intent (context,GameZonePopupActivity::class.java)
+                    intent.putExtra(AppConstants.EXTRA_ITEM,it)
+                    startActivity(intent)
                 }
             }
 
-            val intent = Intent(context, HintPopupActivity::class.java)
-            intent.putExtra(AppConstants.HINT_STRING ,hint)
-            intent.putExtra(AppConstants.NAME_STRING ,name)
-            intent.putExtra(AppConstants.IMAGE_URL_STRING ,imageUrl)
-            startActivity(intent)
+//여기가 찐
+//            markerList?.forEach {
+//                if(it.seq.toString() == seq ) {
+//                    hint = it.hint.toString()
+//                    name = it.name
+//                    imageUrl = it.image
+//                }
+//            }
+//
+//            val intent = Intent(context, HintPopupActivity::class.java)
+//            intent.putExtra(AppConstants.HINT_STRING ,hint)
+//            intent.putExtra(AppConstants.NAME_STRING ,name)
+//            intent.putExtra(AppConstants.IMAGE_URL_STRING ,imageUrl)
+//            startActivity(intent)
 
             /** all clear 후 이벤트 마크 실행 코드 */
 //            if (type == AppConstants.OUT_DOOR_TYPE) {
@@ -388,17 +400,26 @@ class MiniMapFragment : Fragment() {
         }
 
         override fun onMarkersClick(marker: java.util.ArrayList<MapMarker>?) {
-            Log.e("TAG", "onMarkersClick:::")
+
+            onMarkerClick(marker?.get(0))
         }
 
+    }
+
+    private fun refreshView() {
+
+        type?.let {
+            getData(it)
+        }
+
+        setQuestProgressbar()
     }
 
 
     private val messageReceiver: BroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(p0: Context?, p1: Intent?) {
 
-            initView()
-
+            refreshView()
         }
     }
 

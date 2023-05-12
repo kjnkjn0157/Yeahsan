@@ -7,68 +7,76 @@
     android:background="@color/transparent"
     tools:context=".ui.popup.HintPopupActivity">
 
-    <androidx.appcompat.widget.LinearLayoutCompat
-        android:id="@+id/layout_popup_content"
-        android:layout_width="240dp"
-        android:layout_height="360dp"
-        android:background="@drawable/popup_back"
-        android:orientation="vertical"
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <androidx.appcompat.widget.AppCompatImageView
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ar_popup_title"
-            android:layout_gravity="center"
-            android:layout_margin="16dp" />
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/layout_popup_content"
+            android:layout_width="240dp"
+            android:layout_height="340dp"
+            android:layout_centerInParent="true"
+            android:background="@drawable/popup_back"
+            android:orientation="vertical">
 
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/iv_popup_content"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:src="@drawable/img_holder"
-            android:layout_gravity="center" />
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ar_popup_title"
+                android:layout_gravity="center" />
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tv_content_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="부상은 물건을 팔아야 남는가?"
-            android:textColor="@color/brown"
-            android:textStyle="bold"
-            android:textSize="16sp"
-            android:layout_margin="16dp"
-            android:layout_gravity="center" />
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/iv_popup_content"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:layout_margin="8dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/img_holder"
+                android:layout_gravity="center" />
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tv_content_desc"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:gravity="center"
-            android:layout_weight="1"
-            android:text="야외 내포보부상촌 중앙 잔디밭에 위치한 20대 포동이 '부상은 어떤 물건을 팔아야 남는가?' 동상을 찾아보세요"
-            android:textColor="@color/brown"
-            android:layout_gravity="center"
-            android:layout_marginBottom="24dp"
-            android:layout_marginStart="24dp"
-            android:layout_marginEnd="24dp"/>
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_content_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="부상은 물건을 팔아야 남는가?"
+                android:textColor="@color/brown"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:gravity="center"
+                android:layout_gravity="center" />
 
-    </androidx.appcompat.widget.LinearLayoutCompat>
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_content_desc"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:gravity="center"
+                android:layout_weight="1"
+                android:text="야외 내포보부상촌 중앙 잔디밭에 위치한 20대 포동이 '부상은 어떤 물건을 팔아야 남는가?' 동상을 찾아보세요"
+                android:textColor="@color/brown"
+                android:layout_gravity="center"
+                android:textSize="16sp"
+                android:layout_marginBottom="24dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginEnd="24dp"/>
 
-    <androidx.appcompat.widget.AppCompatImageButton
-        android:id="@+id/btn_popup_close"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@color/transparent"
-        android:src="@mipmap/btn_pop_up_close"
-        app:layout_constraintBottom_toTopOf="@+id/layout_popup_content"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/layout_popup_content"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/btn_popup_close"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:scaleType="fitXY"
+            android:background="@color/transparent"
+            android:src="@mipmap/btn_pop_up_close"
+            android:layout_marginTop="204dp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="56dp" />
+
+    </RelativeLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -10,6 +10,7 @@ import com.example.yeahsan.data.AppDataManager
 import com.example.yeahsan.data.api.model.BeaconMapVO
 import com.example.yeahsan.data.api.model.DoorListVO
 import com.example.yeahsan.service.`interface`.ContentResult
+import com.rd.utils.CoordinatesUtils
 import org.altbeacon.beacon.*
 
 /**
@@ -27,10 +28,11 @@ class BeaconUtil() : InternalBeaconConsumer {
     //main 에서 권한 검사 먼저 하고 있다면 서비스 가동
     private var indoorList: ArrayList<DoorListVO>? = null
     private var outdoorList: ArrayList<DoorListVO>? = null
-
     private val indoorBeaconList: HashMap<BeaconMapVO, Int> = hashMapOf()
     private val outdoorBeaconList: HashMap<BeaconMapVO, Int> = hashMapOf()
     private val scannedBeaconList: HashSet<BeaconMapVO> = hashSetOf()
+    private var indoorClearList : ArrayList<DoorListVO>? = arrayListOf()
+    private var outdoorClearList : ArrayList<DoorListVO>? = arrayListOf()
 
     companion object {
 
@@ -56,6 +58,8 @@ class BeaconUtil() : InternalBeaconConsumer {
     private lateinit var beaconManager: BeaconManager
 
     override fun onBeaconServiceConnect() {
+
+        Log.e("TAG","onBeaconServiceConnect :::")
 
         getData()
 
@@ -175,14 +179,14 @@ class BeaconUtil() : InternalBeaconConsumer {
                 for (j in 0 until it[i].beaconList.size) {
                     // 사용자가 찾아낸 비콘 컨텐츠 한번이라도 보지 않았을 경우에만 허용
                     if (!findBeaconCheckMap.containsKey(it[i].code)) {
-                        val temp = BeaconMapVO(
-                            Integer.parseInt(it[i].beaconList[j].major),
-                            Integer.parseInt(it[i].beaconList[j].minor)
-                        )
+                        val temp = BeaconMapVO(Integer.parseInt(it[i].beaconList[j].major), Integer.parseInt(it[i].beaconList[j].minor))
                         if (list.contains(temp)) {
-                            AppDataManager.getInstance(application)
-                                .setCheckBeaconFindItem(it[i].code)
-                            result.onContentReceived(it[i])
+                            AppDataManager.getInstance(application).setCheckBeaconFindItem(it[i].code)
+                            indoorClearList?.let { clearList ->
+                                if (!clearList.contains(it[i])) {
+                                    result.onContentReceived(it[i])
+                                }
+                            }
                         }
                     }
                 }
@@ -199,9 +203,12 @@ class BeaconUtil() : InternalBeaconConsumer {
                             Integer.parseInt(it[i].beaconList[j].minor)
                         )
                         if (list.contains(temp)) {
-                            AppDataManager.getInstance(application)
-                                .setCheckBeaconFindItem(it[i].code)
-                            result.onContentReceived(it[i])
+                            AppDataManager.getInstance(application).setCheckBeaconFindItem(it[i].code)
+                            outdoorClearList?.let { clearList ->
+                                if (!clearList.contains(it[i])) {
+                                    result.onContentReceived(it[i])
+                                }
+                            }
                         }
                     }
                 }
@@ -232,6 +239,9 @@ class BeaconUtil() : InternalBeaconConsumer {
                 outdoorBeaconList[beaconMap] = list.beaconList[0].aRssi
             }
         }
+
+        outdoorClearList = AppDataManager.getInstance(application).getOutdoorMissionClearItems()
+        indoorClearList = AppDataManager.getInstance(application).getIndoorMissionClearItems()
     }
 
 

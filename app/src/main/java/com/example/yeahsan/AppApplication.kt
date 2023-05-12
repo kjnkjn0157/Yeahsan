@@ -107,7 +107,7 @@ class AppApplication : Application() {
                     scannedContents.add(content)
                     if (scannedContents.size > 0) {
                         val intent = Intent(this@AppApplication,GameZonePopupActivity::class.java)
-                        intent.putExtra("item",scannedContents[0])
+                        intent.putExtra(AppConstants.EXTRA_ITEM,scannedContents[0])
                         startActivity(intent.addFlags(FLAG_ACTIVITY_NEW_TASK))
                     }
                 }

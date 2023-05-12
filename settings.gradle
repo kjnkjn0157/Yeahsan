@@ -22,3 +22,5 @@ dependencyResolutionManagement {
 }
 rootProject.name = "Yeahsan"
 include ':app'
+include ':libraryUnity'
+include ':libsUnity'

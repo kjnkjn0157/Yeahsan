@@ -43,4 +43,10 @@ object AppConstants {
     const val THEATER_STRING = "theater"
 
     const val SPECIAL_EXHIBITION_STRING = "specialExhibition"
+
+    const val EXTRA_ITEM = "extra_door_item"
+
+    const val CLEAR_CONTENT = "clear_content"
+
+    const val MISSION_ITEM_CLEAR = 100
 }
