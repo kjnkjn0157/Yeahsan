@@ -51,6 +51,7 @@ class ArActivity : UnityPlayerActivity() {
 				intent.putExtra(AppConstants.CLEAR_CONTENT,it)
 				setResult(AppConstants.MISSION_ITEM_CLEAR, intent)
 				finish()
+
 			}
 		}
 	}
