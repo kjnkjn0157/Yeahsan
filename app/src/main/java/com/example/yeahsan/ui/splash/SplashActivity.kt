@@ -7,7 +7,7 @@ import android.os.Handler
 import com.example.yeahsan.AppApplication
 import com.example.yeahsan.data.AppDataManager
 import com.example.yeahsan.databinding.ActivitySplashBinding
-import com.example.yeahsan.ui.MainActivity
+import com.example.yeahsan.ui.main.MainActivity
 
 class SplashActivity : AppCompatActivity() {
 

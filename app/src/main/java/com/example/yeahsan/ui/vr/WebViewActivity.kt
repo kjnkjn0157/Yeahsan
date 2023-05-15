@@ -27,7 +27,6 @@ class WebViewActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         getData()
-
     }
 
     private fun getData() {
@@ -39,22 +38,31 @@ class WebViewActivity : AppCompatActivity() {
         type?.let { type ->
             val baseData = AppDataManager.getInstance(application as AppApplication).getBaseData()
             baseData?.let {
-                if (type == AppConstants.ARTIFACT_STRING) {
-                    url = intent.extras?.getString(AppConstants.URL_STRING)
-                } else if (type == AppConstants.VR_STRING) {
-                    url = baseData.body.vr
-                } else if (type == AppConstants.MARKETING_STRING) {
-                    url = baseData.body.promotion
-                } else if (type == AppConstants.NEAPHO_STORY_STRING) {
-                    url = baseData.body.naepoStory
-                } else if (type == AppConstants.BOBUSANG_STORY_STRING) {
-                    url = baseData.body.bobusangStory
-                } else if (type == AppConstants.CULTURE_STRING) {
-                    url = baseData.body.cultureExperience
-                } else if (type == AppConstants.THEATER_STRING) {
-                    url = baseData.body.theater
-                } else if (type == AppConstants.SPECIAL_EXHIBITION_STRING) {
-                    url = baseData.body.specialExhibition
+                when (type) {
+                    AppConstants.ARTIFACT_STRING -> {
+                        url = intent.extras?.getString(AppConstants.URL_STRING)
+                    }
+                    AppConstants.VR_STRING -> {
+                        url = baseData.body.vr
+                    }
+                    AppConstants.MARKETING_STRING -> {
+                        url = baseData.body.promotion
+                    }
+                    AppConstants.NEAPHO_STORY_STRING -> {
+                        url = baseData.body.naepoStory
+                    }
+                    AppConstants.BOBUSANG_STORY_STRING -> {
+                        url = baseData.body.bobusangStory
+                    }
+                    AppConstants.CULTURE_STRING -> {
+                        url = baseData.body.cultureExperience
+                    }
+                    AppConstants.THEATER_STRING -> {
+                        url = baseData.body.theater
+                    }
+                    AppConstants.SPECIAL_EXHIBITION_STRING -> {
+                        url = baseData.body.specialExhibition
+                    }
                 }
             }
 

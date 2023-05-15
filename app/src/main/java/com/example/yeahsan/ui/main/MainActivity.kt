@@ -1,4 +1,4 @@
-package com.example.yeahsan.ui
+package com.example.yeahsan.ui.main
 
 import android.Manifest
 import android.annotation.SuppressLint
@@ -7,9 +7,6 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
-import android.os.Process
-import android.os.SystemClock
-import android.util.Log
 import android.view.View
 import android.webkit.WebViewClient
 import android.widget.Toast
@@ -43,7 +40,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
- //       this.onBackPressedDispatcher.addCallback(this,callBack)
+        this.onBackPressedDispatcher.addCallback(this,callBack)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
 
@@ -67,7 +64,7 @@ class MainActivity : AppCompatActivity() {
 
         binding.mainContent.btnNav.setOnClickListener(object : OnSingleClickListener() {
             override fun onSingleClick(v: View?) {
-                if (binding.drawerLayout.isDrawerOpen(GravityCompat.END)) {
+                if (navigationClose()) {
                     binding.drawerLayout.closeDrawer(GravityCompat.END)
                 } else {
                     binding.drawerLayout.openDrawer(GravityCompat.START)
@@ -80,8 +77,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     @SuppressLint("SetJavaScriptEnabled")
-    private fun setBottomSheet() {
+    private fun setBottomSheet() { //공지사항
 
+        val noticeUrl = AppDataManager.getInstance(application as AppApplication).getBaseData()?.body?.notice
         val bottomBehavior = BottomSheetBehavior.from(binding.mainContent.mainBottomSheet.root)
 
         binding.mainContent.mainBottomSheet.bottomWebView.apply {
@@ -89,7 +87,9 @@ class MainActivity : AppCompatActivity() {
             settings.javaScriptEnabled = true
         }
 
-        binding.mainContent.mainBottomSheet.bottomWebView.loadUrl("https://www.naver.com/")
+        noticeUrl?.let {
+            binding.mainContent.mainBottomSheet.bottomWebView.loadUrl(it)
+        }
 
         bottomBehavior.addBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
             override fun onStateChanged(bottomSheet: View, newState: Int) {
@@ -119,12 +119,12 @@ class MainActivity : AppCompatActivity() {
 
     private fun setMoveActivity() {
 
-        binding.mainContent.btnGroundBottle.setOnClickListener(mainBtnClickEvent)
-        binding.mainContent.btnMainDiary.setOnClickListener(mainBtnClickEvent)
-        binding.mainContent.btnMainQuest.setOnClickListener(mainBtnClickEvent)
-        binding.mainContent.btnMainVrPhone.setOnClickListener(mainBtnClickEvent)
-        binding.mainContent.btnMainGrabBag.setOnClickListener(mainBtnClickEvent)
-        binding.mainContent.btnMainQr.setOnClickListener(mainBtnClickEvent)
+        binding.mainContent.btnGroundBottle.setOnClickListener(mainBtnClickEvent) // 유물 더 알아보기
+        binding.mainContent.btnMainDiary.setOnClickListener(mainBtnClickEvent) // 실내 컨텐츠
+        binding.mainContent.btnMainQuest.setOnClickListener(mainBtnClickEvent) // 나의 퀘스트
+        binding.mainContent.btnMainVrPhone.setOnClickListener(mainBtnClickEvent) // vr 전시 관람
+        binding.mainContent.btnMainGrabBag.setOnClickListener(mainBtnClickEvent) // 실외 컨텐츠
+        binding.mainContent.btnMainQr.setOnClickListener(mainBtnClickEvent) // qr 코드
     }
 
 
@@ -168,28 +168,27 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
-        binding.navigationMenu.btnMuseumIntro.setOnClickListener {
+        //하위메뉴가 있을 때
+        binding.navigationMenu.btnMuseumIntro.setOnClickListener { //박물관 소개
            binding.navigationMenu.lyMuseum.visibility = (application as AppApplication).visibleState(binding.navigationMenu.lyMuseum)
         }
-
-        binding.navigationMenu.btnExhibition.setOnClickListener {
+        binding.navigationMenu.btnExhibition.setOnClickListener {//전시안내
             binding.navigationMenu.lyExhibition.visibility = (application as AppApplication).visibleState(binding.navigationMenu.lyExhibition)
         }
-
-        binding.navigationMenu.btnMuseumAr.setOnClickListener {
+        binding.navigationMenu.btnMuseumAr.setOnClickListener {//예산 박물관 ar 모험
             binding.navigationMenu.lyActivityContent.visibility =  (application as AppApplication).visibleState(binding.navigationMenu.lyActivityContent)
         }
 
-        binding.navigationMenu.btnMarketing.setOnClickListener(navWebClickListener)
-        binding.navigationMenu.btnNaePhoStory.setOnClickListener(navWebClickListener)
-        binding.navigationMenu.btnBobusangStory.setOnClickListener(navWebClickListener)
-        binding.navigationMenu.btnCulture.setOnClickListener(navWebClickListener)
-        binding.navigationMenu.btnTheater.setOnClickListener(navWebClickListener)
-        binding.navigationMenu.btnSpecialExhibition.setOnClickListener(navWebClickListener)
+        binding.navigationMenu.btnMarketing.setOnClickListener(navWebClickListener) // 예산 홍보관
+        binding.navigationMenu.btnNaePhoStory.setOnClickListener(navWebClickListener) // 내포이야기
+        binding.navigationMenu.btnBobusangStory.setOnClickListener(navWebClickListener) // 보부상이야기
+        binding.navigationMenu.btnCulture.setOnClickListener(navWebClickListener) //유통문화체험관
+        binding.navigationMenu.btnTheater.setOnClickListener(navWebClickListener) // 4D영상관
+        binding.navigationMenu.btnSpecialExhibition.setOnClickListener(navWebClickListener) // 기획전시실
 
-        binding.navigationMenu.btnIndoor.setOnClickListener(navContentClickListener)
-        binding.navigationMenu.btnOutdoor.setOnClickListener(navContentClickListener)
-        binding.navigationMenu.btnQuest.setOnClickListener(navContentClickListener)
+        binding.navigationMenu.btnIndoor.setOnClickListener(navContentClickListener) //실내 컨텐츠
+        binding.navigationMenu.btnOutdoor.setOnClickListener(navContentClickListener) // 실외 컨텐츠
+        binding.navigationMenu.btnQuest.setOnClickListener(navContentClickListener) //나의 퀘스트
 
     }
 
@@ -268,14 +267,12 @@ class MainActivity : AppCompatActivity() {
 
     private val permissionListener: PermissionListener = object : PermissionListener {
         override fun onPermissionGranted() {
-            Log.e("permission", "::: permissionGranted")
-            (application as AppApplication).startBeaconService(isBeaconServiceRunning())
-            (application as AppApplication).startLocationService()
+            (application as AppApplication).startBeaconService(isBeaconServiceRunning()) // 비콘서비스
+            (application as AppApplication).startLocationService() // 위치서비스
         }
 
         override fun onPermissionDenied(deniedPermissions: List<String>) {
-            Log.e("permission", "::: permissionDenied")
-            Toast.makeText(this@MainActivity, "서비스가 제한될 수 있습니다.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this@MainActivity, R.string.permission_denied_mention, Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -294,7 +291,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun firebaseTopic() {
         if (AppDataManager.getInstance(application as AppApplication).getFCMSubscript()) {
-            MessagingService().subscribeTopic("jina")
+            MessagingService().subscribeTopic(AppConstants.FCM_TOPIC)
         }
     }
 
@@ -309,30 +306,30 @@ class MainActivity : AppCompatActivity() {
     override fun onBackPressed() {
         super.onBackPressed()
 
-        if (!navigationClose()) {
-            if (System.currentTimeMillis() - pressTime < 1500) {
-                finishAffinity()
-            } else {
-                pressTime = System.currentTimeMillis()
-                Toast.makeText(this@MainActivity, "한번 더 누르시면 앱이 종료됩니다.", Toast.LENGTH_SHORT).show()
-            }
-        }
+//        if (!navigationClose()) {
+//            if (System.currentTimeMillis() - pressTime < 1500) {
+//                finishAffinity()
+//            } else {
+//                pressTime = System.currentTimeMillis()
+//                Toast.makeText(this@MainActivity, "한번 더 누르시면 앱이 종료됩니다.", Toast.LENGTH_SHORT).show()
+//            }
+//        }
 
     }
 
-//
-//    private val callBack = object : OnBackPressedCallback(true) {
-//        override fun handleOnBackPressed() {
-//            if (!navigationClose()) {
-//                if (System.currentTimeMillis() - pressTime < 1500) {
-//                    finishAffinity()
-//                } else {
-//                    pressTime = System.currentTimeMillis()
-//                    Toast.makeText(this@MainActivity, "한번 더 누르시면 앱이 종료됩니다.", Toast.LENGTH_SHORT).show()
-//                }
-//            }
-//        }
-//    }
+
+    private val callBack = object : OnBackPressedCallback(true) {
+        override fun handleOnBackPressed() {
+            if (!navigationClose()) {
+                if (System.currentTimeMillis() - pressTime < 1500) {
+                    finishAffinity()
+                } else {
+                    pressTime = System.currentTimeMillis()
+                    Toast.makeText(this@MainActivity, R.string.app_finish_mention, Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+    }
 
     private fun navigationClose() : Boolean {
         var close = false

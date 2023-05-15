@@ -37,7 +37,6 @@ class HintPopupActivity : AppCompatActivity() {
             hint = it.getStringExtra(AppConstants.HINT_STRING)
             title = it.getStringExtra(AppConstants.NAME_STRING)
             imageUrl = it.getStringExtra(AppConstants.IMAGE_URL_STRING)
-            Log.e("TAG","title ::: popup $title")
         }
 
     }
@@ -47,8 +46,6 @@ class HintPopupActivity : AppCompatActivity() {
         binding.tvContentDesc.text = hint
 
         val url = AppDataManager.getInstance(application as AppApplication).getFilePath() + imageUrl
-        Log.e("TAG","image url in popup activity ::: $url")
-
         Glide.with(this@HintPopupActivity)
             .load(url)
             .placeholder(R.drawable.img_holder)

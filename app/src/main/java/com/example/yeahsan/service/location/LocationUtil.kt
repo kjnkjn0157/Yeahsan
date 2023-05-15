@@ -11,8 +11,10 @@ import com.google.android.gms.location.LocationResult
 
 class LocationUtil {
 
-    private var indoorLocationList : ArrayList<DoorListVO> = arrayListOf()
-    private var outdoorLocationList : ArrayList<DoorListVO> = arrayListOf()
+    private var indoorLocationList: ArrayList<DoorListVO> = arrayListOf()
+    private var outdoorLocationList: ArrayList<DoorListVO> = arrayListOf()
+    private var clearIndoorList: ArrayList<DoorListVO> = arrayListOf()
+    private var clearOutdoorList: ArrayList<DoorListVO> = arrayListOf()
 
     companion object {
 
@@ -22,9 +24,9 @@ class LocationUtil {
         @SuppressLint("StaticFieldLeak")
         private lateinit var context: Context
 
-        private lateinit var application : AppApplication
+        private lateinit var application: AppApplication
 
-        fun getInstance(_context: Context,appApplication: AppApplication): LocationUtil {
+        fun getInstance(_context: Context, appApplication: AppApplication): LocationUtil {
             return instance ?: synchronized(this) {
                 instance ?: LocationUtil().also {
                     context = _context
@@ -39,14 +41,21 @@ class LocationUtil {
 
         AppDataManager.getInstance(application).getBaseData {
             it?.let {
-                for(i in 0 until it.body.indoorList.size) {
+                for (i in 0 until it.body.indoorList.size) {
                     indoorLocationList.add(it.body.indoorList[i])
                 }
 
-                for(i in 0 until it.body.outdoorList.size) {
+                for (i in 0 until it.body.outdoorList.size) {
                     outdoorLocationList.add(it.body.outdoorList[i])
                 }
             }
+        }
+
+        AppDataManager.getInstance(application).getIndoorMissionClearItems()?.let {
+            clearIndoorList = it
+        }
+        AppDataManager.getInstance(application).getOutdoorMissionClearItems()?.let {
+            indoorLocationList = it
         }
     }
 
@@ -60,30 +69,50 @@ class LocationUtil {
                 Log.e("TAG", "my location update ::: $myLatitude ::: $myLongitude")
 
                 //내부 컨텐츠
-                if (indoorLocationList.size > 0 ) {
+                if (indoorLocationList.size > 0) {
                     for (i in 0 until indoorLocationList.size) {
                         for (j in 0 until indoorLocationList[i].locationList.size) {
-                            val contentLat = indoorLocationList[i].locationList[j].latitude.toDouble()
-                            val contentLon = indoorLocationList[i].locationList[j].longitude.toDouble()
+                            val contentLat =
+                                indoorLocationList[i].locationList[j].latitude.toDouble()
+                            val contentLon =
+                                indoorLocationList[i].locationList[j].longitude.toDouble()
                             val radius = indoorLocationList[i].locationList[j].range
-                            val distance = getDistance(myLatitude,myLongitude,contentLat,contentLon,"meter")
-                            if (distance < radius) {
-                                application.contentResult.onContentReceived(outdoorLocationList[i])
+                            val distance = getDistance(
+                                myLatitude,
+                                myLongitude,
+                                contentLat,
+                                contentLon,
+                                "meter"
+                            )
+                            if (distance < radius) { // 범위 안에 사용자가 있는지
+                                if (!clearIndoorList.contains(indoorLocationList[i])) { // 미션 클리어된 아이템이 아니라면
+                                    application.contentResult.onContentReceived(indoorLocationList[i])
+                                }
                             }
                         }
                     }
                 }
 
                 //외부컨텐츠
-                if (outdoorLocationList.size > 0 ) {
+                if (outdoorLocationList.size > 0) {
                     for (i in 0 until outdoorLocationList.size) {
                         for (j in 0 until outdoorLocationList[i].locationList.size) {
-                            val contentLat = outdoorLocationList[i].locationList[j].latitude.toDouble()
-                            val contentLon = outdoorLocationList[i].locationList[j].longitude.toDouble()
+                            val contentLat =
+                                outdoorLocationList[i].locationList[j].latitude.toDouble()
+                            val contentLon =
+                                outdoorLocationList[i].locationList[j].longitude.toDouble()
                             val radius = outdoorLocationList[i].locationList[j].range
-                            val distance = getDistance(myLatitude,myLongitude,contentLat,contentLon,"meter")
+                            val distance = getDistance(
+                                myLatitude,
+                                myLongitude,
+                                contentLat,
+                                contentLon,
+                                "meter"
+                            )
                             if (distance < radius) {
-                                application.contentResult.onContentReceived(outdoorLocationList[i])
+                                if (!clearOutdoorList.contains(outdoorLocationList[i])) {
+                                    application.contentResult.onContentReceived(outdoorLocationList[i])
+                                }
                             }
                         }
                     }
@@ -100,9 +129,18 @@ class LocationUtil {
         return rad * 180 / Math.PI
     }
 
-    private fun getDistance(lat1: Double, lon1: Double, lat2: Double, lon2: Double, unit: String): Double {
+    private fun getDistance(
+        lat1: Double,
+        lon1: Double,
+        lat2: Double,
+        lon2: Double,
+        unit: String
+    ): Double {
         val theta = lon1 - lon2
-        var dist = Math.sin(deg2rad(lat1)) * Math.sin(deg2rad(lat2)) + Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * Math.cos(deg2rad(theta))
+        var dist =
+            Math.sin(deg2rad(lat1)) * Math.sin(deg2rad(lat2)) + Math.cos(deg2rad(lat1)) * Math.cos(
+                deg2rad(lat2)
+            ) * Math.cos(deg2rad(theta))
         dist = Math.acos(dist)
         dist = rad2deg(dist)
         dist *= 60 * 1.1515

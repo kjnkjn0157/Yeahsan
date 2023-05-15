@@ -47,8 +47,6 @@ class ArActivity : UnityPlayerActivity() {
 			Log.e("TAG", "Clear")
 			tour?.let {
 
-				Log.e("TAG", "Clear :: ${it.code}")
-
 				val intent = Intent(this@ArActivity ,GameZonePopupActivity::class.java )
 				intent.putExtra(AppConstants.CLEAR_CONTENT,it)
 				setResult(AppConstants.MISSION_ITEM_CLEAR, intent)

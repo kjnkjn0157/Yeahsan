@@ -47,7 +47,6 @@ class GameZonePopupActivity : AppCompatActivity() {
             } else {
                 it.getParcelableExtra(AppConstants.EXTRA_ITEM)
             }
-
             Log.e("TAG", "popup in content ::: $content ")
         }
     }
@@ -59,6 +58,7 @@ class GameZonePopupActivity : AppCompatActivity() {
             binding.tvContentTitle.text = it.hint
 
             val imageUrl = AppDataManager.getInstance(application as AppApplication).getFilePath() + it.image
+
             Glide.with(this@GameZonePopupActivity)
                 .load(imageUrl)
                 .into(binding.ivPopupContent)
@@ -75,7 +75,6 @@ class GameZonePopupActivity : AppCompatActivity() {
             content?.let {
                 val intent = Intent(this@GameZonePopupActivity, ArActivity::class.java)
                 intent.putExtra(AppConstants.EXTRA_ITEM, it)
-                // startActivity(intent)
                 activityResultLauncher.launch(intent)
             }
         }
@@ -98,7 +97,8 @@ class GameZonePopupActivity : AppCompatActivity() {
                         intent.getParcelableExtra(AppConstants.CLEAR_CONTENT)
                     }
                     if (clearItem != null) {
-                        type = if (clearItem.code.contains("Outdoor")) {
+                        // 클리어된 아이템 타입 구분
+                        type = if (clearItem.code.lowercase().contains(AppConstants.OUT_DOOR_TYPE)) {
                             AppConstants.OUT_DOOR_TYPE
                         } else {
                             AppConstants.IN_DOOR_TYPE

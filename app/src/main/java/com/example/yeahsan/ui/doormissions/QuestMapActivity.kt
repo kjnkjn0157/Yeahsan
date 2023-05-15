@@ -1,6 +1,7 @@
 package com.example.yeahsan.ui.doormissions
 
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -45,6 +46,7 @@ class QuestMapActivity : AppCompatActivity() {
         miniMapFragment = MiniMapFragment()
     }
 
+     @SuppressLint("CommitTransaction")
      fun onFragmentChange(fragmentType : String) {
 
          if (fragmentType == AppConstants.TYPE_MINIMAP) {

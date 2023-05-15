@@ -33,6 +33,7 @@ class BeaconUtil() : InternalBeaconConsumer {
     private val scannedBeaconList: HashSet<BeaconMapVO> = hashSetOf()
     private var indoorClearList : ArrayList<DoorListVO>? = arrayListOf()
     private var outdoorClearList : ArrayList<DoorListVO>? = arrayListOf()
+    private var findBeaconCheckMap: HashMap<String, String> = hashMapOf()
 
     companion object {
 
@@ -131,9 +132,7 @@ class BeaconUtil() : InternalBeaconConsumer {
                                     } else {
                                         comparison = rssi
                                         findBeacon = beacon
-
                                     }
-
                                 }
                             }
                             indoorBeaconList[key]?.let { rssi ->
@@ -152,22 +151,20 @@ class BeaconUtil() : InternalBeaconConsumer {
                         }
                     }
 
-                    findBeacon?.let { findBeacon ->
+                    findBeacon?.let { Beacon ->
                         scannedBeaconList.add(
                             BeaconMapVO(
-                                Integer.parseInt(findBeacon.id2.toString()),
-                                Integer.parseInt(findBeacon.id3.toString())
+                                Integer.parseInt(Beacon.id2.toString()),
+                                Integer.parseInt(Beacon.id3.toString())
                             )
                         )
                         checkBeaconData(scannedBeaconList, application.contentResult)
                     }
-                    Log.e("TAG", "final beacon ::: $findBeacon")
                 }
             }
         }
     }
 
-    private var findBeaconCheckMap: HashMap<String, String> = hashMapOf()
 
 
     private fun checkBeaconData(list: HashSet<BeaconMapVO>, result: ContentResult) {

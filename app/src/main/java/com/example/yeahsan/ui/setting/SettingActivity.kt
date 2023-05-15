@@ -14,6 +14,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.example.yeahsan.AppApplication
+import com.example.yeahsan.AppConstants
 import com.example.yeahsan.BuildConfig
 import com.example.yeahsan.data.AppDataManager
 import com.example.yeahsan.databinding.ActivitySettingBinding
@@ -102,10 +103,10 @@ class SettingActivity : AppCompatActivity() {
 
     private val subscriptOnClickListener = OnClickListener {
         if(!binding.btnAccessPush.isChecked) {
-            MessagingService().unSubscribeTopic("jina")
+            MessagingService().unSubscribeTopic(AppConstants.FCM_TOPIC)
             AppDataManager.getInstance(application as AppApplication).setFCMSubscript(false)
         } else {
-            MessagingService().subscribeTopic("jina")
+            MessagingService().subscribeTopic(AppConstants.FCM_TOPIC)
             AppDataManager.getInstance(application as AppApplication).setFCMSubscript(true)
         }
     }

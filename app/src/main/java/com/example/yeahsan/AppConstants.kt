@@ -49,4 +49,6 @@ object AppConstants {
     const val CLEAR_CONTENT = "clear_content"
 
     const val MISSION_ITEM_CLEAR = 100
+
+    const val FCM_TOPIC = "jina"
 }

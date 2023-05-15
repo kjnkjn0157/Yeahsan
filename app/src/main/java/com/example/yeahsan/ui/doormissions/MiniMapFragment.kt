@@ -279,9 +279,7 @@ class MiniMapFragment : Fragment() {
         //val questCount = markerList?.size?.minus(1)
         val questCount = markerList?.size
         questCount?.let {
-            var score = 100 / questCount.toFloat()
-            Log.e("TAG","score ::: $score")
-
+            val score = 100 / questCount.toFloat()
             binding.seekBar.setProgress(score*clearCount)
         }
     }
@@ -304,7 +302,7 @@ class MiniMapFragment : Fragment() {
                 }
             }
 
-//여기가 찐
+//여기가 진짜 기능
 //            markerList?.forEach {
 //                if(it.seq.toString() == seq ) {
 //                    hint = it.hint.toString()

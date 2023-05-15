@@ -21,9 +21,9 @@ import com.google.android.exoplayer2.SimpleExoPlayer
 
 class QuestIntroFragment : Fragment() {
 
-    private lateinit var binding : FragmentQuestIntroBinding
-    private var introUrl = ""
-    private var type : String? = null
+    private lateinit var binding: FragmentQuestIntroBinding
+    private var introUrl : String? = ""
+    private var type: String? = null
     private var visibleResult = false
 
     override fun onCreateView(
@@ -51,14 +51,17 @@ class QuestIntroFragment : Fragment() {
         clickEvent()
     }
 
-    private fun initView(type : String?) {
+    private fun initView(type: String?) {
 
-        activity?.let {activity ->
+        activity?.let { activity ->
             type?.let { type ->
-                visibleResult = if (type == AppConstants.OUT_DOOR_TYPE) {
-                    AppDataManager.getInstance(activity.application as AppApplication).getOutDoorIntroInvisible()
+                if (type == AppConstants.OUT_DOOR_TYPE) {
+                    visibleResult = AppDataManager.getInstance(activity.application as AppApplication).getOutDoorIntroInvisible() // 다시보지 않기 여부
+                    introUrl = AppDataManager.getInstance(activity.application as AppApplication).getBaseData()?.body?.outdoorIntro
+
                 } else {
-                    AppDataManager.getInstance(activity.application as AppApplication).getInDoorIntroInvisible()
+                    visibleResult = AppDataManager.getInstance(activity.application as AppApplication).getInDoorIntroInvisible()
+                    introUrl = AppDataManager.getInstance(activity.application as AppApplication).getBaseData()?.body?.indoorIntro
                 }
             }
 
@@ -71,12 +74,11 @@ class QuestIntroFragment : Fragment() {
             context?.let {
                 val simpleExoPlayer = SimpleExoPlayer.Builder(it)
                     .build()
-                    .also{exoPlayer->
+                    .also { exoPlayer ->
                         binding.videoView.player = exoPlayer
                     }
 
-                val videoUrl = "https://appdata2.rendev.kr/2022/Yesan/Video/Outdoor/video_intro_outdoor.mp4"
-                val mediaItem = MediaItem.fromUri(Uri.parse(videoUrl))
+                val mediaItem = MediaItem.fromUri(Uri.parse(introUrl))
                 simpleExoPlayer.setMediaItem(mediaItem)
                 simpleExoPlayer.addListener(playbackStateListener())
                 simpleExoPlayer.prepare()
@@ -102,8 +104,8 @@ class QuestIntroFragment : Fragment() {
 
     private fun clickEvent() {
 
-        //game start
-        binding.btnStart.setOnClickListener(object : OnSingleClickListener(){
+        //미니맵으로 이동
+        binding.btnStart.setOnClickListener(object : OnSingleClickListener() {
             override fun onSingleClick(v: View?) {
                 val questMapActivity = activity as QuestMapActivity?
                 questMapActivity?.onFragmentChange(AppConstants.TYPE_MINIMAP)
