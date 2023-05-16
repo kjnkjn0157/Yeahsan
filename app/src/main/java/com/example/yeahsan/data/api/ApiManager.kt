@@ -37,7 +37,6 @@ class ApiManager(private val application : Application) : ApiHelper {
             })
         } else {
             callback(baseData)
-            Log.e("TAG","list callback :::")
         }
     }
 

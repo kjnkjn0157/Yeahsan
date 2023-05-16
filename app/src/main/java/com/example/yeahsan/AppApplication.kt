@@ -88,9 +88,9 @@ class AppApplication : Application() {
     }
 
     fun stopLocationService() {
-        val intent = Intent(applicationContext, BeaconService::class.java)
+        val intent = Intent(applicationContext, LocationService::class.java)
         intent.action = LocationConstant.LOCATION_SERVICE_STOP
-        startService(intent)
+        stopService(intent)
         Toast.makeText(this, "Location service stopped", Toast.LENGTH_SHORT).show()
     }
 

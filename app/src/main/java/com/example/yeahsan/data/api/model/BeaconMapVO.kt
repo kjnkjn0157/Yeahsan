@@ -8,5 +8,5 @@ data class BeaconMapVO(
 
     var major : Int,
 
-    var minor : Int
+    var minor : Int,
 ) : Parcelable

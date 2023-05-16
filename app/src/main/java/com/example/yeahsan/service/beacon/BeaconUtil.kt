@@ -26,14 +26,20 @@ import org.altbeacon.beacon.*
 
 class BeaconUtil() : InternalBeaconConsumer {
     //main 에서 권한 검사 먼저 하고 있다면 서비스 가동
-    private var indoorList: ArrayList<DoorListVO>? = null
-    private var outdoorList: ArrayList<DoorListVO>? = null
-    private val indoorBeaconList: HashMap<BeaconMapVO, Int> = hashMapOf()
-    private val outdoorBeaconList: HashMap<BeaconMapVO, Int> = hashMapOf()
+
     private val scannedBeaconList: HashSet<BeaconMapVO> = hashSetOf()
-    private var indoorClearList : ArrayList<DoorListVO>? = arrayListOf()
-    private var outdoorClearList : ArrayList<DoorListVO>? = arrayListOf()
     private var findBeaconCheckMap: HashMap<String, String> = hashMapOf()
+    /*refactoring*/
+    private var doorList : ArrayList<DoorListVO>? = arrayListOf()
+    private var doorBeaconList : HashMap<BeaconMapVO, Int> = hashMapOf()
+    private var doorClearList : ArrayList<DoorListVO>? = arrayListOf()
+
+    //    private var indoorList: ArrayList<DoorListVO>? = null
+//    private var outdoorList: ArrayList<DoorListVO>? = null
+//    private val indoorBeaconList: HashMap<BeaconMapVO, Int> = hashMapOf()
+//    private val outdoorBeaconList: HashMap<BeaconMapVO, Int> = hashMapOf()
+//    private var indoorClearList : ArrayList<DoorListVO>? = arrayListOf()
+//    private var outdoorClearList : ArrayList<DoorListVO>? = arrayListOf()
 
     companion object {
 
@@ -109,20 +115,19 @@ class BeaconUtil() : InternalBeaconConsumer {
         beaconManager.addRangeNotifier { beacons, region ->
 
             beacons?.let {
-                if (it.isNotEmpty() && indoorBeaconList.size > 0 && outdoorBeaconList.size > 0) {
+                if (it.isNotEmpty() && doorBeaconList.size > 0) {
                     var findBeacon: Beacon? = null
                     var comparison: Int? = null
 
                     for (beacon: Beacon in beacons) {
                         //      Log.e("TAG", "내가 찾은 비콘 ::: major ${beacon.id2} :::: minor ${beacon.id3}")
-                        Log.e("TAG", "comparison :::$comparison")
                         val key = BeaconMapVO(
                             Integer.parseInt(beacon.id2.toString()),
                             Integer.parseInt(beacon.id3.toString())
                         )
 
-                        if (indoorBeaconList.containsKey(key) || outdoorBeaconList.containsKey(key)) {
-                            outdoorBeaconList[key]?.let { rssi ->
+                        if (doorBeaconList.containsKey(key)) {
+                            doorBeaconList[key]?.let { rssi ->
                                 if (beacon.rssi > rssi) {
                                     if (comparison != null) {
                                         if (comparison!! < rssi) {
@@ -135,19 +140,19 @@ class BeaconUtil() : InternalBeaconConsumer {
                                     }
                                 }
                             }
-                            indoorBeaconList[key]?.let { rssi ->
-                                if (beacon.rssi > rssi) {
-                                    if (comparison != null) {
-                                        if (comparison!! < rssi) {
-                                            comparison = rssi
-                                            findBeacon = beacon
-                                        }
-                                    } else {
-                                        comparison = rssi
-                                        findBeacon = beacon
-                                    }
-                                }
-                            }
+//                            indoorBeaconList[key]?.let { rssi ->
+//                                if (beacon.rssi > rssi) {
+//                                    if (comparison != null) {
+//                                        if (comparison!! < rssi) {
+//                                            comparison = rssi
+//                                            findBeacon = beacon
+//                                        }
+//                                    } else {
+//                                        comparison = rssi
+//                                        findBeacon = beacon
+//                                    }
+//                                }
+//                            }
                         }
                     }
 
@@ -171,7 +176,7 @@ class BeaconUtil() : InternalBeaconConsumer {
 
         findBeaconCheckMap = AppDataManager.getInstance(application).getCheckBeaconFindItem()
 
-        indoorList?.let {
+        doorList?.let {
             for (i in 0 until it.size) {
                 for (j in 0 until it[i].beaconList.size) {
                     // 사용자가 찾아낸 비콘 컨텐츠 한번이라도 보지 않았을 경우에만 허용
@@ -179,7 +184,7 @@ class BeaconUtil() : InternalBeaconConsumer {
                         val temp = BeaconMapVO(Integer.parseInt(it[i].beaconList[j].major), Integer.parseInt(it[i].beaconList[j].minor))
                         if (list.contains(temp)) {
                             AppDataManager.getInstance(application).setCheckBeaconFindItem(it[i].code)
-                            indoorClearList?.let { clearList ->
+                            doorClearList?.let { clearList ->
                                 if (!clearList.contains(it[i])) {
                                     result.onContentReceived(it[i])
                                 }
@@ -190,55 +195,69 @@ class BeaconUtil() : InternalBeaconConsumer {
             }
         }
 
-        outdoorList?.let {
-            for (i in 0 until it.size) {
-                for (j in 0 until it[i].beaconList.size) {
-                    // 사용자가 찾아낸 비콘 컨텐츠 한번이라도 보지 않았을 경우에만 허용
-                    if (!findBeaconCheckMap.containsKey(it[i].code)) {
-                        val temp = BeaconMapVO(
-                            Integer.parseInt(it[i].beaconList[j].major),
-                            Integer.parseInt(it[i].beaconList[j].minor)
-                        )
-                        if (list.contains(temp)) {
-                            AppDataManager.getInstance(application).setCheckBeaconFindItem(it[i].code)
-                            outdoorClearList?.let { clearList ->
-                                if (!clearList.contains(it[i])) {
-                                    result.onContentReceived(it[i])
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
+//        outdoorList?.let {
+//            for (i in 0 until it.size) {
+//                for (j in 0 until it[i].beaconList.size) {
+//                    // 사용자가 찾아낸 비콘 컨텐츠 한번이라도 보지 않았을 경우에만 허용
+//                    if (!findBeaconCheckMap.containsKey(it[i].code)) {
+//                        val temp = BeaconMapVO(
+//                            Integer.parseInt(it[i].beaconList[j].major),
+//                            Integer.parseInt(it[i].beaconList[j].minor)
+//                        )
+//                        if (list.contains(temp)) {
+//                            AppDataManager.getInstance(application).setCheckBeaconFindItem(it[i].code)
+//                            outdoorClearList?.let { clearList ->
+//                                if (!clearList.contains(it[i])) {
+//                                    result.onContentReceived(it[i])
+//                                }
+//                            }
+//                        }
+//                    }
+//                }
+//            }
+//        }
     }
 
 
     private fun getData() {
 
         AppDataManager.getInstance(application).getBaseData {
-
-            indoorList = it?.body?.indoorList
-            outdoorList = it?.body?.outdoorList
-
-            it?.body?.indoorList?.forEach { list ->
-                val beaconMap = BeaconMapVO(
-                    Integer.parseInt(list.beaconList[0].major),
-                    Integer.parseInt(list.beaconList[0].minor)
-                )
-                indoorBeaconList[beaconMap] = list.beaconList[0].aRssi
-            }
-            it?.body?.outdoorList?.forEach { list ->
-                val beaconMap = BeaconMapVO(
-                    Integer.parseInt(list.beaconList[0].major),
-                    Integer.parseInt(list.beaconList[0].minor)
-                )
-                outdoorBeaconList[beaconMap] = list.beaconList[0].aRssi
-            }
+            it?.body?.indoorList?.forEach { item -> doorList?.add(item) }
+            it?.body?.outdoorList?.forEach { item -> doorList?.add(item) }
         }
 
-        outdoorClearList = AppDataManager.getInstance(application).getOutdoorMissionClearItems()
-        indoorClearList = AppDataManager.getInstance(application).getIndoorMissionClearItems()
+        doorList?.forEach {list ->
+                    val beaconMap = BeaconMapVO(Integer.parseInt(list.beaconList[0].major), Integer.parseInt(list.beaconList[0].minor))
+                doorBeaconList[beaconMap] = list.beaconList[0].aRssi
+        }
+
+        AppDataManager.getInstance(application).getOutdoorMissionClearItems()?.let { it.forEach { doorClearList?.add(it) } }
+        AppDataManager.getInstance(application).getIndoorMissionClearItems()?.let { it.forEach { doorClearList?.add(it) } }
+
+        //        AppDataManager.getInstance(application).getBaseData {
+//
+//            indoorList = it?.body?.indoorList
+//            outdoorList = it?.body?.outdoorList
+//
+//            it?.body?.indoorList?.forEach { list ->
+//                val beaconMap = BeaconMapVO(
+//                    Integer.parseInt(list.beaconList[0].major),
+//                    Integer.parseInt(list.beaconList[0].minor)
+//                )
+//                indoorBeaconList[beaconMap] = list.beaconList[0].aRssi
+//            }
+//            it?.body?.outdoorList?.forEach { list ->
+//                val beaconMap = BeaconMapVO(
+//                    Integer.parseInt(list.beaconList[0].major),
+//                    Integer.parseInt(list.beaconList[0].minor)
+//                )
+//                outdoorBeaconList[beaconMap] = list.beaconList[0].aRssi
+//            }
+//        }
+//
+//        outdoorClearList = AppDataManager.getInstance(application).getOutdoorMissionClearItems()
+//        indoorClearList = AppDataManager.getInstance(application).getIndoorMissionClearItems()
+
     }
 
 

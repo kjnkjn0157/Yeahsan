@@ -17,7 +17,7 @@ data class DoorPathListVO(
    var strokeColor : String,
 
    @SerializedName("pathList")
-   var pointList : ArrayList<ArrayList<PathListVO>>
+   var pointList : ArrayList<ArrayList<PathListVO>>,
 
 
 ) : Parcelable

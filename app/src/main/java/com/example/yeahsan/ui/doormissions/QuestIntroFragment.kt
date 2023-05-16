@@ -41,11 +41,7 @@ class QuestIntroFragment : Fragment() {
         arguments?.let {
             //여기서 인트로 영상 url 가져와서 셋팅
             type = it.getString(AppConstants.STRING_TYPE)
-            if (type == AppConstants.IN_DOOR_TYPE) {
-                initView(type)
-            } else if (type == AppConstants.OUT_DOOR_TYPE) {
-                initView(type)
-            }
+            initView(type)
         }
 
         clickEvent()
@@ -65,6 +61,7 @@ class QuestIntroFragment : Fragment() {
                 }
             }
 
+            introUrl = AppDataManager.getInstance(activity.application as AppApplication).getFilePath() + introUrl
         }
 
         if (visibleResult) {

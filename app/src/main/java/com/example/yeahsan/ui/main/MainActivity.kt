@@ -298,6 +298,7 @@ class MainActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         (application as AppApplication).stopBeaconService(isBeaconServiceRunning())
+        (application as AppApplication).stopLocationService()
     }
 
 

@@ -89,6 +89,6 @@ data class BodyVO(
     var outdoorList : ArrayList<DoorListVO>,
 
     @SerializedName("outdoorPathList")
-    var outdoorPathList : ArrayList<DoorPathListVO>
+    var outdoorPathList : ArrayList<DoorPathListVO>,
 
 ) : Parcelable

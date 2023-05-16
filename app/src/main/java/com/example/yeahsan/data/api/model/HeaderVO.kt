@@ -15,6 +15,6 @@ data class HeaderVO(
     var code : String,
 
     @SerializedName("message")
-    var message : String
+    var message : String,
 
 ) : Parcelable

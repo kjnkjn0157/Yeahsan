@@ -11,6 +11,6 @@ data class BasicDataVO(
     var header : HeaderVO ,
 
     @SerializedName("body")
-    var body : BodyVO
+    var body : BodyVO,
 
 ) : Parcelable

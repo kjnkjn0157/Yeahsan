@@ -20,5 +20,5 @@ data class LocationListVO(
     var altitude : Float,
 
     @SerializedName("range")
-    var range : Int
+    var range : Int,
 ) : Parcelable

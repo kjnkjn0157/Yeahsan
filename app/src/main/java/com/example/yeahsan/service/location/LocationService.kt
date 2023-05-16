@@ -107,12 +107,13 @@ class LocationService : Service() {
     private fun stopLocationService() {
         LocationServices.getFusedLocationProviderClient(this).removeLocationUpdates(mLocationCallback);
         stopForeground(true);
-        stopSelf();
+        stopSelf()
     }
 
 
     override fun onDestroy() {
         super.onDestroy()
+        stopLocationService()
     }
 
 

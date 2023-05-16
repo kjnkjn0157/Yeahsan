@@ -11,10 +11,14 @@ import com.google.android.gms.location.LocationResult
 
 class LocationUtil {
 
-    private var indoorLocationList: ArrayList<DoorListVO> = arrayListOf()
-    private var outdoorLocationList: ArrayList<DoorListVO> = arrayListOf()
-    private var clearIndoorList: ArrayList<DoorListVO> = arrayListOf()
-    private var clearOutdoorList: ArrayList<DoorListVO> = arrayListOf()
+    /*refactoring*/
+    private var doorLocationList: ArrayList<DoorListVO> = arrayListOf()
+    private var clearDoorList: ArrayList<DoorListVO>? = arrayListOf()
+
+//    private var indoorLocationList: ArrayList<DoorListVO> = arrayListOf()
+//    private var outdoorLocationList: ArrayList<DoorListVO> = arrayListOf()
+//    private var clearIndoorList: ArrayList<DoorListVO> = arrayListOf()
+//    private var clearOutdoorList: ArrayList<DoorListVO> = arrayListOf()
 
     companion object {
 
@@ -41,22 +45,36 @@ class LocationUtil {
 
         AppDataManager.getInstance(application).getBaseData {
             it?.let {
-                for (i in 0 until it.body.indoorList.size) {
-                    indoorLocationList.add(it.body.indoorList[i])
-                }
-
-                for (i in 0 until it.body.outdoorList.size) {
-                    outdoorLocationList.add(it.body.outdoorList[i])
-                }
+                it.body.outdoorList.forEach{ doorLocationList.add(it) }
+                it.body.indoorList.forEach { doorLocationList.add(it) }
             }
         }
 
-        AppDataManager.getInstance(application).getIndoorMissionClearItems()?.let {
-            clearIndoorList = it
-        }
+        clearDoorList = AppDataManager.getInstance(application).getIndoorMissionClearItems()
         AppDataManager.getInstance(application).getOutdoorMissionClearItems()?.let {
-            indoorLocationList = it
+            it.forEach {
+                clearDoorList?.add(it)
+            }
         }
+
+//        AppDataManager.getInstance(application).getBaseData {
+//            it?.let {
+//                for (i in 0 until it.body.indoorList.size) {
+//                    indoorLocationList.add(it.body.indoorList[i])
+//                }
+//
+//                for (i in 0 until it.body.outdoorList.size) {
+//                    outdoorLocationList.add(it.body.outdoorList[i])
+//                }
+//            }
+//        }
+//
+//        AppDataManager.getInstance(application).getIndoorMissionClearItems()?.let {
+//            clearIndoorList = it
+//        }
+//        AppDataManager.getInstance(application).getOutdoorMissionClearItems()?.let {
+//            indoorLocationList = it
+//        }
     }
 
     var mLocationCallback = object : LocationCallback() {
@@ -66,17 +84,17 @@ class LocationUtil {
             if (locationResult.lastLocation != null) {
                 val myLatitude = locationResult.lastLocation!!.latitude
                 val myLongitude = locationResult.lastLocation!!.longitude
-                Log.e("TAG", "my location update ::: $myLatitude ::: $myLongitude")
+//                Log.e("TAG", "my location update ::: $myLatitude ::: $myLongitude")
 
                 //내부 컨텐츠
-                if (indoorLocationList.size > 0) {
-                    for (i in 0 until indoorLocationList.size) {
-                        for (j in 0 until indoorLocationList[i].locationList.size) {
+                if (doorLocationList.size > 0) {
+                    for (i in 0 until doorLocationList.size) {
+                        for (j in 0 until doorLocationList[i].locationList.size) {
                             val contentLat =
-                                indoorLocationList[i].locationList[j].latitude.toDouble()
+                                doorLocationList[i].locationList[j].latitude.toDouble()
                             val contentLon =
-                                indoorLocationList[i].locationList[j].longitude.toDouble()
-                            val radius = indoorLocationList[i].locationList[j].range
+                                doorLocationList[i].locationList[j].longitude.toDouble()
+                            val radius = doorLocationList[i].locationList[j].range
                             val distance = getDistance(
                                 myLatitude,
                                 myLongitude,
@@ -85,8 +103,8 @@ class LocationUtil {
                                 "meter"
                             )
                             if (distance < radius) { // 범위 안에 사용자가 있는지
-                                if (!clearIndoorList.contains(indoorLocationList[i])) { // 미션 클리어된 아이템이 아니라면
-                                    application.contentResult.onContentReceived(indoorLocationList[i])
+                                if (!clearDoorList?.contains(doorLocationList[i])!!) { // 미션 클리어된 아이템이 아니라면
+                                    application.contentResult.onContentReceived(doorLocationList[i])
                                 }
                             }
                         }
@@ -94,29 +112,29 @@ class LocationUtil {
                 }
 
                 //외부컨텐츠
-                if (outdoorLocationList.size > 0) {
-                    for (i in 0 until outdoorLocationList.size) {
-                        for (j in 0 until outdoorLocationList[i].locationList.size) {
-                            val contentLat =
-                                outdoorLocationList[i].locationList[j].latitude.toDouble()
-                            val contentLon =
-                                outdoorLocationList[i].locationList[j].longitude.toDouble()
-                            val radius = outdoorLocationList[i].locationList[j].range
-                            val distance = getDistance(
-                                myLatitude,
-                                myLongitude,
-                                contentLat,
-                                contentLon,
-                                "meter"
-                            )
-                            if (distance < radius) {
-                                if (!clearOutdoorList.contains(outdoorLocationList[i])) {
-                                    application.contentResult.onContentReceived(outdoorLocationList[i])
-                                }
-                            }
-                        }
-                    }
-                }
+//                if (outdoorLocationList.size > 0) {
+//                    for (i in 0 until outdoorLocationList.size) {
+//                        for (j in 0 until outdoorLocationList[i].locationList.size) {
+//                            val contentLat =
+//                                outdoorLocationList[i].locationList[j].latitude.toDouble()
+//                            val contentLon =
+//                                outdoorLocationList[i].locationList[j].longitude.toDouble()
+//                            val radius = outdoorLocationList[i].locationList[j].range
+//                            val distance = getDistance(
+//                                myLatitude,
+//                                myLongitude,
+//                                contentLat,
+//                                contentLon,
+//                                "meter"
+//                            )
+//                            if (distance < radius) {
+//                                if (!clearOutdoorList.contains(outdoorLocationList[i])) {
+//                                    application.contentResult.onContentReceived(outdoorLocationList[i])
+//                                }
+//                            }
+//                        }
+//                    }
+//                }
             }
         }
     }

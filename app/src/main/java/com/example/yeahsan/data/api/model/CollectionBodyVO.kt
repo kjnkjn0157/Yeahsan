@@ -17,6 +17,6 @@ data class CollectionBodyVO(
     var nextPage : Boolean,
 
     @SerializedName("collectionList")
-    var collectionList : ArrayList<CollectionVO>
+    var collectionList : ArrayList<CollectionVO>,
 
 ) : Parcelable

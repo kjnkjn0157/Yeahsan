@@ -23,6 +23,6 @@ data class CollectionVO(
     var thumbnail : String,
 
     @SerializedName("image")
-    var image : String
+    var image : String,
 
 ) : Parcelable

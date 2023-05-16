@@ -11,6 +11,6 @@ data class PathListVO(
     var pointX : String ,
 
     @SerializedName("pointY")
-    var pointY : String
+    var pointY : String,
 
 ) : Parcelable

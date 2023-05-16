@@ -17,6 +17,6 @@ data class BeaconListVO(
     var aRssi : Int,
 
     @SerializedName("iRssi")
-    var iRssi : Int
+    var iRssi : Int,
 
 ) : Parcelable

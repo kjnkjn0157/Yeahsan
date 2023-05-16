@@ -11,6 +11,6 @@ data class CollectionListVO(
     var headerVO: HeaderVO,
 
     @SerializedName("body")
-    var collectionBodyVO: CollectionBodyVO
+    var collectionBodyVO: CollectionBodyVO,
 
 ) : Parcelable
