@@ -12,6 +12,7 @@ import androidx.annotation.RequiresApi
 import com.bumptech.glide.Glide
 import com.example.yeahsan.AppApplication
 import com.example.yeahsan.AppConstants
+import com.example.yeahsan.R
 import com.example.yeahsan.data.AppDataManager
 
 import com.example.yeahsan.data.api.model.DoorListVO
@@ -23,6 +24,7 @@ class GameZonePopupActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityGameZonePopupBinding
     private var content: DoorListVO? = null
+    private var type : String? = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,10 +50,16 @@ class GameZonePopupActivity : AppCompatActivity() {
                 it.getParcelableExtra(AppConstants.EXTRA_ITEM)
             }
             Log.e("TAG", "popup in content ::: $content ")
+
+            type = it.getStringExtra("title")
         }
     }
 
     private fun initView() {
+
+        if (type == "ar") {
+            binding.ivTitle.setImageResource(R.mipmap.ar_popup_title)
+        }
 
         content?.let {
 

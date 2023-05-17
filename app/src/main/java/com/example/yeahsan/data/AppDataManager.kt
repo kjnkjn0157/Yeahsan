@@ -44,16 +44,21 @@ class AppDataManager : AppDataHelper {
         return apiManager.getBaseData(callback)
     }
 
-// 우물 더 알아보기 기능 사용
-//    override fun getCollectionListData(callback: (CollectionListVO?) -> Unit) {
-//        return apiManager.getCollectionListData(callback)
-//    }
+    override fun getThreeDCollection(callback: (ArrayList<CollectionContentVO>?) -> Unit) {
+        return apiManager.getThreeDCollection(callback)
+    }
+
+    override fun getBasicCollection(callback: (ArrayList<CollectionContentVO>?) -> Unit) {
+        return apiManager.getBasicCollection(callback)
+    }
+
+    override fun getEBookCollection(callback: (ArrayList<CollectionContentVO>?) -> Unit) {
+        return apiManager.getEBookCollection(callback)
+    }
 
 
     /**
      * pref*/
-
-
     override fun setDenyCameraPermission(result: Boolean) {
         prefsManager.setDenyCameraPermission(result)
     }

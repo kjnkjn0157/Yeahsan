@@ -1,0 +1,687 @@
+** Run Tesseract for Training **
+[C:\Users\Witches\Desktop\jTessBoxEditorFX-2.4.1\jTessBoxEditorFX\tesseract-ocr/tesseract, kor.system.exp0.tif, kor.system.exp0, box.train]
+row xheight=26.2, but median xheight = 10
+row xheight=8.66667, but median xheight = 10
+row xheight=8, but median xheight = 10
+FAIL!
+APPLY_BOXES: boxfile line 1/내 ((107,3152),(140,3191)): FAILURE! Couldn't find a matching blob
+FAIL!
+APPLY_BOXES: boxfile line 2/포 ((152,3155),(192,3190)): FAILURE! Couldn't find a matching blob
+FAIL!
+APPLY_BOXES: boxfile line 3/는 ((200,3153),(240,3191)): FAILURE! Couldn't find a matching blob
+FAIL!
+APPLY_BOXES: boxfile line 4/바 ((266,3152),(303,3191)): FAILURE! Couldn't find a matching blob
+FAIL!
+APPLY_BOXES: boxfile line 5/다 ((314,3152),(351,3191)): FAILURE! Couldn't find a matching blob
+FAIL!
+APPLY_BOXES: boxfile line 6/나 ((362,3152),(399,3191)): FAILURE! Couldn't find a matching blob
+FAIL!
+APPLY_BOXES: boxfile line 7/호 ((423,3155),(462,3190)): FAILURE! Couldn't find a matching blob
+FAIL!
+APPLY_BOXES: boxfile line 8/수 ((471,3152),(510,3191)): FAILURE! Couldn't find a matching blob
+FAIL!
+APPLY_BOXES: boxfile line 9/가 ((519,3152),(558,3191)): FAILURE! Couldn't find a matching blob
+FAIL!
+APPLY_BOXES: boxfile line 10/육 ((582,3152),(621,3191)): FAILURE! Couldn't find a matching blob
+FAIL!
+APPLY_BOXES: boxfile line 11/지 ((631,3152),(665,3191)): FAILURE! Couldn't find a matching blob
+FAIL!
+APPLY_BOXES: boxfile line 12/안 ((695,3153),(733,3191)): FAILURE! Couldn't find a matching blob
+FAIL!
+APPLY_BOXES: boxfile line 13/으 ((741,3155),(780,3190)): FAILURE! Couldn't find a matching blob
+FAIL!
+APPLY_BOXES: boxfile line 14/로 ((789,3155),(828,3190)): FAILURE! Couldn't find a matching blob
+FAIL!
+APPLY_BOXES: boxfile line 15/휘 ((852,3152),(887,3191)): FAILURE! Couldn't find a matching blob
+FAIL!
+APPLY_BOXES: boxfile line 16/어 ((902,3152),(935,3191)): FAILURE! Couldn't find a matching blob
+FAIL!
+APPLY_BOXES: boxfile line 17/들 ((964,3153),(1003,3190)): FAILURE! Couldn't find a matching blob
+FAIL!
+APPLY_BOXES: boxfile line 18/어 ((1013,3152),(1046,3191)): FAILURE! Couldn't find a matching blob
+FAIL!
+APPLY_BOXES: boxfile line 19/간 ((1060,3153),(1099,3191)): FAILURE! Couldn't find a matching blob
+FAIL!
+APPLY_BOXES: boxfile line 20/부 ((1123,3152),(1162,3190)): FAILURE! Couldn't find a matching blob
+FAIL!
+APPLY_BOXES: boxfile line 21/분 ((1171,3153),(1210,3191)): FAILURE! Couldn't find a matching blob
+FAIL!
+APPLY_BOXES: boxfile line 22/을 ((1234,3153),(1273,3191)): FAILURE! Couldn't find a matching blob
+FAIL!
+APPLY_BOXES: boxfile line 23/뜻 ((104,3080),(144,3119)): FAILURE! Couldn't find a matching blob
+FAIL!
+APPLY_BOXES: boxfile line 24/한 ((153,3081),(192,3119)): FAILURE! Couldn't find a matching blob
+FAIL!
+APPLY_BOXES: boxfile line 25/다 ((203,3080),(240,3119)): FAILURE! Couldn't find a matching blob
+FAIL!
+APPLY_BOXES: boxfile line 26/. ((249,3083),(254,3088)): FAILURE! Couldn't find a matching blob
+FAIL!
+APPLY_BOXES: boxfile line 27/고 ((279,3083),(318,3118)): FAILURE! Couldn't find a matching blob
+FAIL!
+APPLY_BOXES: boxfile line 28/려 ((329,3080),(361,3119)): FAILURE! Couldn't find a matching blob
+FAIL!
+APPLY_BOXES: boxfile line 29/말 ((392,3081),(430,3119)): FAILURE! Couldn't find a matching blob
+FAIL!
+APPLY_BOXES: boxfile line 30/에 ((440,3080),(474,3119)): FAILURE! Couldn't find a matching blob
+FAIL!
+APPLY_BOXES: boxfile line 31/서 ((486,3080),(521,3119)): FAILURE! Couldn't find a matching blob
+FAIL!
+APPLY_BOXES: boxfile line 32/조 ((549,3083),(588,3118)): FAILURE! Couldn't find a matching blob
+FAIL!
+APPLY_BOXES: boxfile line 33/선 ((597,3081),(633,3119)): FAILURE! Couldn't find a matching blob
+FAIL!
+APPLY_BOXES: boxfile line 34/초 ((660,3083),(700,3118)): FAILURE! Couldn't find a matching blob
+FAIL!
+APPLY_BOXES: boxfile line 35/기 ((709,3080),(743,3119)): FAILURE! Couldn't find a matching blob
+FAIL!
+APPLY_BOXES: boxfile line 36/에 ((758,3080),(792,3119)): FAILURE! Couldn't find a matching blob
+FAIL!
+APPLY_BOXES: boxfile line 37/는 ((804,3081),(844,3119)): FAILURE! Couldn't find a matching blob
+FAIL!
+APPLY_BOXES: boxfile line 38/충 ((868,3080),(907,3119)): FAILURE! Couldn't find a matching blob
+FAIL!
+APPLY_BOXES: boxfile line 39/남 ((918,3081),(955,3119)): FAILURE! Couldn't find a matching blob
+FAIL!
+APPLY_BOXES: boxfile line 40/의 ((963,3080),(998,3119)): FAILURE! Couldn't find a matching blob
+FAIL!
+APPLY_BOXES: boxfile line 41/서 ((1027,3080),(1061,3119)): FAILURE! Couldn't find a matching blob
+FAIL!
+APPLY_BOXES: boxfile line 42/북 ((1075,3080),(1114,3119)): FAILURE! Couldn't find a matching blob
+FAIL!
+APPLY_BOXES: boxfile line 43/부 ((1123,3080),(1162,3119)): FAILURE! Couldn't find a matching blob
+FAIL!
+APPLY_BOXES: boxfile line 44/지 ((1187,3080),(1221,3119)): FAILURE! Couldn't find a matching blob
+FAIL!
+APPLY_BOXES: boxfile line 45/역 ((1235,3080),(1269,3119)): FAILURE! Couldn't find a matching blob
+FAIL!
+APPLY_BOXES: boxfile line 46/을 ((1282,3081),(1321,3119)): FAILURE! Couldn't find a matching blob
+FAIL!
+APPLY_BOXES: boxfile line 47/특 ((104,3008),(144,3047)): FAILURE! Couldn't find a matching blob
+FAIL!
+APPLY_BOXES: boxfile line 48/정 ((153,3008),(187,3047)): FAILURE! Couldn't find a matching blob
+FAIL!
+APPLY_BOXES: boxfile line 49/하 ((201,3008),(240,3047)): FAILURE! Couldn't find a matching blob
+FAIL!
+APPLY_BOXES: boxfile line 50/는 ((248,3009),(288,3047)): FAILURE! Couldn't find a matching blob
+FAIL!
+APPLY_BOXES: boxfile line 51/말 ((314,3009),(351,3047)): FAILURE! Couldn't find a matching blob
+FAIL!
+APPLY_BOXES: boxfile line 52/로 ((360,3012),(399,3046)): FAILURE! Couldn't find a matching blob
+FAIL!
+APPLY_BOXES: boxfile line 53/쓰 ((423,3012),(462,3047)): FAILURE! Couldn't find a matching blob
+FAIL!
+APPLY_BOXES: boxfile line 54/이 ((472,3008),(505,3047)): FAILURE! Couldn't find a matching blob
+FAIL!
+APPLY_BOXES: boxfile line 55/기 ((519,3008),(553,3047)): FAILURE! Couldn't find a matching blob
+FAIL!
+APPLY_BOXES: boxfile line 56/시 ((582,3008),(617,3047)): FAILURE! Couldn't find a matching blob
+FAIL!
+APPLY_BOXES: boxfile line 57/작 ((631,3008),(670,3047)): FAILURE! Couldn't find a matching blob
+FAIL!
+APPLY_BOXES: boxfile line 58/했 ((678,3008),(718,3047)): FAILURE! Couldn't find a matching blob
+FAIL!
+APPLY_BOXES: boxfile line 59/다 ((728,3008),(766,3047)): FAILURE! Couldn't find a matching blob
+FAIL!
+APPLY_BOXES: boxfile line 60/. ((774,3011),(780,3016)): FAILURE! Couldn't find a matching blob
+FAIL!
+APPLY_BOXES: boxfile line 61/내 ((806,3008),(840,3047)): FAILURE! Couldn't find a matching blob
+FAIL!
+APPLY_BOXES: boxfile line 62/포 ((852,3012),(892,3046)): FAILURE! Couldn't find a matching blob
+FAIL!
+APPLY_BOXES: boxfile line 63/지 ((916,3008),(950,3047)): FAILURE! Couldn't find a matching blob
+FAIL!
+APPLY_BOXES: boxfile line 64/형 ((964,3008),(999,3047)): FAILURE! Couldn't find a matching blob
+FAIL!
+APPLY_BOXES: boxfile line 65/은 ((1012,3009),(1051,3047)): FAILURE! Couldn't find a matching blob
+FAIL!
+APPLY_BOXES: boxfile line 66/해 ((1075,3008),(1111,3047)): FAILURE! Couldn't find a matching blob
+FAIL!
+APPLY_BOXES: boxfile line 67/안 ((1124,3009),(1162,3047)): FAILURE! Couldn't find a matching blob
+FAIL!
+APPLY_BOXES: boxfile line 68/선 ((1171,3009),(1207,3047)): FAILURE! Couldn't find a matching blob
+FAIL!
+APPLY_BOXES: boxfile line 69/이 ((1220,3008),(1253,3047)): FAILURE! Couldn't find a matching blob
+FAIL!
+APPLY_BOXES: boxfile line 70/매 ((107,2936),(140,2976)): FAILURE! Couldn't find a matching blob
+FAIL!
+APPLY_BOXES: boxfile line 71/우 ((152,2936),(192,2975)): FAILURE! Couldn't find a matching blob
+FAIL!
+APPLY_BOXES: boxfile line 72/불 ((216,2937),(255,2976)): FAILURE! Couldn't find a matching blob
+FAIL!
+APPLY_BOXES: boxfile line 73/규 ((264,2936),(303,2974)): FAILURE! Couldn't find a matching blob
+FAIL!
+APPLY_BOXES: boxfile line 74/칙 ((313,2936),(346,2976)): FAILURE! Couldn't find a matching blob
+FAIL!
+APPLY_BOXES: boxfile line 75/하 ((360,2936),(399,2976)): FAILURE! Couldn't find a matching blob
+FAIL!
+APPLY_BOXES: boxfile line 76/여 ((409,2936),(442,2976)): FAILURE! Couldn't find a matching blob
+FAIL!
+APPLY_BOXES: boxfile line 77/서 ((456,2936),(490,2976)): FAILURE! Couldn't find a matching blob
+FAIL!
+APPLY_BOXES: boxfile line 78/크 ((519,2940),(558,2974)): FAILURE! Couldn't find a matching blob
+FAIL!
+APPLY_BOXES: boxfile line 79/고 ((567,2940),(606,2974)): FAILURE! Couldn't find a matching blob
+FAIL!
+APPLY_BOXES: boxfile line 80/작 ((631,2936),(670,2976)): FAILURE! Couldn't find a matching blob
+FAIL!
+APPLY_BOXES: boxfile line 81/은 ((678,2938),(717,2975)): FAILURE! Couldn't find a matching blob
+FAIL!
+APPLY_BOXES: boxfile line 82/만 ((743,2938),(781,2976)): FAILURE! Couldn't find a matching blob
+FAIL!
+APPLY_BOXES: boxfile line 83/과 ((789,2936),(829,2976)): FAILURE! Couldn't find a matching blob
+FAIL!
+APPLY_BOXES: boxfile line 84/밀 ((854,2937),(888,2976)): FAILURE! Couldn't find a matching blob
+FAIL!
+APPLY_BOXES: boxfile line 85/물 ((900,2937),(940,2975)): FAILURE! Couldn't find a matching blob
+FAIL!
+APPLY_BOXES: boxfile line 86/이 ((950,2936),(983,2976)): FAILURE! Couldn't find a matching blob
+FAIL!
+APPLY_BOXES: boxfile line 92/몰 ((104,2865),(144,2903)): FAILURE! Couldn't find a matching blob
+FAIL!
+APPLY_BOXES: boxfile line 93/라 ((154,2865),(192,2904)): FAILURE! Couldn't find a matching blob
+FAIL!
+APPLY_BOXES: boxfile line 94/오 ((200,2868),(240,2903)): FAILURE! Couldn't find a matching blob
+FAIL!
+APPLY_BOXES: boxfile line 95/는 ((248,2866),(288,2903)): FAILURE! Couldn't find a matching blob
+FAIL!
+APPLY_BOXES: boxfile line 96/하 ((312,2865),(351,2904)): FAILURE! Couldn't find a matching blob
+FAIL!
+APPLY_BOXES: boxfile line 97/구 ((360,2865),(399,2903)): FAILURE! Couldn't find a matching blob
+FAIL!
+APPLY_BOXES: boxfile line 98/를 ((408,2865),(447,2903)): FAILURE! Couldn't find a matching blob
+FAIL!
+APPLY_BOXES: boxfile line 99/형 ((471,2865),(506,2904)): FAILURE! Couldn't find a matching blob
+FAIL!
+APPLY_BOXES: boxfile line 100/성 ((519,2865),(554,2904)): FAILURE! Couldn't find a matching blob
+FAIL!
+APPLY_BOXES: boxfile line 101/하 ((567,2865),(606,2904)): FAILURE! Couldn't find a matching blob
+FAIL!
+APPLY_BOXES: boxfile line 102/고 ((615,2868),(654,2903)): FAILURE! Couldn't find a matching blob
+FAIL!
+APPLY_BOXES: boxfile line 103/있 ((680,2864),(717,2904)): FAILURE! Couldn't find a matching blob
+FAIL!
+APPLY_BOXES: boxfile line 104/다 ((728,2865),(766,2904)): FAILURE! Couldn't find a matching blob
+FAIL!
+APPLY_BOXES: boxfile line 105/. ((774,2867),(780,2873)): FAILURE! Couldn't find a matching blob
+FAIL!
+APPLY_BOXES: boxfile line 106/이 ((806,2865),(839,2904)): FAILURE! Couldn't find a matching blob
+FAIL!
+APPLY_BOXES: boxfile line 107/를 ((852,2865),(892,2903)): FAILURE! Couldn't find a matching blob
+FAIL!
+APPLY_BOXES: boxfile line 108/( ((914,2860),(925,2904)): FAILURE! Couldn't find a matching blob
+FAIL!
+APPLY_BOXES: boxfile line 109/안 ((933,2866),(971,2904)): FAILURE! Couldn't find a matching blob
+FAIL!
+APPLY_BOXES: boxfile line 110/개 ((980,2865),(1015,2904)): FAILURE! Couldn't find a matching blob
+FAIL!
+APPLY_BOXES: boxfile line 111/안 ((1029,2866),(1067,2904)): FAILURE! Couldn't find a matching blob
+FAIL!
+APPLY_BOXES: boxfile line 112/쪽 ((1075,2865),(1114,2903)): FAILURE! Couldn't find a matching blob
+FAIL!
+APPLY_BOXES: boxfile line 113// ((1138,2860),(1155,2902)): FAILURE! Couldn't find a matching blob
+FAIL!
+APPLY_BOXES: boxfile line 114/바 ((1181,2865),(1218,2904)): FAILURE! Couldn't find a matching blob
+FAIL!
+APPLY_BOXES: boxfile line 115/다 ((1229,2865),(1266,2904)): FAILURE! Couldn't find a matching blob
+FAIL!
+APPLY_BOXES: boxfile line 116/와 ((1275,2865),(1314,2904)): FAILURE! Couldn't find a matching blob
+FAIL!
+APPLY_BOXES: boxfile line 117/육 ((104,2793),(144,2832)): FAILURE! Couldn't find a matching blob
+FAIL!
+APPLY_BOXES: boxfile line 118/지 ((153,2793),(187,2832)): FAILURE! Couldn't find a matching blob
+FAIL!
+APPLY_BOXES: boxfile line 119/가 ((201,2793),(240,2832)): FAILURE! Couldn't find a matching blob
+FAIL!
+APPLY_BOXES: boxfile line 120/당 ((266,2793),(303,2832)): FAILURE! Couldn't find a matching blob
+FAIL!
+APPLY_BOXES: boxfile line 121/는 ((312,2794),(351,2831)): FAILURE! Couldn't find a matching blob
+FAIL!
+APPLY_BOXES: boxfile line 122/곳 ((375,2793),(414,2831)): FAILURE! Couldn't find a matching blob
+FAIL!
+APPLY_BOXES: boxfile line 123/) ((420,2788),(431,2832)): FAILURE! Couldn't find a matching blob
+FAIL!
+APPLY_BOXES: boxfile line 124/라 ((455,2793),(493,2832)): FAILURE! Couldn't find a matching blob
+FAIL!
+APPLY_BOXES: boxfile line 125/고 ((502,2796),(541,2831)): FAILURE! Couldn't find a matching blob
+FAIL!
+APPLY_BOXES: boxfile line 126/하 ((565,2793),(604,2832)): FAILURE! Couldn't find a matching blob
+FAIL!
+APPLY_BOXES: boxfile line 127/며 ((615,2793),(647,2832)): FAILURE! Couldn't find a matching blob
+FAIL!
+APPLY_BOXES: boxfile line 128/내 ((678,2793),(712,2832)): FAILURE! Couldn't find a matching blob
+FAIL!
+APPLY_BOXES: boxfile line 129/포 ((724,2796),(763,2831)): FAILURE! Couldn't find a matching blob
+FAIL!
+APPLY_BOXES: boxfile line 130/는 ((772,2794),(811,2831)): FAILURE! Couldn't find a matching blob
+FAIL!
+APPLY_BOXES: boxfile line 131/안 ((837,2794),(875,2832)): FAILURE! Couldn't find a matching blob
+FAIL!
+APPLY_BOXES: boxfile line 132/개 ((884,2793),(919,2832)): FAILURE! Couldn't find a matching blob
+FAIL!
+APPLY_BOXES: boxfile line 133/의 ((931,2793),(966,2832)): FAILURE! Couldn't find a matching blob
+FAIL!
+APPLY_BOXES: boxfile line 134/한 ((995,2794),(1034,2832)): FAILURE! Couldn't find a matching blob
+FAIL!
+APPLY_BOXES: boxfile line 135/자 ((1043,2793),(1082,2832)): FAILURE! Couldn't find a matching blob
+FAIL!
+APPLY_BOXES: boxfile line 136/식 ((1090,2793),(1125,2832)): FAILURE! Couldn't find a matching blob
+FAIL!
+APPLY_BOXES: boxfile line 137/표 ((1154,2796),(1193,2831)): FAILURE! Couldn't find a matching blob
+FAIL!
+APPLY_BOXES: boxfile line 138/현 ((1202,2794),(1238,2832)): FAILURE! Couldn't find a matching blob
+FAIL!
+APPLY_BOXES: boxfile line 139/이 ((1251,2793),(1284,2832)): FAILURE! Couldn't find a matching blob
+FAIL!
+APPLY_BOXES: boxfile line 140/다 ((1300,2793),(1337,2832)): FAILURE! Couldn't find a matching blob
+FAIL!
+APPLY_BOXES: boxfile line 141/. ((1346,2795),(1352,2801)): FAILURE! Couldn't find a matching blob
+APPLY_BOXES:
+   Boxes read from boxfile:     141
+   Boxes failed resegmentation:     136
+APPLY_BOXES: Unlabelled word at :Bounding box=(1012,2950)->(1050,2958)
+APPLY_BOXES: Unlabelled word at :Bounding box=(1015,2937)->(1047,2949)
+   Found 5 good blobs.
+   2 remaining unlabelled words deleted.
+Generated training data for 3 words
+
+** Compute Character Set **
+[C:\Users\Witches\Desktop\jTessBoxEditorFX-2.4.1\jTessBoxEditorFX\tesseract-ocr/unicharset_extractor, kor.system.exp0.box]
+Extracting unicharset from box file kor.system.exp0.box
+Wrote unicharset file unicharset
+
+** Set Character Set Properties **
+[C:\Users\Witches\Desktop\jTessBoxEditorFX-2.4.1\jTessBoxEditorFX\tesseract-ocr/set_unicharset_properties, -U, unicharset, -O, unicharset, --script_dir=C:\Users\Witches\Desktop\no]
+Loaded unicharset of size 85 from file unicharset
+Setting unichar properties
+Setting script properties
+Failed to load script unicharset from:C:\Users\Witches\Desktop\no/Latin.unicharset
+Failed to load script unicharset from:C:\Users\Witches\Desktop\no/Hangul.unicharset
+Warning: properties incomplete for index 3 = 내
+Warning: properties incomplete for index 4 = 포
+Warning: properties incomplete for index 5 = 는
+Warning: properties incomplete for index 6 = 바
+Warning: properties incomplete for index 7 = 다
+Warning: properties incomplete for index 8 = 나
+Warning: properties incomplete for index 9 = 호
+Warning: properties incomplete for index 10 = 수
+Warning: properties incomplete for index 11 = 가
+Warning: properties incomplete for index 12 = 육
+Warning: properties incomplete for index 13 = 지
+Warning: properties incomplete for index 14 = 안
+Warning: properties incomplete for index 15 = 으
+Warning: properties incomplete for index 16 = 로
+Warning: properties incomplete for index 17 = 휘
+Warning: properties incomplete for index 18 = 어
+Warning: properties incomplete for index 19 = 들
+Warning: properties incomplete for index 20 = 간
+Warning: properties incomplete for index 21 = 부
+Warning: properties incomplete for index 22 = 분
+Warning: properties incomplete for index 23 = 을
+Warning: properties incomplete for index 24 = 뜻
+Warning: properties incomplete for index 25 = 한
+Warning: properties incomplete for index 26 = .
+Warning: properties incomplete for index 27 = 고
+Warning: properties incomplete for index 28 = 려
+Warning: properties incomplete for index 29 = 말
+Warning: properties incomplete for index 30 = 에
+Warning: properties incomplete for index 31 = 서
+Warning: properties incomplete for index 32 = 조
+Warning: properties incomplete for index 33 = 선
+Warning: properties incomplete for index 34 = 초
+Warning: properties incomplete for index 35 = 기
+Warning: properties incomplete for index 36 = 충
+Warning: properties incomplete for index 37 = 남
+Warning: properties incomplete for index 38 = 의
+Warning: properties incomplete for index 39 = 북
+Warning: properties incomplete for index 40 = 역
+Warning: properties incomplete for index 41 = 특
+Warning: properties incomplete for index 42 = 정
+Warning: properties incomplete for index 43 = 하
+Warning: properties incomplete for index 44 = 쓰
+Warning: properties incomplete for index 45 = 이
+Warning: properties incomplete for index 46 = 시
+Warning: properties incomplete for index 47 = 작
+Warning: properties incomplete for index 48 = 했
+Warning: properties incomplete for index 49 = 형
+Warning: properties incomplete for index 50 = 은
+Warning: properties incomplete for index 51 = 해
+Warning: properties incomplete for index 52 = 매
+Warning: properties incomplete for index 53 = 우
+Warning: properties incomplete for index 54 = 불
+Warning: properties incomplete for index 55 = 규
+Warning: properties incomplete for index 56 = 칙
+Warning: properties incomplete for index 57 = 여
+Warning: properties incomplete for index 58 = 크
+Warning: properties incomplete for index 59 = 만
+Warning: properties incomplete for index 60 = 과
+Warning: properties incomplete for index 61 = 밀
+Warning: properties incomplete for index 62 = 물
+Warning: properties incomplete for index 63 = 깊
+Warning: properties incomplete for index 64 = 게
+Warning: properties incomplete for index 65 = 몰
+Warning: properties incomplete for index 66 = 라
+Warning: properties incomplete for index 67 = 오
+Warning: properties incomplete for index 68 = 구
+Warning: properties incomplete for index 69 = 를
+Warning: properties incomplete for index 70 = 성
+Warning: properties incomplete for index 71 = 있
+Warning: properties incomplete for index 72 = (
+Warning: properties incomplete for index 73 = 개
+Warning: properties incomplete for index 74 = 쪽
+Warning: properties incomplete for index 75 = /
+Warning: properties incomplete for index 76 = 와
+Warning: properties incomplete for index 77 = 당
+Warning: properties incomplete for index 78 = 곳
+Warning: properties incomplete for index 79 = )
+Warning: properties incomplete for index 80 = 며
+Warning: properties incomplete for index 81 = 자
+Warning: properties incomplete for index 82 = 식
+Warning: properties incomplete for index 83 = 표
+Warning: properties incomplete for index 84 = 현
+Writing unicharset to file unicharset
+
+** Shape Clustering **
+[C:\Users\Witches\Desktop\jTessBoxEditorFX-2.4.1\jTessBoxEditorFX\tesseract-ocr/shapeclustering, -F, kor.font_properties, -U, unicharset, kor.system.exp0.tr]
+Reading kor.system.exp0.tr ...
+Building master shape table
+Computing shape distances...
+Stopped with 0 merged, min dist 999.000000
+Computing shape distances...
+Stopped with 0 merged, min dist 999.000000
+Computing shape distances...
+Stopped with 0 merged, min dist 999.000000
+Computing shape distances...
+Stopped with 0 merged, min dist 999.000000
+Computing shape distances...
+Stopped with 0 merged, min dist 999.000000
+Computing shape distances...
+Stopped with 0 merged, min dist 999.000000
+Computing shape distances...
+Stopped with 0 merged, min dist 999.000000
+Computing shape distances...
+Stopped with 0 merged, min dist 999.000000
+Computing shape distances...
+Stopped with 0 merged, min dist 999.000000
+Computing shape distances...
+Stopped with 0 merged, min dist 999.000000
+Computing shape distances...
+Stopped with 0 merged, min dist 999.000000
+Computing shape distances...
+Stopped with 0 merged, min dist 999.000000
+Computing shape distances... 0
+Stopped with 0 merged, min dist 999.000000
+Computing shape distances... 0
+Stopped with 0 merged, min dist 999.000000
+Computing shape distances...
+Stopped with 0 merged, min dist 999.000000
+Computing shape distances...
+Stopped with 0 merged, min dist 999.000000
+Computing shape distances...
+Stopped with 0 merged, min dist 999.000000
+Computing shape distances...
+Stopped with 0 merged, min dist 999.000000
+Computing shape distances...
+Stopped with 0 merged, min dist 999.000000
+Computing shape distances...
+Stopped with 0 merged, min dist 999.000000
+Computing shape distances...
+Stopped with 0 merged, min dist 999.000000
+Computing shape distances...
+Stopped with 0 merged, min dist 999.000000
+Computing shape distances...
+Stopped with 0 merged, min dist 999.000000
+Computing shape distances...
+Stopped with 0 merged, min dist 999.000000
+Computing shape distances...
+Stopped with 0 merged, min dist 999.000000
+Computing shape distances...
+Stopped with 0 merged, min dist 999.000000
+Computing shape distances...
+Stopped with 0 merged, min dist 999.000000
+Computing shape distances...
+Stopped with 0 merged, min dist 999.000000
+Computing shape distances...
+Stopped with 0 merged, min dist 999.000000
+Computing shape distances...
+Stopped with 0 merged, min dist 999.000000
+Computing shape distances... 0
+Stopped with 0 merged, min dist 999.000000
+Computing shape distances...
+Stopped with 0 merged, min dist 999.000000
+Computing shape distances...
+Stopped with 0 merged, min dist 999.000000
+Computing shape distances...
+Stopped with 0 merged, min dist 999.000000
+Computing shape distances...
+Stopped with 0 merged, min dist 999.000000
+Computing shape distances...
+Stopped with 0 merged, min dist 999.000000
+Computing shape distances...
+Stopped with 0 merged, min dist 999.000000
+Computing shape distances...
+Stopped with 0 merged, min dist 999.000000
+Computing shape distances...
+Stopped with 0 merged, min dist 999.000000
+Computing shape distances...
+Stopped with 0 merged, min dist 999.000000
+Computing shape distances...
+Stopped with 0 merged, min dist 999.000000
+Computing shape distances...
+Stopped with 0 merged, min dist 999.000000
+Computing shape distances...
+Stopped with 0 merged, min dist 999.000000
+Computing shape distances...
+Stopped with 0 merged, min dist 999.000000
+Computing shape distances...
+Stopped with 0 merged, min dist 999.000000
+Computing shape distances...
+Stopped with 0 merged, min dist 999.000000
+Computing shape distances...
+Stopped with 0 merged, min dist 999.000000
+Computing shape distances...
+Stopped with 0 merged, min dist 999.000000
+Computing shape distances...
+Stopped with 0 merged, min dist 999.000000
+Computing shape distances...
+Stopped with 0 merged, min dist 999.000000
+Computing shape distances...
+Stopped with 0 merged, min dist 999.000000
+Computing shape distances...
+Stopped with 0 merged, min dist 999.000000
+Computing shape distances...
+Stopped with 0 merged, min dist 999.000000
+Computing shape distances...
+Stopped with 0 merged, min dist 999.000000
+Computing shape distances...
+Stopped with 0 merged, min dist 999.000000
+Computing shape distances...
+Stopped with 0 merged, min dist 999.000000
+Computing shape distances...
+Stopped with 0 merged, min dist 999.000000
+Computing shape distances...
+Stopped with 0 merged, min dist 999.000000
+Computing shape distances...
+Stopped with 0 merged, min dist 999.000000
+Computing shape distances...
+Stopped with 0 merged, min dist 999.000000
+Computing shape distances...
+Stopped with 0 merged, min dist 999.000000
+Computing shape distances...
+Stopped with 0 merged, min dist 999.000000
+Computing shape distances...
+Stopped with 0 merged, min dist 999.000000
+Computing shape distances... 0
+Stopped with 0 merged, min dist 999.000000
+Computing shape distances... 0
+Stopped with 0 merged, min dist 999.000000
+Computing shape distances...
+Stopped with 0 merged, min dist 999.000000
+Computing shape distances...
+Stopped with 0 merged, min dist 999.000000
+Computing shape distances...
+Stopped with 0 merged, min dist 999.000000
+Computing shape distances...
+Stopped with 0 merged, min dist 999.000000
+Computing shape distances...
+Stopped with 0 merged, min dist 999.000000
+Computing shape distances...
+Stopped with 0 merged, min dist 999.000000
+Computing shape distances...
+Stopped with 0 merged, min dist 999.000000
+Computing shape distances...
+Stopped with 0 merged, min dist 999.000000
+Computing shape distances...
+Stopped with 0 merged, min dist 999.000000
+Computing shape distances...
+Stopped with 0 merged, min dist 999.000000
+Computing shape distances...
+Stopped with 0 merged, min dist 999.000000
+Computing shape distances...
+Stopped with 0 merged, min dist 999.000000
+Computing shape distances...
+Stopped with 0 merged, min dist 999.000000
+Computing shape distances...
+Stopped with 0 merged, min dist 999.000000
+Computing shape distances...
+Stopped with 0 merged, min dist 999.000000
+Computing shape distances...
+Stopped with 0 merged, min dist 999.000000
+Computing shape distances...
+Stopped with 0 merged, min dist 999.000000
+Computing shape distances...
+Stopped with 0 merged, min dist 999.000000
+Computing shape distances...
+Stopped with 0 merged, min dist 999.000000
+Computing shape distances...
+Stopped with 0 merged, min dist 999.000000
+Computing shape distances...
+Stopped with 0 merged, min dist 999.000000
+Computing shape distances...
+Stopped with 0 merged, min dist 999.000000
+Computing shape distances... 0 1 2 3 4
+Stopped with 0 merged, min dist 0.347594
+Master shape_table:Number of shapes = 5 max unichars = 1 number with multiple unichars = 0
+
+** MF Training **
+[C:\Users\Witches\Desktop\jTessBoxEditorFX-2.4.1\jTessBoxEditorFX\tesseract-ocr/mftraining, -F, kor.font_properties, -U, unicharset, -O, kor.unicharset, kor.system.exp0.tr]
+Read shape table shapetable of 5 shapes
+Reading kor.system.exp0.tr ...
+Warning: no protos/configs for Joined in CreateIntTemplates()
+Warning: no protos/configs for |Broken|0|1 in CreateIntTemplates()
+Warning: no protos/configs for 내 in CreateIntTemplates()
+Warning: no protos/configs for 포 in CreateIntTemplates()
+Warning: no protos/configs for 는 in CreateIntTemplates()
+Warning: no protos/configs for 바 in CreateIntTemplates()
+Warning: no protos/configs for 다 in CreateIntTemplates()
+Warning: no protos/configs for 나 in CreateIntTemplates()
+Warning: no protos/configs for 호 in CreateIntTemplates()
+Warning: no protos/configs for 수 in CreateIntTemplates()
+Warning: no protos/configs for 가 in CreateIntTemplates()
+Warning: no protos/configs for 안 in CreateIntTemplates()
+Warning: no protos/configs for 으 in CreateIntTemplates()
+Warning: no protos/configs for 로 in CreateIntTemplates()
+Warning: no protos/configs for 휘 in CreateIntTemplates()
+Warning: no protos/configs for 어 in CreateIntTemplates()
+Warning: no protos/configs for 들 in CreateIntTemplates()
+Warning: no protos/configs for 간 in CreateIntTemplates()
+Warning: no protos/configs for 부 in CreateIntTemplates()
+Warning: no protos/configs for 분 in CreateIntTemplates()
+Warning: no protos/configs for 을 in CreateIntTemplates()
+Warning: no protos/configs for 뜻 in CreateIntTemplates()
+Warning: no protos/configs for 한 in CreateIntTemplates()
+Warning: no protos/configs for . in CreateIntTemplates()
+Warning: no protos/configs for 고 in CreateIntTemplates()
+Warning: no protos/configs for 려 in CreateIntTemplates()
+Warning: no protos/configs for 말 in CreateIntTemplates()
+Warning: no protos/configs for 서 in CreateIntTemplates()
+Warning: no protos/configs for 조 in CreateIntTemplates()
+Warning: no protos/configs for 선 in CreateIntTemplates()
+Warning: no protos/configs for 초 in CreateIntTemplates()
+Warning: no protos/configs for 기 in CreateIntTemplates()
+Warning: no protos/configs for 충 in CreateIntTemplates()
+Warning: no protos/configs for 남 in CreateIntTemplates()
+Warning: no protos/configs for 의 in CreateIntTemplates()
+Warning: no protos/configs for 북 in CreateIntTemplates()
+Warning: no protos/configs for 역 in CreateIntTemplates()
+Warning: no protos/configs for 특 in CreateIntTemplates()
+Warning: no protos/configs for 정 in CreateIntTemplates()
+Warning: no protos/configs for 하 in CreateIntTemplates()
+Warning: no protos/configs for 쓰 in CreateIntTemplates()
+Warning: no protos/configs for 이 in CreateIntTemplates()
+Warning: no protos/configs for 시 in CreateIntTemplates()
+Warning: no protos/configs for 작 in CreateIntTemplates()
+Warning: no protos/configs for 했 in CreateIntTemplates()
+Warning: no protos/configs for 형 in CreateIntTemplates()
+Warning: no protos/configs for 은 in CreateIntTemplates()
+Warning: no protos/configs for 해 in CreateIntTemplates()
+Warning: no protos/configs for 매 in CreateIntTemplates()
+Warning: no protos/configs for 우 in CreateIntTemplates()
+Warning: no protos/configs for 불 in CreateIntTemplates()
+Warning: no protos/configs for 규 in CreateIntTemplates()
+Warning: no protos/configs for 칙 in CreateIntTemplates()
+Warning: no protos/configs for 여 in CreateIntTemplates()
+Warning: no protos/configs for 크 in CreateIntTemplates()
+Warning: no protos/configs for 만 in CreateIntTemplates()
+Warning: no protos/configs for 과 in CreateIntTemplates()
+Warning: no protos/configs for 밀 in CreateIntTemplates()
+Warning: no protos/configs for 물 in CreateIntTemplates()
+Warning: no protos/configs for 몰 in CreateIntTemplates()
+Warning: no protos/configs for 라 in CreateIntTemplates()
+Warning: no protos/configs for 오 in CreateIntTemplates()
+Warning: no protos/configs for 구 in CreateIntTemplates()
+Warning: no protos/configs for 를 in CreateIntTemplates()
+Warning: no protos/configs for 성 in CreateIntTemplates()
+Warning: no protos/configs for 있 in CreateIntTemplates()
+Warning: no protos/configs for ( in CreateIntTemplates()
+Warning: no protos/configs for 개 in CreateIntTemplates()
+WarninDone!
+g: no protos/configs for 쪽 in CreateIntTemplates()
+Warning: no protos/configs for / in CreateIntTemplates()
+Warning: no protos/configs for 와 in CreateIntTemplates()
+Warning: no protos/configs for 당 in CreateIntTemplates()
+Warning: no protos/configs for 곳 in CreateIntTemplates()
+Warning: no protos/configs for ) in CreateIntTemplates()
+Warning: no protos/configs for 며 in CreateIntTemplates()
+Warning: no protos/configs for 자 in CreateIntTemplates()
+Warning: no protos/configs for 식 in CreateIntTemplates()
+Warning: no protos/configs for 표 in CreateIntTemplates()
+Warning: no protos/configs for 현 in CreateIntTemplates()
+
+** CN Training **
+[C:\Users\Witches\Desktop\jTessBoxEditorFX-2.4.1\jTessBoxEditorFX\tesseract-ocr/cntraining, kor.system.exp0.tr]
+Reading kor.system.exp0.tr ...
+Clustering ...
+
+Writing normproto ...
+
+Successful rename of inttemp
+Successful rename of pffmtable
+Successful rename of normproto
+Successful rename of shapetable
+** Dictionary Data **
+[C:\Users\Witches\Desktop\jTessBoxEditorFX-2.4.1\jTessBoxEditorFX\tesseract-ocr/wordlist2dawg, kor.frequent_words_list, kor.freq-dawg, kor.unicharset]
+Loading unicharset from 'kor.unicharset'
+Reading word list from 'kor.frequent_words_list'
+Reducing Trie to SquishedDawg
+Dawg is empty, skip producing the output file
+
+[C:\Users\Witches\Desktop\jTessBoxEditorFX-2.4.1\jTessBoxEditorFX\tesseract-ocr/wordlist2dawg, kor.words_list, kor.word-dawg, kor.unicharset]
+Loading unicharset from 'kor.unicharset'
+Reading word list from 'kor.words_list'
+Reducing Trie to SquishedDawg
+Dawg is empty, skip producing the output file
+
+** Combine Data Files **
+[C:\Users\Witches\Desktop\jTessBoxEditorFX-2.4.1\jTessBoxEditorFX\tesseract-ocr/combine_tessdata, kor.]
+Combining tessdata files
+Output kor.traineddata created successfully.
+Version:v5.3.0.20221222
+1:unicharset:size=5384, offset=192
+3:inttemp:size=344408, offset=5576
+4:pffmtable:size=696, offset=349984
+5:normproto:size=792, offset=350680
+13:shapetable:size=94, offset=351472
+23:version:size=15, offset=351566
+
+** Moving generated traineddata file to tessdata folder **
+** Training Completed **

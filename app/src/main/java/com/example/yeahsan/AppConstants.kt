@@ -2,11 +2,20 @@ package com.example.yeahsan
 
 object AppConstants {
 
+    //예산 기본 정보
     const val BASE_TOUR_LIST = "openapi/tourList.do"
 
+    //baseUrl
     const val BASE_URL = "http://yesan.witches.co.kr/"
 
-    const val COLLECTION_LIST = "2022/Yesan/Api/collectionList.json"
+    //유물 더 알아보기 - 3d소장품
+    const val THREE_D_COLLECTION_LIST = "openapi/collectionList.do?type=3d"
+
+    //유물 더 알아보기 - 소장품
+    const val BASIC_COLLECTION_LIST = "openapi/collectionList.do?type=basic"
+
+    //유물 더 알아보기 - e-book 소장품
+    const val E_BOOK_COLLECTION_LIST = "openapi/collectionList.do?type=ebook"
 
     const val OUT_DOOR_TYPE = "outdoor"
 

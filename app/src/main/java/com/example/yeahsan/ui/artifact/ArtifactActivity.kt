@@ -33,13 +33,13 @@ class ArtifactActivity : AppCompatActivity() {
         supportActionBar?.title = "유물"
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        val pagerAdapter = ArtifactFragmentAdapter(supportFragmentManager,lifecycle,2)
+        val pagerAdapter = ArtifactFragmentAdapter(supportFragmentManager,lifecycle,3)
 
         binding.viewPager2.adapter = pagerAdapter
         binding.viewPager2.isUserInputEnabled
 
         TabLayoutMediator(binding.tabs,binding.viewPager2) {tab,position ->
-            val title = arrayOf("3D소장품","E-book소장품")
+            val title = arrayOf("3D소장품","소장품","E-book소장품")
             tab.text = title[position]
         }.attach()
     }

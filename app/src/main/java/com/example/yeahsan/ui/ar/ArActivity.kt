@@ -22,6 +22,7 @@ class ArActivity : UnityPlayerActivity() {
 	
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
+
 		tour = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
 			 intent.getParcelableExtra(AppConstants.EXTRA_ITEM, DoorListVO::class.java)
 		} else {
@@ -44,9 +45,8 @@ class ArActivity : UnityPlayerActivity() {
 		}
 		
 		override fun clear() {
-			Log.e("TAG", "Clear")
+			Log.e("TAG", "Clear :::")
 			tour?.let {
-
 				val intent = Intent(this@ArActivity ,GameZonePopupActivity::class.java )
 				intent.putExtra(AppConstants.CLEAR_CONTENT,it)
 				setResult(AppConstants.MISSION_ITEM_CLEAR, intent)

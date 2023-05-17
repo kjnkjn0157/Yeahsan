@@ -87,6 +87,8 @@ class WebViewActivity : AppCompatActivity() {
 
         webSetting.useWideViewPort = true
 
+        webSetting.loadWithOverviewMode = true
+
         webSetting.setSupportMultipleWindows(true)
 
         webSetting.allowFileAccess = true

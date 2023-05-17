@@ -293,24 +293,16 @@ class MiniMapFragment : Fragment() {
             var name = ""
             var imageUrl = ""
 
-            //test로 게임존 팝업 열기
             markerList?.forEach {
                 if(it.seq.toString() == seq ) {
                     val intent = Intent (context,GameZonePopupActivity::class.java)
                     intent.putExtra(AppConstants.EXTRA_ITEM,it)
+                    intent.putExtra("title","ar")
                     startActivity(intent)
                 }
             }
 
-//여기가 진짜 기능
-//            markerList?.forEach {
-//                if(it.seq.toString() == seq ) {
-//                    hint = it.hint.toString()
-//                    name = it.name
-//                    imageUrl = it.image
-//                }
-//            }
-//
+
 //            val intent = Intent(context, HintPopupActivity::class.java)
 //            intent.putExtra(AppConstants.HINT_STRING ,hint)
 //            intent.putExtra(AppConstants.NAME_STRING ,name)

@@ -38,10 +38,10 @@ class HintPopupActivity : AppCompatActivity() {
             title = it.getStringExtra(AppConstants.NAME_STRING)
             imageUrl = it.getStringExtra(AppConstants.IMAGE_URL_STRING)
         }
-
     }
 
     private fun initView() {
+
         binding.tvContentTitle.text = title
         binding.tvContentDesc.text = hint
 
@@ -58,6 +58,4 @@ class HintPopupActivity : AppCompatActivity() {
             finish()
         }
     }
-
-
 }

@@ -1,7 +1,6 @@
 package com.example.yeahsan.adapter
 
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,12 +9,11 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.yeahsan.R
-import com.example.yeahsan.data.api.model.CollectionVO
+import com.example.yeahsan.data.api.model.CollectionContentVO
 
 class ArtifactListAdapter(
     private var context: Context,
-    private var list: ArrayList<CollectionVO>,
-    private var path : String,
+    private var list: ArrayList<CollectionContentVO>,
     private var onClickListener: View.OnClickListener
 ) : RecyclerView.Adapter<ArtifactListAdapter.Holder>() {
 
@@ -27,12 +25,12 @@ class ArtifactListAdapter(
 
     override fun onBindViewHolder(holder:Holder, position: Int) {
 
-        holder.name.text = list[position].name
+        holder.name.text = list[position].title
 
-        val imageUrl = path + list[position].thumbnail
+        val url = ""
 
         Glide.with(context)
-            .load(imageUrl)
+            .load(url)
             .placeholder(R.drawable.img_holder)
             .into(holder.image)
 

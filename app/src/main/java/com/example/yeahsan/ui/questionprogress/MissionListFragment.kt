@@ -107,60 +107,22 @@ class MissionListFragment : Fragment() {
                     if(clearList.size > 0) {
                         binding.rvQuestList.adapter = MissionFragmentAdapter(activity,doorList,clearList) {
                             val position = it.getTag(R.id.TAG_POSITION) as Int
-                            val imageView = it.getTag(R.id.TAG_IV) as ImageView
-                               val clearItem = DoorListVO(
-                                   doorList[position].seq,
-                                   doorList[position].code,
-                                   doorList[position].name,
-                                   doorList[position].hint,
-                                   doorList[position].image,
-                                   doorList[position].caption,
-                                   doorList[position].thumbnail,
-                                   doorList[position].mapX,
-                                   doorList[position].mapY,
-                                   doorList[position].beaconList,
-                                   doorList[position].locationList
-                               )
 
                             val intent = Intent(context,HintPopupActivity::class.java)
                             intent.putExtra(AppConstants.HINT_STRING,doorList[position].hint)
                             intent.putExtra(AppConstants.NAME_STRING,doorList[position].name)
                             intent.putExtra(AppConstants.IMAGE_URL_STRING,doorList[position].image)
                             startActivity(intent)
-
-                            type?.let { type ->
-                                AppDataManager.getInstance(activity.application as AppApplication).addMissionClearItem(clearItem , type)
-                            }
                         }
                     } else {
                         binding.rvQuestList.adapter = MissionFragmentAdapter(activity,doorList,null) {
                             val position = it.getTag(R.id.TAG_POSITION) as Int
-                            val imageView = it. getTag(R.id.TAG_IV) as ImageView
-
-                            val clearItem = DoorListVO(
-                                doorList[position].seq,
-                                doorList[position].code,
-                                doorList[position].name,
-                                doorList[position].hint,
-                                doorList[position].image,
-                                doorList[position].caption,
-                                doorList[position].thumbnail,
-                                doorList[position].mapX,
-                                doorList[position].mapY,
-                                doorList[position].beaconList,
-                                doorList[position].locationList)
 
                             val intent = Intent(context,HintPopupActivity::class.java)
                             intent.putExtra(AppConstants.HINT_STRING,doorList[position].hint)
                             intent.putExtra(AppConstants.NAME_STRING,doorList[position].name)
                             intent.putExtra(AppConstants.IMAGE_URL_STRING,doorList[position].image)
                             startActivity(intent)
-
-                            type?.let { type ->
-                                AppDataManager.getInstance(activity.application as AppApplication).addMissionClearItem(clearItem , type)
-                                (activity.application as AppApplication).checkAllClear(type)
-
-                            }
                         }
                     }
                 }
