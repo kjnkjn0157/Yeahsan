@@ -109,10 +109,16 @@ dependencies {
     //location
     implementation "com.google.android.gms:play-services-location:21.0.1"
 
-    implementation 'com.squareup.okhttp3:okhttp:4.9.2'
-    implementation 'com.squareup.picasso:picasso:2.5.2'
+    //이미지로더 -> withecsMapView library 에 필요
+    implementation 'com.squareup.okhttp3:okhttp:4.9.3'
+    implementation 'com.squareup.picasso:picasso:2.71828'
     implementation 'com.jakewharton.picasso:picasso2-okhttp3-downloader:1.1.0'
+
+    //page curl
+    implementation 'com.github.karacken:karackencurllib:0.0.1'
+    //유니티
     implementation project(path: ':libraryUnity')
     implementation project(path: ':libsUnity')
+
 
 }

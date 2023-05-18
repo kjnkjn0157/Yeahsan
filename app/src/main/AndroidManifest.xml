@@ -37,7 +37,6 @@
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
             android:resource="@drawable/app_icon" />
-
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_channel_id"
             android:value="@string/default_notification_channel_id" />
@@ -46,7 +45,6 @@
             android:name=".service.beacon.BeaconService"
             android:enabled="true"
             android:exported="false" />
-
         <service
             android:name=".service.location.LocationService"
             android:enabled="true"
@@ -64,38 +62,34 @@
         </activity>
         <activity
             android:name=".ui.main.MainActivity"
-            android:exported="true"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
         <activity
             android:name=".ui.doormissions.QuestMapActivity"
-            android:exported="false"
             android:theme="@style/Theme.Yeahsan_no_actionbar" />
         <activity
             android:name=".ui.vr.WebViewActivity"
-            android:exported="false"
-            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"/>
+            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
         <activity
             android:name=".ui.questionprogress.QuestionActivity"
-            android:exported="false"
             android:theme="@style/Theme.Yeahsan" />
         <activity
-            android:name=".ui.artifact.ArtifactActivity"
-            android:exported="false" />
+            android:name=".ui.artifact.ArtifactActivity" />
         <activity
             android:name=".ui.qr.QrScannerActivity"
-            android:exported="false"
             android:noHistory="true" />
         <activity
-            android:name=".ui.setting.SettingActivity"
-            android:exported="false" />
+            android:name=".ui.setting.SettingActivity" />
         <activity
             android:name=".ui.popup.GameZonePopupActivity"
             android:theme="@style/Transparent" />
         <activity
             android:name=".ui.popup.HintPopupActivity"
-            android:theme="@style/Transparent"/>
-        <activity android:name=".ui.ar.ArActivity"
-            android:process=":yesanUnity"/>
+            android:theme="@style/Transparent" />
+        <activity
+            android:name=".ui.ar.ArActivity"
+            android:process=":yesanUnity" />
+        <activity
+            android:name=".ui.artifact.EBookDetailActivity"/>
     </application>
 
 </manifest>

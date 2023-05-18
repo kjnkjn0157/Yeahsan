@@ -60,4 +60,6 @@ object AppConstants {
     const val MISSION_ITEM_CLEAR = 100
 
     const val FCM_TOPIC = "jina"
+
+    const val E_BOOK_ITEM = "ebook"
 }

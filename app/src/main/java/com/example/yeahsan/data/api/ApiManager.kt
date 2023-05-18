@@ -32,7 +32,6 @@ class ApiManager(private val application: Application) : ApiHelper {
                 ) {
                     var sampleData: BasicDataVO? = response.body()
                     sampleData?.let {
-                        Log.e("TAG", "sample data ::: " + it.header)
                         baseData = it
                         callback(it)
                     }
@@ -57,7 +56,6 @@ class ApiManager(private val application: Application) : ApiHelper {
                     response: Response<ArrayList<CollectionContentVO>?>
                 ) {
                     threeDList = response.body()
-                    Log.e("TAG", "threeDList data ::: $threeDList")
                     callback(threeDList)
                 }
 
@@ -80,7 +78,6 @@ class ApiManager(private val application: Application) : ApiHelper {
                     response: Response<ArrayList<CollectionContentVO>?>
                 ) {
                     basicList = response.body()
-                    Log.e("TAG", "basicList data ::: $basicList")
                     callback(basicList)
                 }
 
@@ -103,8 +100,6 @@ class ApiManager(private val application: Application) : ApiHelper {
                     response: Response<ArrayList<CollectionContentVO>?>
                 ) {
                     ebookList = response.body()
-                    Log.e("TAG", "ebookList data ::: $ebookList")
-
                     callback(ebookList)
                 }
 
@@ -116,6 +111,4 @@ class ApiManager(private val application: Application) : ApiHelper {
             callback(ebookList)
         }
     }
-
-
 }

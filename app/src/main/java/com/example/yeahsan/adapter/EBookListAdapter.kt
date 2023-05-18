@@ -9,11 +9,13 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.yeahsan.R
+import com.example.yeahsan.data.api.model.CollectionContentVO
+import okio.blackholeSink
 import org.json.JSONArray
 
 class EBookListAdapter(
     private var context: Context,
-    private var list: JSONArray,
+    private var list: ArrayList<CollectionContentVO>,
     private var onClickListener: View.OnClickListener
 ) : RecyclerView.Adapter<EBookListAdapter.Holder>() {
 
@@ -25,18 +27,18 @@ class EBookListAdapter(
 
     @SuppressLint("DiscouragedApi")
     override fun onBindViewHolder(holder: Holder, position: Int) {
-        val model = list.getJSONObject(position)
-        holder.name.text = model.optString("title")
 
-        val page = model.optInt("page")
-        val code = model.optString("code")
+        holder.name.text = list[position].title
 
-        val imageResource = context.resources.getIdentifier("${code}_01","drawable",context.packageName)
+        val imageResource = context.resources.getIdentifier("${list[position].url}_01","drawable",context.packageName)
         holder.image.setImageResource(imageResource)
+
+        holder.image.tag = position
+        holder.image.setOnClickListener(onClickListener)
     }
 
     override fun getItemCount(): Int {
-        return list.length()
+        return list.size
     }
 
     class Holder(itemView: View) : RecyclerView.ViewHolder(itemView) {

@@ -26,6 +26,6 @@ data class CollectionContentVO(
     var createDt : Long,
 
     @SerializedName("path")
-    var path : String,
+    var path : String?,
 
 ) : Parcelable
